@@ -1,0 +1,14 @@
+STATUS: EDITORIAL; SHOULD BE FIXED COMPLETELY
+
+RESPONSE TO REVIEWER
+We thank the reviewer. We performed a dedicated numbering and production-artifact pass. The stray 'molecular graph constructiontom' artifact has been removed. We also reviewed every displayed equation and retained numbers only for equations explicitly cross-referenced in the body; otherwise equation numbers were removed. After the substantive revisions, all figure/table/equation references were rechecked for sequential numbering and correct in-text citation.
+
+SPECIFIC FIX
+'Table 3. Summary of atom-level features extracted for ligand molecular graph constructiontom' -> 'Table 3. Summary of atom-level features extracted for ligand molecular graph construction.'
+
+FINAL CHECK
+- Tables sequential and cited near first appearance.
+- Figures sequential and cited.
+- Equations either cross-referenced or unnumbered.
+- No orphan caption-like equation tables.
+- Recheck numbering after deleting/adding tables during this revision.

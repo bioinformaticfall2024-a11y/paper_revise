@@ -1,0 +1,10 @@
+STATUS: PROVENANCE PROBLEM; RECOMMENDED FIX IS TO REMOVE THE K=10/K=30 VOCABULARY-SIZE TABLE UNLESS ORIGINAL DEFINITIONS ARE RECOVERED
+
+CHECK
+The Methods define only the historical 20 SMARTS patterns. The recovered repository now contains a reproducible proposed K10/K30 reviewer protocol, but its documentation explicitly states that K30's ten extra motifs are new extensions absent from the historical notebooks/manuscript. Those new definitions cannot honestly be used retroactively to explain the already-reported K=30 performance row.
+
+RESPONSE TO REVIEWER
+We agree that the K=10/K=30 vocabulary-size ablation was not reproducible from the manuscript as written. During the audit we could not establish a provenance record that unambiguously links the reported K=10 and K=30 performance values to a preserved list/subset-selection rule from the original experiment. Rather than retroactively defining those settings after seeing the results, we have removed this vocabulary-size ablation from the revised manuscript. The primary FGgraphDTA method remains the explicitly defined K=20 vocabulary in Table 5, and the exact K=20 SMARTS definitions and feature-assignment procedure are provided in the released code.
+
+PAPER CHANGE
+Remove Table 13 (K=0/10/20/30 vocabulary-size ablation) unless original K10/K30 lists and result artifacts are recovered. Do not use the current newly proposed K30 list as if it generated the historical row.

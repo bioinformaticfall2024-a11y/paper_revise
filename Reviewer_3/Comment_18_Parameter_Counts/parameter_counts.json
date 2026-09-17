@@ -1,0 +1,13 @@
+{
+ "base_graph":1693525,
+ "ligand_FG_only":1814305,
+ "protein_FG_only":1803745,
+ "FGgraphDTA":1924525,
+ "FG_minus_base":231000,
+ "PV_predictor":2136405,
+ "autoencoder":17627698,
+ "ResNet101_full":44549160,
+ "ResNet101_headless":42500160,
+ "PV_predictor_plus_AE":19764103,
+ "PV_plus_AE_plus_headless_ResNet":62264263
+}

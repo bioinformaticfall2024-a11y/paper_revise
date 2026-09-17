@@ -1,0 +1,13 @@
+STATUS: VALID CONCERN; SEPARATE LITERATURE AND IN-HOUSE PROVENANCE
+
+VERIFY
+DeepDTA reports test-set averages over five models trained on five different training sets; its KIBA CNN/CNN value is CI 0.863, MSE 0.194. The proposed manuscript uses a different evaluation scheme, so literature values are not matched controls.
+
+RESPONSE TO REVIEWER
+We agree that literature values and the proposed models were not generated under a common experimental protocol and should not have been presented as if they were matched reruns. We have separated result provenance: published baseline values are explicitly labelled as literature values, whereas our model and ablation results are identified as in-house experiments. We also removed percentage-improvement claims that compare unmatched protocols. Where we discuss the effect of functional-group enrichment, we now rely on the matched internal DAVIS ablation, in which the graph scaffold and split are held fixed.
+
+DEFENSIBLE INTERNAL STATEMENT
+Within the DAVIS ablation, graph-only MSE is 0.2018 and full FGgraphDTA MSE is 0.1546, a 23.39% reduction under the same ablation setting. Present this as an internal matched ablation, not as improvement over a literature row.
+
+FOOTNOTE
+Literature baselines are reported from their cited publications and may use different splitting/cross-validation protocols. They are provided for contextual comparison; direct differences should not be interpreted as controlled effect sizes.

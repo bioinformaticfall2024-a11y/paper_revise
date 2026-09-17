@@ -1,0 +1,13 @@
+dataset,group_a,group_b,group_a_molecules,group_b_molecules,molecule_cooccurrence,pct_b_given_a,molecules_with_same_atom_overlap,same_atom_overlap_count
+DAVIS-68,CarboxylicAcid,Alcohol,2,11,2,100.0,2,4
+DAVIS-68,Ester,Ether,1,35,1,100.0,1,3
+DAVIS-68,Phenol,Alcohol,4,11,1,25.0,0,0
+DAVIS-68,Amide,Amine_Primary,32,9,0,0.0,0,0
+DAVIS-68,Amide,Amine_Secondary,32,51,30,93.75,27,64
+DAVIS-68,Amide,Amine_Tertiary,32,35,20,62.5,7,16
+KIBA,CarboxylicAcid,Alcohol,98,333,98,100.0,98,200
+KIBA,Ester,Ether,119,770,119,100.0,119,774
+KIBA,Phenol,Alcohol,234,333,94,40.17094017094017,0,0
+KIBA,Amide,Amine_Primary,812,699,257,31.65024630541872,130,250
+KIBA,Amide,Amine_Secondary,812,1255,696,85.71428571428571,596,1548
+KIBA,Amide,Amine_Tertiary,812,460,275,33.86699507389162,136,264

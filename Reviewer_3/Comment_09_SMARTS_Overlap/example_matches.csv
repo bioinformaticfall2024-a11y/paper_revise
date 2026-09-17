@@ -1,0 +1,7 @@
+Molecule,SMILES,Policy,ActiveGroups
+acetic_acid,CC(=O)O,historical,CarboxylicAcid; Alcohol
+acetic_acid,CC(=O)O,corrected,CarboxylicAcid
+aspirin,CC(=O)Oc1ccccc1C(=O)O,historical,CarboxylicAcid; Ester; Alcohol; Ether; Aryl
+aspirin,CC(=O)Oc1ccccc1C(=O)O,corrected,CarboxylicAcid; Ester; Aryl
+ethyl_acetate,CCOC(=O)C,historical,Ester; Ether
+ethyl_acetate,CCOC(=O)C,corrected,Ester

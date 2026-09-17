@@ -1,0 +1,22 @@
+STATUS: ANALYTICAL PARAMETER AUDIT COMPLETED; TABLE NEEDS CORRECTION
+
+EXACT COUNTS FROM RECOVERED ARCHITECTURE
+Base graph model (78-D ligand + 54-D protein): 1,693,525.
+Ligand-FG only (98/54): 1,814,305.
+Protein-FG only (78/74): 1,803,745.
+FGgraphDTA (98/74): 1,924,525; increase vs base = 231,000.
+PV predictor (graph encoders + CNN projection + three InfoNCE projections + 3-stream head): 2,136,405.
+Autoencoder: 17,627,698.
+Torchvision ResNet-101 with classifier: 44,549,160.
+Removed classifier: 2,049,000.
+Headless ResNet-101 backbone used as feature extractor: 42,500,160.
+PV predictor + AE = 19,764,103.
+PV predictor + AE + headless ResNet = 62,264,263.
+
+RESPONSE TO REVIEWER
+We thank the reviewer for prompting an exact recount. The standard torchvision ResNet-101 contains 44,549,160 parameters with its 1000-class classifier. In our feature extractor, the final 2048x1000 classifier (2,049,000 parameters including bias) is replaced by an identity layer, leaving 42,500,160 backbone parameters; therefore the earlier ~42.5M value refers specifically to the headless backbone. We agree, however, that the complexity table was internally inconsistent and that calling the ~19.76M subtotal the full pipeline was misleading because it omitted the ResNet backbone.
+
+We also re-counted the graph models. The 78/54 base graph architecture has 1,693,525 parameters, whereas FGgraphDTA with 98/74 inputs has 1,924,525, an increase of 231,000. The previous table incorrectly listed both as ~1.925M. We have replaced the table with exact component-wise counts and explicitly state which components are included and which are trainable.
+
+IMPORTANT HISTORICAL CHECK
+Recovered historical documentation indicates the result-producing full PV notebook fine-tuned the ImageNet-pretrained ResNet-101 by default, whereas the reconstructed repository currently defaults to a frozen backbone. Before final submission, align the trainable-parameter statement with the exact historical run; do not claim frozen weights if the result-producing notebook fine-tuned them.

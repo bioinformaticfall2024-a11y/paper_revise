@@ -1,0 +1,10 @@
+STATUS: TEXT CORRECTION; NO NEW TRAINING REQUIRED
+
+RESPONSE TO REVIEWER
+We agree that the previous Abstract overgeneralized the findings. We have rewritten it to report the results by dataset and metric rather than claiming that both proposed models improve accuracy and ranking on both benchmarks. FGgraphDTA provides the strongest displayed results among our proposed models on DAVIS, whereas PVgraphDTA is weaker on DAVIS. On KIBA, PVgraphDTA performs better than FGgraphDTA in MSE and CI, but after correction of the published DGraphDTA row neither proposed model exceeds the DGraphDTA literature values across the reported metrics. The revised Abstract describes these outcomes as dataset- and model-dependent trade-offs.
+
+REPLACEMENT ABSTRACT RESULTS TEXT
+On DAVIS, FGgraphDTA achieved an MSE of 0.154, a CI of 0.907, and a Pearson correlation of 0.886, whereas PVgraphDTA achieved 0.207, 0.875, and 0.849, respectively. On KIBA, FGgraphDTA achieved an MSE of 0.145, a CI of 0.865, and a Pearson correlation of 0.873, while PVgraphDTA achieved 0.130, 0.898, and 0.877. These results show that the benefit of the proposed representations is dataset- and model-dependent rather than uniformly superior across all metrics.
+
+REMOVE
+'Experiments on DAVIS and KIBA datasets show that the proposed methods improve the prediction accuracy and the ranking performance, compared to recent approaches.'

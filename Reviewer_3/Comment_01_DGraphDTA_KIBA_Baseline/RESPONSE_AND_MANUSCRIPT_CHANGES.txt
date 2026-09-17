@@ -1,0 +1,16 @@
+STATUS: VERIFIED FROM PRIMARY SOURCE; MANUSCRIPT/TABLE CORRECTION REQUIRED
+
+WHAT WAS CHECKED
+The primary DGraphDTA paper (Jiang et al., RSC Advances 2020, DOI: 10.1039/D0RA02297G) reports KIBA as CI = 0.904, MSE = 0.126, Pearson = 0.903. The manuscript currently lists 0.891 / 0.147 / 0.903 and labels it reproduced.
+
+Relative to the published row, FGgraphDTA MSE 0.145 is 15.08% higher and PVgraphDTA MSE 0.130 is 3.17% higher. These are descriptive cross-study differences, not controlled effects.
+
+RESPONSE TO REVIEWER
+We thank the reviewer for identifying this inconsistency. We rechecked the primary DGraphDTA publication and confirm that its published KIBA results are CI = 0.904, MSE = 0.126, and Pearson correlation = 0.903. The values 0.891/0.147/0.903 in our table should therefore not have been presented as the published DGraphDTA result, and the approximately 11.4% MSE-reduction statement based on 0.147 is not supported as a comparison with the published DGraphDTA baseline. We have corrected the DGraphDTA literature row and revised the KIBA Results, Discussion, Abstract, Conclusion, and related figure captions so that no superiority claim is made from this unmatched comparison. We now report the proposed-model KIBA values descriptively and explicitly distinguish literature values from results obtained in our own experiments.
+
+PAPER CHANGES
+1. KIBA table: DGraphDTA [literature] = 0.904 / 0.126 / 0.903.
+2. Remove '(reproduced)' unless actual prediction/split/seed artifacts exist.
+3. Delete the ~11.4% KIBA improvement claim.
+4. Do not replace it with a new percentage improvement against an unmatched literature protocol.
+5. Rewrite Abstract/Discussion/Conclusion with dataset- and metric-specific wording.

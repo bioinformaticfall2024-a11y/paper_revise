@@ -1,0 +1,9 @@
+{
+  "rdkit_version": "2025.09.4",
+  "zero_columns_count": 12,
+  "zero_columns": ["Ester","Anhydride","AcylHalide","Aldehyde","Ketone","Alcohol","Ether","Nitrile","Nitro","Amine_Tertiary","Sulfoxide","Sulfone"],
+  "distinct_vectors": 8,
+  "max_categorical_capacity_bits_log2_distinct": 3.0,
+  "empirical_shannon_entropy_uniform_residues_bits": 2.219240704636849,
+  "collision_groups": [["A","D","E","G","H","I","L","K","S","T","V"],["N","Q"],["F","W"]]
+}

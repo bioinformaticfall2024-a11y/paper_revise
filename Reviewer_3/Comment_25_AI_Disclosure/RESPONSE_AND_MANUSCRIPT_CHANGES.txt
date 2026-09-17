@@ -1,0 +1,15 @@
+STATUS: DISCLOSURE MUST MATCH ACTUAL TOOL USE; CURRENT 'GPT-5.5' STRING SHOULD NOT BE LEFT UNVERIFIED
+
+KNOWN CURRENT SESSION
+This revision work is being performed with ChatGPT powered by GPT-5.6 Sol on 17 September 2026. Earlier historical GPT-5.5 use cannot be confirmed from the manuscript alone.
+
+IMPORTANT
+If the authors use the SMARTS audits, parameter-count audit, or other numerical/code verification produced during this revision, the current sentence 'The tool was not used to perform data analysis' is no longer literally accurate. The disclosure should match actual use and journal policy.
+
+RESPONSE TO REVIEWER
+We thank the reviewer. We rechecked the AI-tool disclosure and replaced the ambiguous version string with the exact model/version and access date used during the revision. We also revised the scope statement so that it accurately reflects the assistance used, while making clear that all scientific interpretations, code, numerical outputs and manuscript changes were reviewed and validated by the authors, who take full responsibility for the final work.
+
+POSSIBLE DISCLOSURE IF USING THE ANALYSES FROM THIS REVISION
+During manuscript revision, the authors used ChatGPT powered by GPT-5.6 Sol (OpenAI; accessed 17 September 2026) for language editing, manuscript organization, code assistance, and supplementary verification of selected calculations. All generated code and numerical outputs were reviewed and independently validated by the authors before inclusion. The authors take full responsibility for the final scientific content.
+
+If GPT-5.5 was genuinely used earlier, list both tools/dates accurately rather than erasing that history.

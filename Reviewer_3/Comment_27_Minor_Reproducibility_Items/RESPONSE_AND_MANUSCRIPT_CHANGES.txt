@@ -1,0 +1,20 @@
+STATUS: MIX OF VERIFIED EDITS + ONE EXTERNAL ARCHIVING ACTION
+
+1. AMINO-ACID ALPHABET
+Recovered preprocessing uses the 21 symbols ACDEFGHIKLMNPQRSTVWYX: 20 standard amino acids plus X/unknown. Change prose to: 'A 21-category one-hot encoding was used (20 standard amino acids plus X for unknown/other residues).'
+
+2. RDKIT REFERENCE
+The token 'Ric' appears in some archived RDKit/Zenodo contributor metadata and cannot safely be expanded by guessing. Prefer a canonical RDKit software citation generated from official RDKit release/website metadata or the journal's software-citation format.
+
+3. KEYWORDS
+Remove the terminal period if required by journal style.
+
+4. PERSISTENT CODE ARCHIVE
+A mutable GitHub URL alone is weaker than a persistent archive. Before submission, create a tagged release of the exact source version, archive it on Zenodo (or equivalent), obtain a DOI, and add the DOI plus release tag/commit hash to Data Availability.
+
+RESPONSE TO REVIEWER
+We thank the reviewer. We reconciled the residue encoding description with the implemented 21-category alphabet (20 standard residues plus X/unknown), corrected the Keywords formatting, and replaced the problematic RDKit bibliographic entry with a verified software citation. We also archived the exact code release used for the revised manuscript in a persistent repository and added its DOI and version/commit identifier to the Data Availability statement.
+
+DO NOT USE THE LAST SENTENCE UNTIL A REAL DOI EXISTS.
+DATA AVAILABILITY TEMPLATE
+The source code corresponding to this revision is available at [GitHub URL], release [TAG], commit [SHA], and is permanently archived at Zenodo: https://doi.org/[DOI].

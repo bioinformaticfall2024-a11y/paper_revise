@@ -1,0 +1,12 @@
+STATUS: PROVENANCE ISSUE; SAFEST FIX IS TO RELABEL AS LITERATURE VALUES
+
+CHECK
+The Experimental Protocol says comparison baselines are taken from published studies, while the tables call DGraphDTA 'reproduced'. The available project snapshot does not contain historical prediction files, exact split-index files, or run artifacts establishing a matched independent rerun for those displayed rows.
+
+RESPONSE TO REVIEWER
+We agree that the term 'reproduced' was not adequately supported by the artifacts provided with the manuscript. The displayed baseline values should not have been labelled as an independent matched reproduction without accompanying prediction files, split indices, seeds, and environment records. We have therefore removed the 'reproduced' label from literature rows and explicitly identify them as values reported in the original publications. We also revised the text to avoid treating cross-publication differences as controlled matched effects. Any future in-house rerun will be reported separately together with persisted splits, random seeds, environment specifications, and prediction files.
+
+PAPER CHANGES
+- Replace 'DGraphDTA (reproduced)' with 'DGraphDTA [literature]'.
+- Add footnote: 'Baseline values marked literature are quoted from the cited publications and were not generated under the present split.'
+- Keep in-house ablations separate from literature comparisons.

@@ -1,0 +1,9 @@
+STATUS: NEW RESEARCH-SCALE EXPERIMENT REQUIRED; NOT COMPLETED HERE
+
+RUN DESIGN
+Use exactly the same persisted protein-disjoint split as the existing cold-target comparison. Keep all interactions for held-out proteins out of train/validation. For a strictly inductive PV run, train the AE only on training-target contact maps and freeze it before validation/test embedding extraction. Report MSE, CI, Spearman and preferably Pearson. Ideally use five training seeds.
+
+RESPONSE TEMPLATE AFTER REAL RUN
+We agree that the original cold-target evaluation did not assess PVgraphDTA. We therefore evaluated PVgraphDTA on the identical protein-disjoint split used for DGraphDTA and FGgraphDTA. PVgraphDTA achieved MSE [ ], CI [ ], and Spearman rho [ ]. The corresponding DGraphDTA and FGgraphDTA values were [ ]. [Insert only an interpretation supported by the observed values.] The Methods now specify that the AE was trained only on training-target contact maps for this cold-target run.
+
+DO NOT INSERT FORECAST NUMBERS. The recovered pipeline already defines a cold_target suite containing baseline, FGgraphDTA and PVgraphDTA.

@@ -1,0 +1,12 @@
+STATUS: EXACT HISTORICAL CODE PATH INSPECTED; METHODS DESCRIPTION CAN BE FIXED WITHOUT NEW TRAINING
+
+IMPLEMENTED RULE
+For each SMARTS query, RDKit GetSubstructMatches returns atom-index tuples. In the historical per-atom implementation, every atom participating in each match receives the corresponding bit. If an atom participates in multiple patterns, multiple bits remain active. No representative atom is selected. The historical per-atom path does not resolve overlaps.
+
+RESPONSE TO REVIEWER
+We thank the reviewer for identifying an important missing implementation detail. We have now specified the atom-level projection rule explicitly. For each SMARTS pattern, all atoms returned in every RDKit substructure match receive the corresponding binary functional-group indicator. An atom may therefore receive multiple functional-group bits when it participates in overlapping substructures; no representative atom is selected. Our code audit further showed that the historical per-atom feature path did not apply the molecule-level cleanup rule described in the previous text. We have corrected the Methods so that it reflects the actual historical assignment and state the corrected precedence rules separately for the revised preprocessing variant.
+
+METHODS TEXT
+For each SMARTS query, all RDKit substructure matches were enumerated. Every atom index participating in a match was assigned a value of 1 in the corresponding functional-group dimension. Because dimensions were evaluated independently, an atom could carry more than one functional-group bit when SMARTS patterns overlapped; no representative atom was selected.
+
+Do not retain the old claim that phenol/alcohol cleanup was applied to the historical per-atom training features unless the result-producing code proves it.

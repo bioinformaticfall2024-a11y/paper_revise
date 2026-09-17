@@ -1,0 +1,16 @@
+STATUS: CURRENT MANUSCRIPT SEARCH CONFIRMS THE LISTED ERRORS; FULL COPY-EDIT REQUIRED
+
+VERIFIED FIXES
+1. 'computer aided drug discovery' -> 'computer-aided drug discovery'.
+2. 'a large libraries of candidate molecules' -> 'a large library of candidate molecules'.
+3. 'As summarized in Table 8. it contains...' -> 'As summarized in Table 8, it contains...'.
+4. 'This information that critically affects...' -> 'This information critically affects hydrogen bonding, polarity, charge, and molecular interactions.'
+5. 'However, PVgraphDTA integrates ..., these features...' -> 'PVgraphDTA integrates complementary ligand, protein, and structural representations; however, these features are currently extracted through separate encoders and combined through embedding-level fusion.'
+6. 'repeated -fold cross-validation' -> if repeated CV was not performed, write simply 'repeated cross-validation was not performed' rather than guessing the missing number.
+7. 'with considered statistically significant' -> 'with p < 0.05 considered statistically significant.'
+8. Replace the causal dataset-size explanation with a non-causal description because the experiments do not isolate dataset size.
+
+RESPONSE TO REVIEWER
+We thank the reviewer. We performed a full copy-edit of the revised manuscript rather than correcting only the listed examples. The identified punctuation, agreement, sentence-fragment, missing-symbol, and hyphenation errors were corrected, including 'computer-aided,' 'a large library,' the Table 8 punctuation, the malformed significance sentence, and the Discussion sentences highlighted by the reviewer. We also removed causal language that was not directly established by the experiments.
+
+Repeat the copy-edit after all scientific edits are finalized because table/equation deletions and new paragraphs can create new cross-reference errors.

@@ -1,0 +1,13 @@
+STATUS: NEW MODEL-TRAINING CONTROL REQUIRED; NOT COMPLETED IN THIS ENVIRONMENT
+
+WHY THE REVIEWER IS RIGHT
+The existing progressive ablation graph-only -> +vision -> +AE -> +InfoNCE does not isolate contrastive regularization from the image branch. The change from MSE 0.2148 to 0.2070 after adding InfoNCE only shows a benefit within the already-multimodal model.
+
+MINIMUM CONTROL
+Run graph-only + ligand-protein InfoNCE: same ligand/protein graph encoders, no ResNet/AE, projection heads for ligand and protein embeddings, symmetric in-batch InfoNCE with tau=0.07 and alpha=0.5, identical split/optimizer/checkpoint/seeds.
+
+RESPONSE TEMPLATE AFTER REAL RUN
+We agree that the original progressive ablation did not isolate the contrastive objective from the visual branch. We therefore added a graph-only + ligand-protein InfoNCE control under the same split and optimization settings. The graph-only model obtained [MSE/CI], graph-only+InfoNCE obtained [MSE/CI], and full PVgraphDTA obtained [MSE/CI]. These results show [insert only the interpretation supported by observed values]. We revised the attribution of the PVgraphDTA result accordingly.
+
+IF THE RUN CANNOT BE COMPLETED
+Remove causal statements attributing the behavior specifically to the contact-map visual branch or InfoNCE, and state that the current ablation cannot identify their independent contributions. This is honest but may not fully satisfy the explicit experimental request.

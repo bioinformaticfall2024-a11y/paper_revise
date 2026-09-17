@@ -1,0 +1,6 @@
+{
+  "graph_only": {"MSE": 0.2018, "CI": 0.9034, "MSE_change_vs_graph_only_pct": 0.0, "CI_change_vs_graph_only": 0.0},
+  "graph_plus_resnet": {"MSE": 0.2216, "CI": 0.8648, "MSE_change_vs_graph_only_pct": 9.811694747274524, "CI_change_vs_graph_only": -0.0386},
+  "plus_ae": {"MSE": 0.2148, "CI": 0.8704, "MSE_change_vs_graph_only_pct": 6.442021803766096, "CI_change_vs_graph_only": -0.0330},
+  "full_infonce": {"MSE": 0.207, "CI": 0.875, "MSE_change_vs_graph_only_pct": 2.5768087215064295, "CI_change_vs_graph_only": -0.0284}
+}

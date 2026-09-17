@@ -1,0 +1,10 @@
+STATUS: FORMULA VERIFIED; MANUSCRIPT SHOULD BE EXPLICIT
+
+EXACT CONVERSION
+For Kd in nanomolar: pKd = -log10(Kd_nM / 10^9) = 9 - log10(Kd_nM). Thus 1 nM->9, 10 nM->8, 100 nM->7, 1000 nM->6, 10000 nM->5. The original DAVIS data identify weak/non-detected binding beyond 10 uM (=10,000 nM), corresponding to the benchmark boundary pKd=5.
+
+RESPONSE TO REVIEWER
+We agree that the unit conversion was under-specified. We have replaced the verbal description with the exact formula pKd = -log10(Kd_nM/10^9) = 9 - log10(Kd_nM). We also state the treatment of weak/non-detected DAVIS measurements at the 10 uM assay boundary, corresponding to pKd = 5 in the benchmark representation. This makes clear that the logarithm is not applied directly to the raw nanomolar value.
+
+METHODS TEXT
+For DAVIS, dissociation constants reported in nanomolar were converted as pKd = -log10(Kd_nM x 10^-9) = 9 - log10(Kd_nM). Measurements reported as weak/non-detected beyond the 10 uM assay limit were represented at the benchmark boundary of 10,000 nM (pKd = 5), consistent with the standard DAVIS/DeepDTA preprocessing convention.

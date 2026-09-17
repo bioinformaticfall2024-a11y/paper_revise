@@ -1,0 +1,13 @@
+STATUS: SOURCE-CHECKED; TEXT/DISCLOSURE CORRECTION REQUIRED
+
+SOURCE CHECK
+The authors' previous NLB-DTA publication reports DAVIS CI 0.898, MSE 0.179, Pearson 0.876 in its comparison table (with extra-decimal prose elsewhere), and explicitly places KIBA evaluation in future work. There is therefore no published NLB-DTA KIBA number to insert.
+
+RESPONSE TO REVIEWER
+We agree that the relationship to NLB-DTA should have been disclosed and its DAVIS result should have been discussed explicitly. NLB-DTA is our previous work and reports DAVIS performance of CI 0.898, MSE 0.179 and Pearson correlation 0.876. This MSE is better than the displayed DGraphDTA literature value and better than PVgraphDTA on DAVIS, so omitting it from the Results discussion was incomplete. We now identify NLB-DTA explicitly as our prior work and discuss its relationship to the present models. The NLB-DTA publication did not evaluate KIBA and instead identified KIBA as future work; therefore we do not invent a KIBA result and mark it as not reported where appropriate.
+
+RELATED WORK INSERT
+In our previous work, NLB-DTA introduced a non-local block between lightweight graph-convolution layers to model long-range graph interactions. That study evaluated DAVIS and reported CI 0.898, MSE 0.179 and Pearson 0.876, but did not report a KIBA experiment. The present work differs by focusing on explicit functional-group enrichment (FGgraphDTA) and contact-map image representations with multimodal contrastive learning (PVgraphDTA).
+
+RESULTS INSERT
+NLB-DTA, our previously published graph model, reported a DAVIS MSE of 0.179, which is lower than the displayed DGraphDTA literature value and the present PVgraphDTA result, while its CI (0.898) is below FGgraphDTA's displayed CI.

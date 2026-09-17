@@ -1,0 +1,19 @@
+STATUS: CRITICAL PROVENANCE/COHORT ISSUE; CANNOT BE RESOLVED SAFELY FROM PROSE ALONE
+
+KNOWN
+The manuscript gives raw DAVIS size 68 drugs / 442 proteins / 30,056 pairs, while the cold-target section states a processed structural subset of 287 proteins / 19,516 interactions. Recovered preprocessing documentation confirms that requiring alignments/contact maps can filter targets. The available files do not contain the original experiment-level filter report needed to prove exactly which cohort generated every displayed result.
+
+RESPONSE STRUCTURE AFTER VERIFYING ORIGINAL LOGS
+We thank the reviewer for identifying an ambiguity between the raw benchmark size and the structurally usable cohort. The 68/442/30,056 values describe the original DAVIS benchmark, whereas [EXACT VERIFIED COHORT] was used for [EXPERIMENT] after requiring [ALIGNMENT/CONTACT-MAP/OTHER] assets. We have added a preprocessing flow table reporting the number of targets and interactions after each filter, rejection reasons, whether filtering occurred before splitting, and final train/validation/test sizes.
+
+TABLE TO ADD
+Stage | Drugs | Proteins | Interactions | Exclusion reason
+Raw DAVIS | 68 | 442 | 30,056 | --
+After ligand validation | [ ] | [ ] | [ ] | [ ]
+After alignment availability | [ ] | [ ] | [ ] | missing/invalid MSA
+After contact-map availability | [ ] | [ ] | [ ] | missing/invalid map
+Final main cohort | [ ] | [ ] | [ ] | --
+Cold-target train/val/test | [ ] | [ ] | [ ] | protein-disjoint split
+
+IMPORTANT
+Do not claim the main model used all 442 targets unless actual graph/contact assets and split files prove it. Recover the filter_report/original logs first.

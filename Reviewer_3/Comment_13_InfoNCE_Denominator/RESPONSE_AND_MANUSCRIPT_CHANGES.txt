@@ -1,0 +1,13 @@
+STATUS: IMPLEMENTATION VERIFIED; MANUSCRIPT EQUATION IS THE PROBLEM
+
+CODE CHECK
+The recovered PVgraphDTA implementation computes cross-modal logits a @ b.T / tau, uses same-sample diagonal entries as positives, other samples from the opposite modality as in-batch negatives, and adds both a->b and b->a cross-entropy terms. It sums ligand-protein, ligand-image, and protein-image pair losses. Therefore the code does not use the same-modality/reflexive denominator implied by the manuscript notation.
+
+RESPONSE TO REVIEWER
+We thank the reviewer for identifying an error in the written equation. We checked the implementation and confirmed that the code uses a standard cross-modal in-batch contrastive denominator: for an anchor from modality a, the positive is the same-sample representation from modality b, and the denominator contains all representations from modality b in the batch. The implementation also adds the symmetric b->a direction and applies this to ligand-protein, ligand-image, and protein-image pairs. Thus, the implementation is correct but the manuscript notation was misleading. We have replaced the equation accordingly.
+
+CORRECT FORM
+L_(a->b)=-(1/B) sum_i log { exp[sim(z_i^a,z_i^b)/tau] / sum_j exp[sim(z_i^a,z_j^b)/tau] }.
+L_(a,b)=L_(a->b)+L_(b->a).
+L_InfoNCE=L_(ligand,protein)+L_(ligand,image)+L_(protein,image).
+Overall objective: L=L_MSE + alpha L_InfoNCE.

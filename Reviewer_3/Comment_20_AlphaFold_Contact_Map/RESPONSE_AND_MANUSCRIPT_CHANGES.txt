@@ -1,0 +1,12 @@
+STATUS: ADDITIONAL STRUCTURAL EXPERIMENT REQUIRED; NO ALPHAFOLD RESULT HAS BEEN GENERATED HERE
+
+CONTROLLED DESIGN
+Keep the same ligand data, target sequences, cohort/split, architecture, optimizer and seeds as the PconsC4 PV run. Derive residue contacts from AlphaFold structures with a prespecified atom/distance rule (e.g. C-beta, C-alpha for glycine), a stated cutoff, and a confidence filter such as pLDDT. Report missing residues and any cohort exclusions so performance cannot be confounded by population changes.
+
+RESPONSE TEMPLATE AFTER REAL RUN
+We agree that a contemporary structure-derived comparison strengthens interpretation of the visual branch. We therefore generated AlphaFold-derived residue contact maps using [coordinate definition], a [X Angstrom] cutoff, and [confidence rule], and reran PVgraphDTA on the same cohort/split as the PconsC4 experiment. The PconsC4 configuration obtained [ ], whereas the AlphaFold configuration obtained [ ]. These results indicate [supported interpretation only].
+
+IF NOT RUN
+Narrow the claim to PconsC4-derived predicted-contact structural information and identify AlphaFold/ESMFold comparison as future work. This may not fully satisfy the explicit experimental request.
+
+NO FORECAST VALUES SHOULD BE USED.

@@ -1,0 +1,16 @@
+STATUS: EASY FIX; USE ONE EXACT TRANSFORMATION AND MATCH THE PLOTTING CODE
+
+RECOMMENDED DEFINITION
+If the actual plot uses min-max normalization:
+MSE_norm = (MSE - MSE_min) / (MSE_max - MSE_min)
+Radar MSE score = 1 - MSE_norm.
+Thus larger values are better on every radar axis.
+
+RESPONSE TO REVIEWER
+We agree that '1-MSE or negative MSE' was ambiguous and mathematically inconsistent. We removed the alternative wording and now state the exact transformation used to construct the radar axis. MSE is first min-max normalized across the models shown in the relevant radar plot and then inverted as 1 - normalized MSE, so that larger values indicate better performance on all axes. The figure caption and plotting code now use the same definition.
+
+CAPTION
+For visualization, MSE was min-max normalized across the models included in the plot and converted to 1 - normalized MSE; therefore, larger values indicate better performance on all radar axes.
+
+IMPORTANT
+Verify the original figure-generation code before final submission. If it used a different formula, state the actual formula rather than changing only the caption.

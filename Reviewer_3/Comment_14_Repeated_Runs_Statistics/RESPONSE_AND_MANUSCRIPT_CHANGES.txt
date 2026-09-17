@@ -1,0 +1,15 @@
+STATUS: MAJOR EXPERIMENT REQUIRED; CURRENT MANUSCRIPT DOES NOT HAVE FIVE-SEED MAIN-TABLE RESULTS
+
+CHECK
+The recovered pipeline supports seeds 11, 22, 33, 44, and 55 and can aggregate mean/sample SD, paired-seed tests, target-level tests and bootstrap intervals. No research-scale five-seed result artifacts are present in the supplied files, and the current environment lacks the full prepared structural assets needed to run them honestly.
+
+WHAT TO RUN
+1. Main DAVIS and KIBA proposed-model experiments for seeds 11/22/33/44/55 using one persisted split per dataset.
+2. Report mean +/- sample SD for MSE, CI, Pearson and preferably Spearman.
+3. For cold-target, run multiple split seeds or give a target-level bootstrap CI; training seeds alone do not measure split variability.
+4. If testing multiple outcomes, state multiplicity handling or label analyses exploratory.
+
+RESPONSE TEMPLATE AFTER RUNS
+We agree that single-run estimates were insufficient. We repeated the principal experiments over five training seeds (11, 22, 33, 44, 55) using the same persisted split for each dataset and now report mean +/- SD in the main tables. For the cold-target analysis, we additionally [repeated the target split over N split seeds / computed a target-level bootstrap confidence interval], and we revised the significance claim accordingly.
+
+DO NOT SUBMIT THIS AS COMPLETED UNTIL THE RESULT FILES EXIST.

@@ -1,0 +1,14 @@
+STATUS: REFERENCE MISMATCHES VERIFIED; REPLACE THEM
+
+1. LATE-FUSION CLAIM
+Current text cites Cheng-Prusoff for a fusion claim; that source is unrelated. Recommended replacement: Zhang L. et al., GPCNDTA: Prediction of drug-target binding affinity through cross-attention networks augmented with graph features and pharmacophores. Computers in Biology and Medicine 166 (2023) 107512. DOI 10.1016/j.compbiomed.2023.107512.
+Safer wording: Several DTA architectures encode drug and protein streams separately before fusion, motivating interaction modules such as cross-attention that allow learned representations from the two biomolecules to interact.
+
+2. DAVIS DATASET
+Use the original dataset source: Davis MI et al. Comprehensive analysis of kinase inhibitor selectivity. Nature Biotechnology 29, 1046-1051 (2011). DOI 10.1038/nbt.1990.
+
+3. CNN/IMAGE FEATURE CLAIM
+Cite an appropriate CNN/ResNet source (the manuscript already cites He et al., Deep Residual Learning for Image Recognition) rather than the authors' NLB-DTA paper; optionally also cite ImageDTA if making a DTA-specific image claim.
+
+RESPONSE TO REVIEWER
+We agree. The three propositions were paired with references that did not directly support them. We replaced the late-fusion citation with a DTA cross-attention study, replaced the DAVIS citation with the original Davis et al. kinase-affinity publication, and cited an appropriate CNN/ResNet source for the image-feature statement. We also audited nearby citations so that each reference supports the proposition for which it is cited.

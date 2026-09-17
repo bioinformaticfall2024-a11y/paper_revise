@@ -1,0 +1,10 @@
+STATUS: ARITHMETIC VERIFIED; NEGATIVE RESULT SHOULD BE STATED PLAINLY
+
+CHECKED VALUES
+DGraphDTA reference: MSE 0.202, CI 0.904, Pearson 0.867. PVgraphDTA: 0.207, 0.875, 0.849. Ablation: graph-only 0.2018/0.9034; +ResNet 0.2216/0.8648; +AE 0.2148/0.8704; full +InfoNCE 0.2070/0.8750. Relative to graph-only, full PV has 2.58% higher MSE and CI lower by 0.0284; the visual branch alone increases MSE by 9.81%.
+
+RESPONSE TO REVIEWER
+We agree that the previous wording understated the DAVIS result. PVgraphDTA is not only lower than FGgraphDTA on DAVIS; it is also worse than the displayed DGraphDTA reference on all three metrics. The component ablation shows the same pattern: adding the ResNet branch to the graph-only scaffold increases MSE from 0.2018 to 0.2216 and decreases CI from 0.9034 to 0.8648. AE gating and InfoNCE recover part of that loss, but the full PVgraphDTA configuration (MSE 0.2070, CI 0.8750) does not recover the graph-only DAVIS performance. We now state this negative result explicitly and avoid attributing it solely to dataset size, because the current experiments do not establish the cause.
+
+PAPER TEXT
+On DAVIS, PVgraphDTA underperformed both FGgraphDTA and the graph-only reference across the reported metrics. The visual branch was a net negative contributor under the present DAVIS configuration; AE gating and InfoNCE recovered part, but not all, of that loss. The cause cannot be isolated from these data alone and may involve contact-map quality, visual-encoder capacity, optimization, or dataset characteristics.

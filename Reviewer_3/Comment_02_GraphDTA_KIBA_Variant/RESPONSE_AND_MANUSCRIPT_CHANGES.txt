@@ -1,0 +1,12 @@
+STATUS: VERIFIED FROM PRIMARY SOURCE; TABLE CORRECTION REQUIRED
+
+PRIMARY-SOURCE CHECK
+GraphDTA KIBA values are: GIN CI 0.882 / MSE 0.147; GCN 0.889 / 0.139; GAT-GCN 0.891 / 0.139. The current row labelled GIN mixes GCN CI 0.889 with GIN MSE 0.147.
+
+RESPONSE TO REVIEWER
+We thank the reviewer for catching this table error. Rechecking the primary GraphDTA publication confirmed that the KIBA GIN variant reports CI = 0.882 and MSE = 0.147, whereas CI = 0.889 belongs to the GCN variant, whose MSE is 0.139. The previous table therefore mixed values from two GraphDTA encoders. We have corrected the row so that a single named encoder is represented consistently. Because the DAVIS table already uses GIN, we retain GIN for consistency and report 0.882/0.147 on KIBA. The repeated 0.147 value does not by itself establish the mechanism of the DGraphDTA error; that row is corrected independently under Comment 1.
+
+PAPER CHANGES
+- KIBA GraphDTA (GIN): CI 0.882, MSE 0.147.
+- If the column heading is 'Protein / Ligand representation', write '1D CNN / GIN' rather than 'GIN / 1D CNN'.
+- Recompute any figure/radar plot fed by this table.
