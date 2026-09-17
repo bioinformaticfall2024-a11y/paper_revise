@@ -1,0 +1,7 @@
+compound,davis_id,active_count,active_groups
+Imatinib,5291,4,Amide; Amine_Secondary; Amine_Tertiary; Aryl
+Gefitinib,123631,4,Ether; Amine_Secondary; Amine_Tertiary; Aryl
+Erlotinib,176870,3,Ether; Amine_Secondary; Aryl
+Sorafenib,216239,4,Amide; Ether; Amine_Secondary; Aryl
+Dasatinib,3062316,6,Amide; Alcohol; Amine_Secondary; Amine_Tertiary; Thioether; Aryl
+Sunitinib,5329102,4,Amide; Amine_Secondary; Amine_Tertiary; Aryl
