@@ -1,16 +1,173 @@
-STATUS: VERIFIED FROM PRIMARY SOURCE; MANUSCRIPT/TABLE CORRECTION REQUIRED
+REVIEWER 3 — COMMENT 1
+DGraphDTA KIBA baseline correction
 
-WHAT WAS CHECKED
-The primary DGraphDTA paper (Jiang et al., RSC Advances 2020, DOI: 10.1039/D0RA02297G) reports KIBA as CI = 0.904, MSE = 0.126, Pearson = 0.903. The manuscript currently lists 0.891 / 0.147 / 0.903 and labels it reproduced.
+STATUS
+VERIFIED FROM THE PRIMARY DGraphDTA PAPER. MANUSCRIPT/TABLE/FIGURE CORRECTIONS REQUIRED.
 
-Relative to the published row, FGgraphDTA MSE 0.145 is 15.08% higher and PVgraphDTA MSE 0.130 is 3.17% higher. These are descriptive cross-study differences, not controlled effects.
+=====================================================================
+1. VERIFIED FACT
+=====================================================================
+The primary DGraphDTA paper (Jiang et al., RSC Advances, 2020; DOI: 10.1039/D0RA02297G) reports the following KIBA result in Table 8:
 
-RESPONSE TO REVIEWER
-We thank the reviewer for identifying this inconsistency. We rechecked the primary DGraphDTA publication and confirm that its published KIBA results are CI = 0.904, MSE = 0.126, and Pearson correlation = 0.903. The values 0.891/0.147/0.903 in our table should therefore not have been presented as the published DGraphDTA result, and the approximately 11.4% MSE-reduction statement based on 0.147 is not supported as a comparison with the published DGraphDTA baseline. We have corrected the DGraphDTA literature row and revised the KIBA Results, Discussion, Abstract, Conclusion, and related figure captions so that no superiority claim is made from this unmatched comparison. We now report the proposed-model KIBA values descriptively and explicitly distinguish literature values from results obtained in our own experiments.
+DGraphDTA (GCN & GCN):
+CI = 0.904
+MSE = 0.126
+Pearson = 0.903
 
-PAPER CHANGES
-1. KIBA table: DGraphDTA [literature] = 0.904 / 0.126 / 0.903.
-2. Remove '(reproduced)' unless actual prediction/split/seed artifacts exist.
-3. Delete the ~11.4% KIBA improvement claim.
-4. Do not replace it with a new percentage improvement against an unmatched literature protocol.
-5. Rewrite Abstract/Discussion/Conclusion with dataset- and metric-specific wording.
+The current manuscript instead lists DGraphDTA as CI = 0.891, MSE = 0.147, Pearson = 0.903 and labels the row "reproduced". If this row is intended to represent the published DGraphDTA result, it is incorrect.
+
+Using the published MSE of 0.126, the current proposed-model KIBA MSE values are:
+FGgraphDTA: 0.145, which is 15.08% higher than 0.126.
+PVgraphDTA: 0.130, which is 3.17% higher than 0.126.
+
+These percentages are descriptive cross-study differences only. They must NOT be presented as controlled performance effects because the evaluation protocols are different.
+
+=====================================================================
+2. RESPONSE TO REVIEWER — COPY-PASTE VERSION
+=====================================================================
+We thank the reviewer for identifying this inconsistency. We rechecked the primary DGraphDTA publication and confirm that the published KIBA results for DGraphDTA are CI = 0.904, MSE = 0.126, and Pearson correlation = 0.903. The values previously shown in our KIBA table (CI = 0.891, MSE = 0.147, Pearson = 0.903) therefore should not have been presented as the published DGraphDTA result.
+
+We have corrected the DGraphDTA row in the KIBA comparison table to the values reported in the primary source and relabeled it as a literature-reported result rather than a reproduced result. Consequently, we removed the statement that PVgraphDTA reduces KIBA MSE by approximately 11.4% relative to DGraphDTA, because that statement was calculated from the incorrect MSE value of 0.147. We also removed statements describing PVgraphDTA as outperforming DGraphDTA or as achieving the strongest overall KIBA performance.
+
+With the corrected literature values, the published DGraphDTA result is numerically better than FGgraphDTA and PVgraphDTA on KIBA for MSE, CI, and Pearson correlation. We have therefore rewritten the KIBA Results, Discussion, Abstract, and Conclusion to report the proposed-model results in a dataset- and metric-specific manner and to avoid unsupported superiority claims.
+
+We additionally clarify that the DGraphDTA values are taken from the original publication, whereas our proposed models were evaluated under the experimental protocol described in this manuscript. Because these protocols are not identical, the literature values are now presented as descriptive reference values rather than as matched head-to-head reruns, and we do not calculate percentage improvements from this cross-study comparison.
+
+=====================================================================
+3. EXACT TABLE CHANGE
+=====================================================================
+LOCATION: Results section, Table 10, "Performance of compared models on the KIBA dataset".
+
+CURRENT ROW:
+DGraphDTA [3] (reproduced) | GCN & GCN | CI 0.891 | MSE 0.147 | Pearson 0.903
+
+REPLACE WITH:
+DGraphDTA [3] (reported) | GCN & GCN | CI 0.904 | MSE 0.126 | Pearson 0.903
+
+Recommended table footnote:
+"Values for literature baselines are reported from the cited primary studies and are included as reference values; they were not re-evaluated under the same data split used for the proposed models."
+
+IMPORTANT: Comment 2 separately concerns the GraphDTA row. Finalize the full Table 10 only after applying the Comment 2 correction as well.
+
+=====================================================================
+4. RESULTS SECTION — EXACT TEXT TO REMOVE/REPLACE
+=====================================================================
+LOCATION: KIBA Results section, immediately after Table 10 / Figure 7.
+
+A. CURRENT SENTENCE THAT BECOMES FALSE:
+"Both GraphDTA and DGraphDTA attained an MSE of 0.147..."
+
+DO NOT KEEP THIS SENTENCE. The corrected published DGraphDTA MSE is 0.126. Because the GraphDTA row is handled in Comment 2, replace the DGraphDTA portion only after Comment 2 is finalized.
+
+B. CURRENT FGgraphDTA CLAIM THAT MUST CHANGE:
+"Its MSE was slightly lower than that of DGraphDTA, suggesting that functional group information can improve numerical affinity estimation."
+
+DELETE this comparison. With the corrected DGraphDTA value, 0.145 is higher (worse) than 0.126.
+
+C. DELETE THE FOLLOWING CLAIMS FROM THE PVgraphDTA KIBA PARAGRAPH:
+"PVgraphDTA achieved the strongest overall performance on KIBA across both MSE and CI."
+"Compared with DGraphDTA, PVgraphDTA reduced the MSE by approximately 11.4%."
+"The improvement in CI further suggests that this model ranks drug-target pairs more effectively..."
+Any sentence saying that PVgraphDTA is superior to DGraphDTA on KIBA.
+
+REPLACE THE FGgraphDTA/PVgraphDTA KIBA INTERPRETATION WITH:
+
+"The published DGraphDTA study reports a CI of 0.904, an MSE of 0.126, and a Pearson correlation of 0.903 on KIBA. These values are included here as literature references and were obtained under the evaluation protocol of the original study. In our experimental setting, FGgraphDTA achieved an MSE of 0.145, a CI of 0.865, and a Pearson correlation of 0.873, whereas PVgraphDTA achieved an MSE of 0.130, a CI of 0.898, and a Pearson correlation of 0.877. Thus, among the two proposed models, PVgraphDTA yielded the stronger KIBA results; however, neither proposed model numerically exceeded the published DGraphDTA reference on these three metrics. Because the evaluation protocols are not identical, these cross-study values are interpreted descriptively rather than as matched head-to-head performance differences."
+
+=====================================================================
+5. ABSTRACT — REQUIRED CHANGE
+=====================================================================
+LOCATION: Abstract, Results sentence.
+
+CURRENT TEXT:
+"Experiments on DAVIS and KIBA datasets show that the proposed methods improve the prediction accuracy and the ranking performance, compared to recent approaches."
+
+THIS MUST BE REMOVED. It is no longer supported after correcting the DGraphDTA KIBA row.
+
+RECOMMENDED REPLACEMENT:
+"The two models showed dataset- and metric-dependent behavior. FGgraphDTA achieved its strongest results on DAVIS, whereas PVgraphDTA yielded the better KIBA results among the two proposed models. On KIBA, however, neither proposed model numerically exceeded the published DGraphDTA reference across MSE, CI, and Pearson correlation."
+
+OPTIONAL MORE NUMERICAL VERSION:
+"On DAVIS, FGgraphDTA achieved an MSE of 0.154, a CI of 0.907, and a Pearson correlation of 0.886. On KIBA, PVgraphDTA achieved an MSE of 0.130, a CI of 0.898, and a Pearson correlation of 0.877; these values did not numerically exceed the published DGraphDTA reference (MSE 0.126, CI 0.904, Pearson 0.903)."
+
+ABSTRACT CONCLUSION CURRENTLY SAYS:
+"...the proposed models offer a practical and expressive framework for more accurate affinity prediction..."
+
+SAFER REPLACEMENT:
+"Together, the proposed models provide complementary chemical and structural representations for DTA prediction, with benefits that depend on the dataset and evaluation metric."
+
+=====================================================================
+6. DISCUSSION — REQUIRED CHANGE
+=====================================================================
+LOCATION: Discussion, paragraphs beginning:
+"PVgraphDTA, which treats contact maps as images..."
+and
+"The models exhibited asymmetric performance..."
+
+CURRENT CLAIMS TO REMOVE:
+"achieved the strongest performance on KIBA"
+"PVgraphDTA performed best on the larger, more diverse KIBA benchmark"
+"PVgraphDTA's superior MSE and CI on KIBA confirm..."
+"This multimodal strategy proves particularly advantageous on larger, more diverse datasets like KIBA"
+
+RECOMMENDED REPLACEMENT:
+"Among the two proposed models, PVgraphDTA yielded the better KIBA results, with an MSE of 0.130, a CI of 0.898, and a Pearson correlation of 0.877. These values do not numerically exceed the published DGraphDTA reference (0.126, 0.904, and 0.903, respectively). Therefore, the KIBA results do not support a claim of superiority over DGraphDTA. Instead, the results indicate dataset- and metric-dependent behavior of the proposed representations. Because the literature baselines and the proposed models were evaluated under different protocols, the cross-study comparison is treated as descriptive rather than as a matched performance comparison."
+
+Do not state that KIBA dataset size "explains" or "confirms" superior PVgraphDTA performance. At most, dataset size can be discussed as a hypothesis, not an established cause.
+
+=====================================================================
+7. FIGURES THAT MUST BE UPDATED
+=====================================================================
+The corrected DGraphDTA values affect any KIBA figure built from the old Table 10 values.
+
+Check and regenerate/update:
+- Figure 7: visual comparison of models on KIBA, if DGraphDTA is plotted.
+- Figure 8: proposed models versus DGraphDTA on KIBA. This definitely requires correction.
+- Figure 10: KIBA radar plot, if the DGraphDTA values are included in its normalization.
+
+CURRENT DISCUSSION SENTENCE TO REMOVE:
+"Figure 10 shows the radar plot for the KIBA dataset, where the stronger overall profile of PVgraphDTA is evident, particularly in terms of accuracy and ranking performance."
+
+REPLACE WITH A NEUTRAL DESCRIPTION AFTER REGENERATING THE FIGURE, for example:
+"Figure 10 summarizes the normalized KIBA metric profiles of the selected models. Literature and proposed-model values are shown for descriptive visualization and should not be interpreted as a matched-protocol ranking."
+
+=====================================================================
+8. CONCLUSION — REQUIRED CHANGE
+=====================================================================
+LOCATION: Conclusion, first paragraph.
+
+CURRENT TEXT REPORTS:
+"FGgraphDTA achieved the strongest performance on DAVIS... while PVgraphDTA achieved an MSE of 0.130 and CI of 0.898 on KIBA."
+
+The PVgraphDTA numbers may remain, but add the corrected interpretation.
+
+RECOMMENDED REPLACEMENT PARAGRAPH:
+"This study proposed two complementary graph-based models for drug-target affinity prediction: FGgraphDTA, which enriches ligand and protein graphs with functional-group information, and PVgraphDTA, which combines graph representations with contact-map image features, autoencoder-derived representations, and contrastive learning. FGgraphDTA showed its strongest results on DAVIS, while PVgraphDTA yielded the better KIBA results among the two proposed models. On KIBA, however, neither proposed model numerically exceeded the published DGraphDTA reference across MSE, CI, and Pearson correlation. Because the literature baseline and the proposed models were evaluated under different protocols, these cross-study values are interpreted descriptively rather than as matched performance improvements. Overall, the findings indicate dataset- and metric-dependent trade-offs rather than uniform superiority across both benchmarks."
+
+=====================================================================
+9. NUMBERS NOT TO REPORT AS AN "IMPROVEMENT"
+=====================================================================
+Do NOT replace the deleted 11.4% statement with a statement such as "PVgraphDTA is 3.17% worse" as a headline performance claim. The arithmetic is correct, but the experiments were not conducted under identical protocols. If the number is mentioned at all, label it explicitly as a descriptive difference between reported values.
+
+For internal checking only:
+FGgraphDTA MSE difference vs published DGraphDTA = (0.145 - 0.126) / 0.126 × 100 = +15.08%.
+PVgraphDTA MSE difference vs published DGraphDTA = (0.130 - 0.126) / 0.126 × 100 = +3.17%.
+
+=====================================================================
+10. CHECKLIST BEFORE SUBMISSION
+=====================================================================
+[ ] Table 10 DGraphDTA row changed to 0.904 / 0.126 / 0.903.
+[ ] "(reproduced)" removed and replaced with "(reported)" or "literature".
+[ ] 11.4% improvement claim deleted everywhere.
+[ ] FGgraphDTA "slightly lower MSE than DGraphDTA" claim deleted.
+[ ] "strongest overall KIBA" / "superior KIBA" claims removed.
+[ ] Abstract Results sentence rewritten.
+[ ] Abstract Conclusion softened.
+[ ] KIBA Results paragraphs rewritten.
+[ ] Discussion KIBA interpretation rewritten.
+[ ] Conclusion KIBA interpretation rewritten.
+[ ] Figure 7 checked/regenerated if affected.
+[ ] Figure 8 regenerated with corrected DGraphDTA numbers.
+[ ] Figure 10 checked/regenerated if affected.
+[ ] Literature-vs-in-house protocol caveat added.
+[ ] Comment 2 correction applied before finalizing the complete KIBA table.
