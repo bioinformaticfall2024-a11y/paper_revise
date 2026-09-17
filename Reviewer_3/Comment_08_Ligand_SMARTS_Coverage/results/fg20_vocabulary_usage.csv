@@ -1,0 +1,4 @@
+dataset,patterns_observed,total_fg20_patterns,vocabulary_usage_percent
+Reviewer_six_compound_panel,7,20,35.0
+DAVIS,15,20,75.0
+KIBA,17,20,85.0
