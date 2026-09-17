@@ -1,0 +1,87 @@
+REVIEWER 3 — COMMENT 8
+Ligand-side SMARTS coverage / kinase-relevant pharmacophore coverage
+
+=====================================================================
+1. RESPONSE TO REVIEWER — COPY-PASTE VERSION
+=====================================================================
+
+We thank the reviewer for raising this point and for motivating a quantitative dataset-wide assessment of the ligand-side SMARTS vocabulary. We first reproduced the reviewer’s analysis for the six selected kinase inhibitors using the exact 20 SMARTS patterns implemented in FGgraphDTA. Imatinib, gefitinib, erlotinib, sorafenib, dasatinib, and sunitinib activated 4, 4, 3, 4, 6, and 4 patterns, respectively, corresponding to a mean of 4.17 active patterns per compound. Collectively, these six compounds activated 7 of the 20 patterns, i.e., 35% of the FG20 vocabulary. Thus, the reviewer’s numerical observation for this selected six-compound panel is reproducible.
+
+We subsequently extended the same analysis to the complete DAVIS and KIBA ligand sets used in this study. Across DAVIS, 15 of the 20 SMARTS patterns were represented at least once, corresponding to 75% dataset-wide vocabulary usage. Across KIBA, 17 of the 20 patterns were represented at least once, corresponding to 85% dataset-wide vocabulary usage. Therefore, the 35% value obtained from the six selected inhibitors accurately describes that particular six-compound subset, but it does not represent the dataset-wide usage of the FG20 vocabulary.
+
+Nevertheless, we agree with the reviewer’s broader point that FG20 should not be interpreted as a comprehensive kinase-pharmacophore ontology. Several medicinal-chemistry motifs relevant to kinase inhibitors do not have dedicated FG20 indicators, including specific N-heteroaromatic ring systems, ureas, sulfonamides, morpholine motifs, halogen- and CF3-substitution contexts, covalent electrophilic warheads, and metal-binding groups. We have therefore revised the manuscript to describe FG20 as a compact auxiliary functional-group enrichment rather than a complete pharmacophore representation.
+
+We would also like to clarify two molecule-specific points. Sorafenib does not activate the Primary-amine SMARTS pattern in our implementation. Instead, its urea nitrogens are captured by the generic Secondary-amine pattern, while FG20 does not contain a dedicated Urea indicator. Similarly, molecules containing aryl chloride, aryl fluoride, or CF3 substituents can still activate the general Aryl pattern, although these substituent classes do not have dedicated FG20 indicators.
+
+Importantly, the FG20 vector is appended to the original atom-level representation rather than replacing it. Consequently, the absence of a dedicated FG20 indicator does not remove the corresponding atoms or molecular topology from the model. Element identity, local atomic environment, hydrogen information, aromaticity, and molecular connectivity remain available to the graph neural network.
+
+Our audit also confirmed that several historical SMARTS definitions are non-mutually-exclusive. For example, carboxylic-acid matches can also satisfy the broad Alcohol pattern, ester matches can satisfy Ether, and generic amine patterns can overlap with amide-related nitrogens. We now explicitly state this property and report it as a limitation of the current compact FG20 vocabulary.
+
+We did not introduce additional SMARTS dimensions post hoc because doing so would alter the model input representation and require complete retraining and matched reevaluation. Instead, we added the quantitative coverage analysis, narrowed the chemical claims associated with FG20, and identified an expanded kinase-focused functional-group vocabulary as an important direction for future work.
+
+=====================================================================
+2. WHAT TO ADD TO THE PAPER — MAIN TEXT
+=====================================================================
+
+Recommended placement:
+Add this paragraph in the manuscript immediately after the section/paragraph (or Table 5) where the 20 ligand-side SMARTS functional groups are introduced and described. If the current manuscript separates Methods from Results strictly, place the descriptive definition of FG20 in Methods and place the quantitative 75%/85% coverage paragraph in the Results/feature-analysis section, with a cross-reference back to Table 5.
+
+Suggested manuscript paragraph:
+
+To quantitatively assess the coverage of the auxiliary ligand-side functional-group representation, we applied the exact 20 SMARTS patterns used by FGgraphDTA to the DAVIS and KIBA ligand sets. In DAVIS, 15 of the 20 patterns were observed at least once, corresponding to 75% dataset-wide vocabulary usage, whereas in KIBA, 17 of the 20 patterns were represented, corresponding to 85% vocabulary usage. In contrast, the six representative kinase inhibitors examined in the reviewer’s analysis collectively activated 7 of 20 patterns (35%). These results indicate that although FG20 is sparse at the individual-molecule level, its overall coverage across the benchmark chemical space is substantially broader. Accordingly, FG20 should be interpreted as a compact auxiliary functional-group enrichment rather than a comprehensive kinase-pharmacophore ontology.
+
+IMPORTANT WORDING NOTE:
+Do not say that 75% or 85% of the bits are active in an average molecule. These percentages mean that 15/20 or 17/20 SMARTS categories appear at least once somewhere in the full dataset. Molecule-level activation remains sparse.
+
+=====================================================================
+3. WHAT TO ADD TO THE PAPER — LIMITATIONS / DISCUSSION
+=====================================================================
+
+Recommended placement:
+Add the following paragraph near the end of the Discussion/Limitations section, before the final concluding paragraph. If the manuscript has no explicit Limitations subsection, place it in the final part of Discussion where model limitations and future work are discussed.
+
+Suggested limitations paragraph:
+
+The current FG20 vocabulary does not explicitly distinguish several medicinal-chemistry motifs relevant to kinase inhibitors, including specific N-heteroaromatic ring systems, urea, sulfonamide and morpholine motifs, halogen- and CF3-substitution contexts, covalent electrophilic warheads, and metal-binding groups. In addition, several SMARTS definitions are non-mutually-exclusive and may overlap. Therefore, the 20-dimensional representation should be regarded as an auxiliary functional-group annotation rather than a complete pharmacophore representation. Future work will investigate an expanded kinase-focused vocabulary under matched training and evaluation conditions.
+
+=====================================================================
+4. WORDING TO CHANGE ELSEWHERE IN THE PAPER
+=====================================================================
+
+Wherever the manuscript currently uses language implying that the 20 SMARTS patterns form a complete or comprehensive pharmacophore representation, replace that wording with one of the following safer formulations:
+
+"auxiliary functional-group enrichment"
+
+or
+
+"compact functional-group annotation complementing the original atom-level graph representation"
+
+Avoid phrases such as "comprehensive pharmacophore representation" unless a much broader kinase-specific SMARTS vocabulary is actually implemented and evaluated.
+
+=====================================================================
+5. OPTIONAL SUPPLEMENTARY MATERIAL
+=====================================================================
+
+If space permits, add a supplementary table reporting the per-pattern occurrence frequencies across DAVIS and KIBA. In the response letter, this can be referenced as:
+
+"The complete per-pattern frequencies for DAVIS and KIBA have also been provided in Supplementary Table Sx."
+
+This is not strictly required, but it strengthens the response because the reviewer raised a quantitative coverage concern.
+
+=====================================================================
+6. IMPORTANT KIBA NOTE FOR THIS REVISION
+=====================================================================
+
+Do not discuss alternative KIBA compound counts in this reviewer response unless the exact KIBA version used in the original experiments has been independently verified. Keep the response focused on the vocabulary-usage result (17/20 = 85%) rather than introducing a separate dataset-version issue that is not necessary for Comment 8.
+
+=====================================================================
+7. CORE LOGIC OF THE RESPONSE
+=====================================================================
+
+The response should make three points clearly:
+
+(1) The reviewer’s 35% result for the selected six compounds is reproducible.
+(2) The same 20 SMARTS patterns show broader dataset-wide vocabulary usage: 75% in DAVIS and 85% in KIBA.
+(3) The broader limitation is still acknowledged: FG20 is an auxiliary functional-group vocabulary, not a complete kinase-pharmacophore ontology.
+
+This combination is preferable to either fully rejecting the reviewer’s concern or accepting the six-compound result as representative of the complete benchmark chemical space.
