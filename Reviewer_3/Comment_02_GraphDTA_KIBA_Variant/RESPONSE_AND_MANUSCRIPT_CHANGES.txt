@@ -1,12 +1,75 @@
-STATUS: VERIFIED FROM PRIMARY SOURCE; TABLE CORRECTION REQUIRED
+REVIEWER 3 — COMMENT 2
+GraphDTA KIBA encoder-row correction — FINAL EDIT GUIDE
+Decision: RETAIN GraphDTA–GIN, change ONLY its KIBA CI from 0.889 to 0.882; retain MSE = 0.147.
+SOURCE: Nguyen et al., GraphDTA: predicting drug–target binding affinity with graph neural networks, Bioinformatics 37(8):1140–1147, DOI 10.1093/bioinformatics/btaa921, original Table 3:
+https://academic.oup.com/bioinformatics/article/37/8/1140/5942970
+Original KIBA results: GIN CI 0.882 / MSE 0.147; GCN 0.889 / 0.139; GAT-GCN 0.891 / 0.139.
+The GraphDTA 0.891 / 0.139 (GAT-GCN) row in the DGraphDTA paper is a DIFFERENT GraphDTA variant. Do NOT use its CI for the GIN row.
 
-PRIMARY-SOURCE CHECK
-GraphDTA KIBA values are: GIN CI 0.882 / MSE 0.147; GCN 0.889 / 0.139; GAT-GCN 0.891 / 0.139. The current row labelled GIN mixes GCN CI 0.889 with GIN MSE 0.147.
+=====================================================================
+1. RESPONSE TO REVIEWER — COPY-PASTE AFTER APPLYING THE EDITS
+=====================================================================
+We thank the reviewer for identifying the inconsistency in the GraphDTA KIBA row. We rechecked Table 3 of the original GraphDTA publication and confirmed that the GIN variant reports CI = 0.882 and MSE = 0.147 on KIBA. In our previous table, the reported CI of 0.889 was taken from the GCN variant (MSE = 0.139), whereas the MSE of 0.147 was taken from the GIN variant. We have corrected this transcription error and retained the GIN encoder consistently in both benchmark tables: the corrected KIBA GraphDTA (GIN) row is CI = 0.882 and MSE = 0.147. Accordingly, the correction affects the GraphDTA KIBA CI only; its model label and MSE remain unchanged.
 
-RESPONSE TO REVIEWER
-We thank the reviewer for catching this table error. Rechecking the primary GraphDTA publication confirmed that the KIBA GIN variant reports CI = 0.882 and MSE = 0.147, whereas CI = 0.889 belongs to the GCN variant, whose MSE is 0.139. The previous table therefore mixed values from two GraphDTA encoders. We have corrected the row so that a single named encoder is represented consistently. Because the DAVIS table already uses GIN, we retain GIN for consistency and report 0.882/0.147 on KIBA. The repeated 0.147 value does not by itself establish the mechanism of the DGraphDTA error; that row is corrected independently under Comment 1.
+Regarding the repeated MSE value of 0.147, the GraphDTA–GIN value is genuine and is supported by the original GraphDTA paper. The 0.147 previously shown for DGraphDTA was an independent error in our presentation of that literature baseline. As explained in our response to Comment 1, we have corrected the DGraphDTA KIBA row to its published values (CI = 0.904, MSE = 0.126, Pearson = 0.903). The appearance of the same MSE in the two previous rows does not, by itself, establish that rows or columns were transposed; the relevant point is that both baselines are now assigned the values reported for their specified architectures. We have checked the KIBA text and any figure displaying the GraphDTA CI for consistency with the corrected table.
 
-PAPER CHANGES
-- KIBA GraphDTA (GIN): CI 0.882, MSE 0.147.
-- If the column heading is 'Protein / Ligand representation', write '1D CNN / GIN' rather than 'GIN / 1D CNN'.
-- Recompute any figure/radar plot fed by this table.
+NOTE BEFORE SENDING: The phrases "we have corrected" and "we have checked" should be used only after you actually update the manuscript and affected figures. This file is a revision guide, NOT evidence that the manuscript DOCX itself was edited.
+
+=====================================================================
+2. EXACT TABLE EDIT — MAIN AND ESSENTIAL CHANGE
+=====================================================================
+LOCATION: Results -> "Results on the KIBA Dataset" -> Table 10, caption "Performance of compared models on the KIBA dataset." This is the SECOND benchmark-results table; NOT Table 8 (DAVIS).
+
+CURRENT GraphDTA row:
+GraphDTA [16] | GIN & 1D CNN | CI 0.889 | MSE 0.147 | Pearson -
+
+REPLACE WITH (minimal numerical edit):
+GraphDTA [16] | GIN & 1D CNN | CI 0.882 | MSE 0.147 | Pearson -
+
+If you want the representation to match the literal header "Protein / Ligand representation", display "1D CNN & GIN" instead of "GIN & 1D CNN" (GraphDTA uses the CNN for protein and GIN for ligand). This is only a column-label ordering clarification, not a change of architecture or metrics. Check the same label in DAVIS Table 8 for consistent ordering, but DO NOT CHANGE its performance numbers for Comment 2.
+
+IN THE SAME KIBA TABLE, also apply the independent Comment 1 correction:
+CURRENT DGraphDTA [3] (reproduced) | GCN & GCN | CI 0.891 | MSE 0.147 | Pearson 0.903
+CORRECT DGraphDTA [3] (reported) | GCN & GCN | CI 0.904 | MSE 0.126 | Pearson 0.903
+
+DO NOT replace GIN with GAT-GCN, 0.891/0.139, or GCN 0.889/0.139; that would be a different encoder than the one you elected to cite.
+
+=====================================================================
+3. EXACT RESULTS PARAGRAPH TO CHANGE
+=====================================================================
+LOCATION: Results -> "Results on the KIBA Dataset", paragraph immediately after the comparison of the sequence-based models; CURRENT paragraph starts:
+"Graph-based methods achieved stronger numerical performance. Both GraphDTA and DGraphDTA attained an MSE of 0.147..."
+
+The sentence "Both GraphDTA and DGraphDTA attained an MSE of 0.147" MUST be changed because Comment 1 corrects DGraphDTA MSE to 0.126. This sentence is not repaired by the GraphDTA CI edit alone.
+
+REPLACEMENT PARAGRAPH (coordinates Comments 1 and 2):
+"The original GraphDTA study reports a CI of 0.882 and an MSE of 0.147 for its GIN variant on KIBA. The published DGraphDTA study reports a CI of 0.904, an MSE of 0.126, and a Pearson correlation of 0.903. These literature values are presented as descriptive reference results because the original studies and our proposed models were not evaluated under identical protocols."
+
+In your following FGgraphDTA and PVgraphDTA KIBA Results paragraphs, apply the already documented Comment 1 replacements. In particular, delete any claim that FGgraphDTA has a lower MSE than published DGraphDTA, or that PVgraphDTA has ~11.4% MSE improvement relative to DGraphDTA. These changes are required by Comment 1, not newly caused by changing GraphDTA–GIN CI.
+
+Elsewhere in Results/Discussion/Abstract/Conclusion, search for "GraphDTA", "0.889", and "0.147" alongside "KIBA". If a sentence ATTRIBUTES CI 0.889 to GraphDTA–GIN, change it to 0.882. Do not blindly change 0.889 everywhere: DeepCDA in the KIBA table also has CI 0.889, and a different GraphDTA GCN variant legitimately has CI 0.889.
+
+=====================================================================
+4. FIGURES: MINIMUM NECESSARY CHANGES
+=====================================================================
+Figure 7, caption "Visual comparison of the models on the KIBA dataset": inspect the underlying plotted values. IF it displays GraphDTA CI, change only that GraphDTA CI data point/label from 0.889 to 0.882 and regenerate the figure. Its GraphDTA MSE data point stays 0.147. Independently regenerate any DGraphDTA values affected by Comment 1.
+
+Figure 10, caption "Radar plot comparison of models on the KIBA dataset": IF GraphDTA–GIN is included, recompute its CI coordinate using 0.882. IF normalization is based on all models (such as min-max), recompute all resulting normalized coordinates and regenerate the figure. Confirm the method specified in the figure caption matches the actual plotting formula (see Comment 26).
+
+Figure 8 compares the PROPOSED models against DGraphDTA; GraphDTA is not named in its caption. Comment 2 alone does not require changing it if it contains no GraphDTA data. Comment 1 may independently require regenerating Figure 8.
+
+No changes to the DAVIS GraphDTA GIN CI 0.893 or MSE 0.229 in Table 8 are needed for Comment 2. The manuscript's proposed-model KIBA numbers do NOT change as a result of this comment.
+
+=====================================================================
+5. FINAL CHECKLIST
+=====================================================================
+[ ] Table 10 GraphDTA–GIN CI: 0.889 -> 0.882; MSE remains 0.147.
+[ ] Correct the unrelated DGraphDTA Table 10 row under Comment 1.
+[ ] Replace "Both GraphDTA and DGraphDTA attained an MSE of 0.147".
+[ ] Figure 7 updated IF GraphDTA CI plotted.
+[ ] Figure 10 recalculated IF GraphDTA CI plotted or included in shared normalization.
+[ ] Figure 8 checked against COMMENT 1, not automatically changed for Comment 2.
+[ ] GraphDTA DAVIS metrics left unchanged.
+[ ] Only send reviewer response after corresponding manuscript/figure edits are complete.
+
+No new model training or numerical experiment is needed to correct a misattributed published baseline row. A notebook is not necessary for this source-verification/transcription correction.
