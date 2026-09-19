@@ -1,13 +1,79 @@
-STATUS: ACTUAL RDKit AUDIT COMPLETED ON THE EXACT RECOVERED PROTEIN-FG IMPLEMENTATION
+REVIEWER 3 — COMMENT 7: PROTEIN-SIDE FG20 REDUNDANCY
+UPDATED AFTER AN ACTUAL RDKit AUDIT (2025.09.4)
+COMPUTATIONAL FILE: audit_protein_fg.ipynb (executed outputs, canonical structure control).
+CAUTION: No new KIBA model ablation or retraining has been performed by this FG20 descriptor audit. The request to remove or replace the protein FG branch remains a separate experimental/architectural decision.
 
-RESULT
-The reviewer's central redundancy point is correct, but the recovered implementation applies SMARTS to isolated free-amino-acid SMILES including the common backbone. With RDKit 2025.09.4, the exact code gives 12/20 constant-zero columns (60%), only 8 distinct vectors among 20 residues, maximum categorical capacity log2(8)=3.0 bits, and empirical Shannon entropy 2.219 bits under uniform residue weighting. A,D,E,G,H,I,L,K,S,T,V share one vector; N/Q share one; F/W share one. The vector is deterministic from residue identity and therefore adds no independent information beyond complete one-hot identity.
+=================================================================
+1. PROVENANCE AND VERIFIED NUMERICAL FINDINGS
+=================================================================
+Source for audit definitions: the user-supplied archived reconstructed project Fg-PVgraphDTA-main.zip, src/fgpvdta/preprocessing/functional_groups.py, which attributes FG20 and original free-amino-acid strings to functional-group-protein-graphs.ipynb. The notebook embeds all required SMARTS and amino-acid strings; it does not require the archive to execute.
 
-RESPONSE TO REVIEWER
-We thank the reviewer for motivating a direct audit of the protein-side functional-group encoding. We agree with the central point that, because the FG vector is deterministically generated from residue identity, it does not add independent information beyond a complete residue-identity encoding. We reran the exact implementation used in our recovered preprocessing code with RDKit 2025.09.4. This audit showed 12 of the 20 columns were constant zero across the 20 standard residues and the residues produced only 8 distinct FG vectors. The difference from the reviewer's 11-zero/10-vector result arises because our implementation applies the SMARTS patterns to isolated free-amino-acid SMILES including the common backbone rather than side chains alone. We have added these measured coverage/discriminability results and revised the manuscript so that the protein-side FG vector is described as a deterministic engineered re-encoding/inductive bias rather than an additional source of residue information. We also explicitly acknowledge its limited discriminability.
+The recovered implementation's protein FG20 encoding:
+- Uses the same 20 SMARTS for EACH isolated/free amino-acid representation, including backbone, with a deterministic mapping from residue identity.
+- Removes the broad Alcohol hit when the molecule is classified as CarboxylicAcid or Phenol; removes Ether if Ester matches.
+- Has 12/20 NEVER-ACTIVE (constant-zero) patterns (60%): Ester, Anhydride, AcylHalide, Aldehyde, Ketone, Alcohol, Ether, Nitrile, Nitro, Amine_Tertiary, Sulfoxide, Sulfone.
+- Has 1/20 ALWAYS-ACTIVE (constant-one) pattern, CarboxylicAcid, common to all free amino acids. Therefore only 7/20 dimensions vary between 20 residue identities.
+- Produces 8 distinct 20-bit signatures among 20 standard amino-acid identities. Maximum log2(8) = 3.0 bits of CATEGORY CAPACITY, not automatically 3.0 bits of observed Shannon information. Empirical Shannon entropy under EQUALLY WEIGHTED amino-acid identities is 2.219240704636849 bits; for comparison log2(20) = 4.321928 bits under the same uniform-identity assumption.
+- Because FG20 is a deterministic function of one-hot residue identity, conditional information H(FG20 | one-hot identity) is 0 bits: these features introduce NO INDEPENDENT residue information. They could still change inductive bias or finite-sample learning dynamics, which requires empirical evaluation.
+- A,D,E,G,H,I,L,K,S,T,V have an IDENTICAL nonzero signature (CarboxylicAcid, Amine_Primary); F and W share one signature; N and Q share another. NO standard residue has a literally all-zero vector under this whole-free-amino-acid implementation. The standard one-hot input can still distinguish all 20 residue identities.
+- Per-pattern frequencies, per-residue vectors, and direct checking of both original-coded and canonical structures are in the notebook; a 20x20 binary matrix can be exported by its last cell.
 
-IF RETAINING THE BRANCH
-Although deterministic recodings cannot increase information content, they can alter representation geometry and optimization bias by grouping residues according to selected chemical patterns. We therefore retain the protein-side branch only as an engineered inductive-bias experiment, not as a claim of new information; its effect is reported separately and interpreted cautiously.
+IMPORTANT CHEMICAL-CORRECTNESS CONTROL:
+The SMILES entries inherited from the reconstructed historical source are NOT always the molecular structures of the labeled amino acids (19/20 differ in atom connectivity from RDKit Chem.MolFromSequence; 15/20 have different molecular formulas). Example: A was encoded by NCC(C)C(=O)O instead of the alanine structure NC(C)C(=O)O. We independently reran the EXACT SAME FG20/cleanup on CORRECT 20 free-amino-acid structures constructed using RDKit Chem.MolFromSequence; remarkably, all 20 binary signatures are IDENTICAL to those obtained from the historical labeled SMILES despite the source structural inaccuracies. Therefore, FOR THIS FG20 signature audit, 12 constant-zero bits and 8 distinct vectors are robust to correcting the amino-acid structures. That does NOT establish that other graph preprocessing/model behavior is unchanged.
+The reviewer reports 11 constant-zero bits / 10 distinct vectors and seven literal all-zero residues. The recovered implementation instead applies patterns to WHOLE FREE AMINO ACIDS and uses cleanup, rather than matching side chains in isolation; the input structure representation and matching rules must be aligned before claiming numerical replication or a specific cause of the difference. Do not claim the reviewer is 'wrong' in general or imply that the audit proves the cause of KIBA ranking degradation.
+CRITICAL PROVENANCE CHECK before submission: Confirm the recovered source above really generated the features in the MODEL RUN that produced the submitted results. The archive explicitly describes itself as a reconstruction, not a bitwise reproduction of the old experiments. If trained code differs, rerun notebook against that exact source and revise the reported numbers.
 
-MANUSCRIPT INSERT
-A quantitative audit of the protein-side FG20 encoding showed that it is a deterministic re-encoding of residue identity rather than an independent information source. Under the implemented free-amino-acid SMARTS procedure, 12 of 20 FG dimensions were constant zero across the 20 standard residues and only 8 distinct FG vectors were produced. Accordingly, the protein FG vector should be interpreted as an engineered chemical grouping/inductive bias with limited discriminability. Future work will replace or complement it with context-dependent residue descriptors such as solvent accessibility, local electrostatics, hydrogen-bond donor/acceptor state, pKa-related context and metal-coordination features.
+=================================================================
+2. REVIEWER RESPONSE — QUANTITATIVE AND INTERPRETATIVE PART (COPY-READY
+   ONLY IF THE ORIGINAL TRAINING PREPROCESSING IS CONFIRMED)
+=================================================================
+We thank the reviewer for the detailed critique of the protein-side functional-group representation. We agree with the central information-theoretic point: because the protein FG20 vector is deterministically derived from amino-acid identity, which is already available to the model through a complete residue one-hot encoding, FG20 cannot supply independent residue-identity information. We therefore no longer describe the protein-side FG20 features as a source of additional independent chemical information.
+
+We performed a quantitative RDKit audit of the 20 SMARTS patterns over all 20 standard amino-acid identities using the free-amino-acid matching and overlap-cleanup procedure in our recovered protein feature implementation. Twelve of the twenty FG20 dimensions were constant zero across these residues (60%), one additional dimension (carboxylic acid) was constant one, and only seven dimensions varied. The twenty residues generated only eight distinct FG20 signatures. Under an assumption of equally frequent amino-acid identities, the resulting FG20 Shannon entropy was 2.219 bits; the maximum capacity of the eight signature categories was log2(8) = 3.0 bits, versus log2(20) = 4.322 bits for twenty distinguishable residue identities. Alanine, aspartate, glutamate, glycine, histidine, isoleucine, leucine, lysine, serine, threonine, and valine shared one signature. Phenylalanine and tryptophan shared a second, and asparagine and glutamine shared a third.
+
+Our counts differ from the reviewer's 11 constant-zero dimensions and 10 unique vectors because the audited encoding applies SMARTS to isolated free amino-acid molecules, including common backbone functional groups, and applies explicit overlap cleanup. Thus, even residues not distinguished by side-chain functional-group patterns have a common nonzero backbone-derived signature; the 20 standard amino acids do not produce literal all-zero FG20 vectors under this encoding. We also verified the audit against chemically correct free-amino-acid structures constructed independently using RDKit; correcting the connectivity errors in the historical amino-acid SMILES dictionary did not alter any of the resulting FG20 binary signatures for these SMARTS patterns. The full per-residue matrix, pattern definitions, and runnable notebook are provided in the revised reproducibility materials.
+
+We agree that the audited degeneracy limits the chemical discriminability of the protein-side FG20 vector. We distinguish this established representational limitation from the hypothesis that the vector caused the observed KIBA CI decrease: the substructure-matching audit alone cannot establish that causal performance mechanism, which would require a matched KIBA experiment with and without protein-side FG20. Likewise, the DAVIS component ablation cannot by itself establish the effect on KIBA.
+
+IMPORTANT: The above ONLY answers the quantitative audit/representation claims. The reviewer ALSO explicitly requests that the protein FG branch be REPLACED OR REMOVED. Do NOT submit the above as a complete response to the entire comment without choosing and implementing a defensible resolution of that architectural request. Do not claim any new KIBA run, protein-FG removal, replacement descriptors, or updated performance figures unless actually completed.
+
+=================================================================
+3. ROUTE A: RETAIN EXISTING MODEL / RESULTS (DOES NOT FULLY MEET
+   THE REVIEWER'S EXPLICIT "REPLACE OR REMOVE" REQUEST)
+=================================================================
+If preserving the current published architecture and metrics without retraining, the author may explicitly retain FG20 as a deterministic engineered recoding/inductive bias, supported ONLY in a LIMITED way by existing DAVIS ablation, and acknowledge that the reviewer may reject this decision.
+
+Additional reviewer-response paragraph IF author chooses retention:
+"We have retained the original protein-side FG20 branch only as a fixed, engineered recoding of residue identity that may alter the model's inductive bias; we do not claim that it provides additional independent chemical information. In the reported DAVIS ablation, the protein-only FG variant had a lower MSE than the graph-only variant, but this observation from the reported setting does not establish an independent-information gain, a general benefit, or a causal explanation of the KIBA results. We now state the limitations and redundancy explicitly and identify context-dependent protein descriptors and a matched protein-FG removal experiment as necessary follow-up work."
+
+Do not claim that this paragraph satisfies the request to remove/replace the branch; the reviewer specifically asks for one of those actions. Any further numerical DAVIS ablation details must be checked against the actual ablation table and split/seed provenance.
+
+Suggested METHODS replacement IF RETAINED, in the paragraph introducing 20 SMARTS applied to residues:
+"The protein-side 20-dimensional FG vector is constructed deterministically from the fixed isolated-amino-acid representation used for each residue. Because residue identity is already included in the input, the FG20 vector is a redundant chemical grouping rather than an independent information source. Moreover, these groups are assigned by residue identity rather than by position-dependent chemical environment."
+
+Suggested RESULTS or FEATURE-AUDIT insertion IF RETAINED:
+"An RDKit audit using the protein-side SMARTS extraction procedure found that 12 of 20 FG dimensions were identically zero and one was identically one across the 20 standard residues, leaving only seven variable dimensions and eight distinct FG signatures. The carboxylic-acid bit was shared by all residue structures owing to the free-amino-acid backbone. Histidine shared its FG signature with ten other residue types. This audit documents the limited discriminability of the auxiliary protein FG vector; it does not establish the cause of the KIBA ranking-performance difference."
+
+Suggested DISCUSSION limitation:
+"Protein FG20 is a deterministic, coarse recoding of amino-acid identity and cannot add independent per-residue information beyond the one-hot input. While the observed DAVIS ablation may reflect changes in representation or optimization, a matched KIBA ablation is needed to assess whether this recoding contributes to the KIBA ranking behavior. Future work should test context-dependent solvent accessibility, local electrostatics, protonation and residue chemical-state descriptors under matched experimental conditions."
+
+=================================================================
+4. ROUTE B: REMOVE PROTEIN FG20 BRANCH (DIRECTLY ADDRESSES THE REQUEST,
+   BUT REQUIRES REAL MODEL RETRAINING AND REPORTING NEW NUMBERS)
+=================================================================
+- Use the ligand-FG-only protein graph / baseline protein features (not the 20-dimensional added residue FG20 vector).
+- Retrain the final revised model on BOTH DAVIS and KIBA, with the exact declared splits and saved seeds; audit dependent parameter counts/input dimensionality.
+- Regenerate evaluation tables, figures, Abstract, Discussion, Conclusion and released model artifacts using the NEW results.
+- The existing ligand-only DAVIS ablation does NOT supply a KIBA result or stand in for a fully rerun final model.
+- Only AFTER completing reruns, add a reviewer paragraph stating "we removed the redundant protein FG20 branch" and report actual measured new results.
+- If replacing FG20 instead, context-dependent structural/electrostatic descriptions require independent computation and matching-model retraining. A per-residue fixed lookup of static donor/acceptor flags or standard pKa is STILL deterministic in identity and does not, by itself, solve the independent-information issue.
+
+=================================================================
+5. BEFORE SUBMISSION
+=================================================================
+[ ] Confirm historical FG extraction/code provenance against the ACTUAL trained model.
+[ ] Confirm notebook reruns cleanly in a new kernel; cite actual audit version and provide CSV/matrix in supplement/repository.
+[ ] Select RETENTION (risk: not full reviewer-request compliance) OR REMOVAL/REPLACEMENT (requires retraining).
+[ ] Update response truthfully to match the selected path and completed changes.
+[ ] Do not claim 11 zero/10 signatures as the exact implemented audit; do not claim reviewer seven-residue ALL-ZERO group is observed in the whole-free-amino-acid implementation.
+[ ] Do not claim this SMARTS-only experiment establishes the CAUSE of KIBA CI decline.
