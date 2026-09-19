@@ -1,13 +1,58 @@
-STATUS: IMPLEMENTATION VERIFIED; MANUSCRIPT EQUATION IS THE PROBLEM
+REVIEWER 3 — COMMENT 13: CORRECTION OF THE INFONCE DENOMINATOR
+COMPLETE RESPONSE TO REVIEWER AND EXACT MANUSCRIPT CHANGES
 
-CODE CHECK
-The recovered PVgraphDTA implementation computes cross-modal logits a @ b.T / tau, uses same-sample diagonal entries as positives, other samples from the opposite modality as in-batch negatives, and adds both a->b and b->a cross-entropy terms. It sums ligand-protein, ligand-image, and protein-image pair losses. Therefore the code does not use the same-modality/reflexive denominator implied by the manuscript notation.
+1. RESPONSE TO REVIEWER — READY TO PASTE AFTER THE MANUSCRIPT EDIT IS APPLIED
 
-RESPONSE TO REVIEWER
-We thank the reviewer for identifying an error in the written equation. We checked the implementation and confirmed that the code uses a standard cross-modal in-batch contrastive denominator: for an anchor from modality a, the positive is the same-sample representation from modality b, and the denominator contains all representations from modality b in the batch. The implementation also adds the symmetric b->a direction and applies this to ligand-protein, ligand-image, and protein-image pairs. Thus, the implementation is correct but the manuscript notation was misleading. We have replaced the equation accordingly.
+We thank the reviewer for identifying the incorrect denominator in the original written expression for the InfoNCE loss. We agree that the previous notation could be interpreted as comparing an anchor against representations from its own modality, including the anchor itself, instead of contrasting a positive cross-modal pair against candidate representations from the paired modality.
 
-CORRECT FORM
-L_(a->b)=-(1/B) sum_i log { exp[sim(z_i^a,z_i^b)/tau] / sum_j exp[sim(z_i^a,z_j^b)/tau] }.
-L_(a,b)=L_(a->b)+L_(b->a).
-L_InfoNCE=L_(ligand,protein)+L_(ligand,image)+L_(protein,image).
-Overall objective: L=L_MSE + alpha L_InfoNCE.
+We have checked the contrastive-loss implementation and the formulation in the cited Contrastive Predictive Coding work. The implementation constructs a cross-modal similarity matrix for each pair of modalities. For a given anchor, the representation from the other modality belonging to the same training example is the positive, whereas the other representations from that modality in the minibatch are in-batch negatives. The denominator includes the positive and all these cross-modal negatives; it does not include a same-modality self-comparison. The implementation also evaluates the reverse anchor direction and adds the corresponding bidirectional losses for the ligand–protein, ligand–image, and protein–image pairs.
+
+We have corrected Equation (27) to express the positive term and the cross-modal negative terms explicitly and have clarified the definitions of the anchor, positive, negatives, batch size, similarity function, and temperature in the accompanying text. This corrects the mathematical presentation of the existing contrastive objective; no change to the model architecture, implemented loss, or previously reported results was required.
+
+Source used to verify the positive-plus-negatives structure: A. van den Oord, Y. Li, and O. Vinyals, "Representation Learning with Contrastive Predictive Coding" (2018), Section 2.3, Equation (4): https://arxiv.org/pdf/1807.03748 .
+Repository implementation audit: Reviewer_3/Comment_13_InfoNCE_Denominator/verify_implementation.ipynb .
+
+2. WHAT TO CHANGE IN THE MANUSCRIPT — EQUATION (27) AND ITS EXPLANATION
+
+LOCATION: Proposed Methodology → PVgraphDTA → contrastive learning / InfoNCE definition. Replace the former Equation (27) and the sentence beginning "where ... is the batch size" with the following expression and definitions. The equation shown in the author's corrected screenshot is the first, single-direction expression below. It explicitly includes the matched positive in the denominator and excludes it from the sum over negatives.
+
+EQUATION (27): FOR ONE DIRECTION OF A PAIR OF MODALITIES a AND b
+
+L_(a→b) = −(1/N) ∑_(i=1)^N log {
+  exp[sim(z_i^a,z_i^b)/τ]
+  /
+  [exp[sim(z_i^a,z_i^b)/τ] + ∑_(j=1,j≠i)^N exp[sim(z_i^a,z_j^b)/τ]]
+}.
+
+TYPOGRAPHY NOTE: In typesetting, ensure all exp brackets are balanced. A compact and mathematically equivalent denominator is ∑_(j=1)^N exp[sim(z_i^a,z_j^b)/τ], where j=i denotes the *cross-modal positive* and not a same-modality self-pair.
+
+MANUSCRIPT TEXT TO INSERT IMMEDIATELY AFTER EQUATION (27):
+
+Here, N denotes the minibatch size, z_i^a denotes the projected embedding of the anchor in modality a for training example i, and z_i^b denotes the corresponding positive embedding in modality b. The vectors z_j^b for j ≠ i serve as in-batch negatives for that anchor. The function sim(·,·) is cosine similarity, and τ is the temperature parameter. The denominator contains the matched positive together with the N − 1 negative candidates from the *other* modality; it does not compare an anchor to itself within the same modality. The contrastive loss is computed in both directions for each of the ligand–protein, ligand–image, and protein–image modality pairs.
+
+3. OPTIONAL BUT RECOMMENDED ONE-SENTENCE / EQUATION CLARIFICATION TO MATCH THE IMPLEMENTED THREE-PAIR LOSS
+
+LOCATION: Directly after the new explanatory text following Equation (27), if the current manuscript does not already define the bidirectional summation.
+
+TEXT TO INSERT:
+
+For each modality pair (a,b), we use the bidirectional loss L_(a,b) = L_(a→b) + L_(b→a), and the overall contrastive term is L_InfoNCE = L_(ligand,protein) + L_(ligand,image) + L_(protein,image). The affinity-prediction training objective combines the MSE term with this contrastive term using the weighting coefficient specified in the training settings.
+
+4. EQUATION IN DIRECT LATEX FORM, READY FOR WORD EQUATION EDITOR OR LATEX
+
+\mathcal{L}_{a\rightarrow b}
+=-\frac{1}{N}\sum_{i=1}^{N}
+\log\frac{\exp\!\left(\operatorname{sim}(z_i^a,z_i^b)/\tau\right)}
+{\exp\!\left(\operatorname{sim}(z_i^a,z_i^b)/\tau\right)
++\sum_{\substack{j=1\\j\neq i}}^{N}
+\exp\!\left(\operatorname{sim}(z_i^a,z_j^b)/\tau\right)}.
+
+\mathcal{L}_{a,b}=\mathcal{L}_{a\rightarrow b}+\mathcal{L}_{b\rightarrow a},\qquad
+\mathcal{L}_{\mathrm{InfoNCE}}=
+\mathcal{L}_{\mathrm{ligand,protein}}+
+\mathcal{L}_{\mathrm{ligand,image}}+
+\mathcal{L}_{\mathrm{protein,image}}.
+
+5. SCOPE OF UPDATE
+
+The author's corrected equation is a valid cross-modal, one-direction InfoNCE form. The extra bidirectional/three-pair clarification documents the loss structure identified by the existing code audit, without claiming the cited CPC paper uses this exact three-modality architecture. This GitHub file contains text and instructions; it does not edit the manuscript itself.
