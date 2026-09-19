@@ -1,10 +1,77 @@
-STATUS: TEXT CORRECTION; NO NEW TRAINING REQUIRED
+REVIEWER 3 — COMMENT 4: ABSTRACT CONTRADICTS RESULTS TABLES
+STATUS: FINAL COPY-READY RESPONSE AND MANUSCRIPT EDITS; NO MODEL TRAINING NEEDED
+AUTHOR CHOICE: Use a SHORT Results paragraph. Preserve the three-part Background / Results / Conclusions abstract structure. Base comparisons on the corrected published DGraphDTA values (Comments 1 and 3), NOT on the old erroneous KIBA row.
 
-RESPONSE TO REVIEWER
-We agree that the previous Abstract overgeneralized the findings. We have rewritten it to report the results by dataset and metric rather than claiming that both proposed models improve accuracy and ranking on both benchmarks. FGgraphDTA provides the strongest displayed results among our proposed models on DAVIS, whereas PVgraphDTA is weaker on DAVIS. On KIBA, PVgraphDTA performs better than FGgraphDTA in MSE and CI, but after correction of the published DGraphDTA row neither proposed model exceeds the DGraphDTA literature values across the reported metrics. The revised Abstract describes these outcomes as dataset- and model-dependent trade-offs.
+VERIFIED VALUES USED FOR CONSISTENCY
+DAVIS literature-reported DGraphDTA: CI = 0.904; MSE = 0.202; Pearson = 0.867.
+DAVIS FGgraphDTA: CI = 0.907; MSE = 0.154; Pearson = 0.886.
+DAVIS PVgraphDTA: CI = 0.875; MSE = 0.207; Pearson = 0.849.
+KIBA literature-reported DGraphDTA: CI = 0.904; MSE = 0.126; Pearson = 0.903.
+KIBA FGgraphDTA: CI = 0.865; MSE = 0.145; Pearson = 0.873.
+KIBA PVgraphDTA: CI = 0.898; MSE = 0.130; Pearson = 0.877.
+MSE: lower is preferable; CI and Pearson: higher is preferable. Literature numbers are descriptive references from a different evaluation protocol, not matched same-split tests. The reviewer's statement that PVgraphDTA exceeds DGraphDTA on KIBA MSE and CI was based on the previous INCORRECT KIBA row (CI 0.891 / MSE 0.147). Do not repeat that claim after Comments 1 and 3.
 
-REPLACEMENT ABSTRACT RESULTS TEXT
-On DAVIS, FGgraphDTA achieved an MSE of 0.154, a CI of 0.907, and a Pearson correlation of 0.886, whereas PVgraphDTA achieved 0.207, 0.875, and 0.849, respectively. On KIBA, FGgraphDTA achieved an MSE of 0.145, a CI of 0.865, and a Pearson correlation of 0.873, while PVgraphDTA achieved 0.130, 0.898, and 0.877. These results show that the benefit of the proposed representations is dataset- and model-dependent rather than uniformly superior across all metrics.
+=====================================================================
+A. RESPONSE TO REVIEWER 3, COMMENT 4 — COPY-READY ENGLISH
+=====================================================================
+We thank the reviewer for pointing out that our previous Abstract overstated the findings and did not adequately distinguish between models, datasets, and evaluation metrics. We have rewritten the Abstract while preserving its Background, Results, and Conclusions structure. The revised Results text states that FGgraphDTA has numerically lower MSE and higher CI and Pearson correlation than the literature-reported DGraphDTA reference on DAVIS, while PVgraphDTA does not demonstrate the same gains on that dataset. For KIBA, we now state that PVgraphDTA performs better than FGgraphDTA on the three reported metrics, but that neither proposed model exceeds the published DGraphDTA reference. We also explicitly acknowledge the lower KIBA Pearson correlations of FGgraphDTA (0.873) and PVgraphDTA (0.877), compared with the published DGraphDTA value of 0.903.
 
-REMOVE
-'Experiments on DAVIS and KIBA datasets show that the proposed methods improve the prediction accuracy and the ranking performance, compared to recent approaches.'
+We note that the reviewer's observation that PVgraphDTA improves KIBA MSE and CI relative to DGraphDTA referred to the previously displayed DGraphDTA values (CI = 0.891 and MSE = 0.147). As described in our responses to Comments 1 and 3, we corrected that baseline row to the original published DGraphDTA values (CI = 0.904, MSE = 0.126, Pearson = 0.903) and identified it as a literature-reported reference rather than a matched reproduction. The revised Abstract consequently does not claim a KIBA improvement over DGraphDTA, and our conclusions no longer assert uniform improvements in accuracy and ranking performance on both datasets. We acknowledge that literature-reported reference results and our experimental results were not obtained under identical evaluation protocols, so their numerical comparison should be interpreted descriptively.
+
+AUTHOR VERIFICATION: Only submit "we have rewritten/corrected" once these edits have actually been made in the submitted manuscript and in any dependent figures. Updating this GitHub guide does NOT update the manuscript document.
+
+=====================================================================
+B. EXACT MANUSCRIPT CHANGE: REPLACE ENTIRE ABSTRACT
+=====================================================================
+LOCATION: Front of manuscript -> ABSTRACT -> its three subsections "Background", "Results", "Conclusions".
+Replace the CURRENT full abstract (starting "Finding how strongly a drug binds..." and ending "...future virtual screening studies.") with the following, preserving the journal's paragraph formatting:
+
+Background
+Predicting the binding affinity between drugs and target proteins is an important step in computer-aided drug discovery. Although deep learning approaches have advanced this task, effectively incorporating chemically relevant features and protein structural information remains challenging.
+
+Results
+We present two complementary graph-based methods for drug–target affinity prediction: FGgraphDTA incorporates functional-group information into ligand and protein graphs, while PVgraphDTA uses protein contact maps to capture structural relationships. On DAVIS, FGgraphDTA achieved lower MSE and higher CI and Pearson correlation than the literature-reported DGraphDTA reference, whereas PVgraphDTA did not show comparable gains. On KIBA, PVgraphDTA performed better than FGgraphDTA across all three metrics, but neither model exceeded the published DGraphDTA results. Both proposed models also showed lower Pearson correlations on KIBA (0.873 and 0.877, respectively) than the published DGraphDTA value (0.903).
+
+Conclusions
+FGgraphDTA and PVgraphDTA offer complementary ways to incorporate chemical and protein structural information into drug–target affinity prediction. Their performance varied by dataset and model, highlighting the importance of reporting multiple evaluation metrics rather than claiming uniform improvements across benchmarks.
+
+NOTE ON ABSTRACT LENGTH: The concise Results paragraph above was selected by the author after reviewing a longer draft. Avoid re-expanding it into a lengthy numerical summary. If journal word-count rules require even fewer words, shorten Background or Conclusions before removing the explicit KIBA Pearson caveat.
+
+=====================================================================
+C. WHAT EXACTLY IS REPLACED IN YOUR CURRENT ABSTRACT
+=====================================================================
+1) BACKGROUND:
+BEFORE: "Finding how strongly a drug binds to a target protein is an important step in computer aided drug discovery. Although many deep learning models have improved this task, they often miss important chemical details and/or useful structural information from proteins."
+AFTER: The complete revised Background paragraph in section B, including "computer-aided" and a measured "remains challenging" rather than claiming that other models generally miss these features.
+
+2) RESULTS (core Comment 4 correction):
+BEFORE: "In this paper, we present two complementary graph-based methods for drug-target affinity prediction: FGgraphDTA uses functional group information of ligands and proteins to make drug and target graphs more chemically meaningful, whereas PVgraphDTA learns from protein contact maps to provide a clearer view of protein structure. Experiments on DAVIS and KIBA datasets show that the proposed methods improve the prediction accuracy and the ranking performance, compared to recent approaches."
+AFTER: The complete revised Results paragraph in section B. In particular DELETE this unsupported sentence:
+"Experiments on DAVIS and KIBA datasets show that the proposed methods improve the prediction accuracy and the ranking performance, compared to recent approaches."
+Do not replace it with a generic statement that both models improve both metrics on both datasets.
+
+3) CONCLUSIONS:
+BEFORE: "By looking at drug-target binding affinity from two connected views, chemical meaning and structural representation, the proposed models offer a practical and expressive framework for more accurate affinity prediction, as well as future virtual screening studies."
+AFTER: The complete revised Conclusions paragraph in section B. Avoid unsupported claims of uniformly "more accurate" affinity prediction or established virtual screening benefits.
+
+=====================================================================
+D. CONSISTENCY CHECKS ELSEWHERE IN THE MANUSCRIPT
+=====================================================================
+- DAVIS Table 8: DGraphDTA is "(literature-reported)", CI 0.904 / MSE 0.202 / Pearson 0.867 (Comment 3); numerical values unchanged.
+- KIBA Table 10: DGraphDTA is "(literature-reported)", CI 0.904 / MSE 0.126 / Pearson 0.903 (Comments 1 and 3). The previous 0.891 / 0.147 / 0.903 row is NOT an original-paper baseline.
+- KIBA Table 10: GraphDTA–GIN CI 0.882 / MSE 0.147 (Comment 2).
+- Remove general superiority statements in Abstract, Discussion, Conclusion and figure captions that conflict with the corrected numbers.
+- In the KIBA Results or Discussion, ALSO explicitly discuss the decline in Pearson correlation (FGgraphDTA 0.873; PVgraphDTA 0.877; published DGraphDTA 0.903), as the reviewer says the previous paper had not discussed it at all.
+Suggested KIBA Discussion text:
+"Both proposed models had lower Pearson correlations on KIBA (0.873 for FGgraphDTA and 0.877 for PVgraphDTA) than the literature-reported DGraphDTA result (0.903). This indicates that neither proposed approach achieved a uniform numerical gain over that reference across affinity-error, ranking, and linear-correlation metrics. Because DGraphDTA's published result was obtained under a different evaluation protocol, these differences should not be interpreted as the effect of model architecture under a controlled matched split."
+- Do not assert a mechanistic CAUSE for the Pearson decline without a dedicated analysis; report and interpret the observed result only.
+- Update any dependent figure/summary using the old KIBA DGraphDTA numbers as described in Comments 1 and 3.
+
+=====================================================================
+E. COMPLETION CHECKLIST
+=====================================================================
+[ ] Whole three-part Abstract replaced with section B, not just the unsupported sentence.
+[ ] Compact Results paragraph retained as requested by author.
+[ ] KIBA Pearson decline discussed explicitly in the body text (not Abstract only).
+[ ] All comparison language clearly distinguishes published DGraphDTA references from matched experiments.
+[ ] Table rows and figures consistent with Comments 1–3 before reviewer response is submitted.
