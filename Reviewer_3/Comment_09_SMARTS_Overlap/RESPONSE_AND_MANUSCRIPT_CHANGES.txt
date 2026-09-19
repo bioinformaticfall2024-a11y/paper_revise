@@ -1,16 +1,38 @@
-STATUS: ACTUAL RDKit DIAGNOSTIC COMPLETED; CORRECTED-MODEL PERFORMANCE ABLATION REQUIRES RETRAINING
+REVIEWER 3 — COMMENT 9: ORIGINAL-CODE PATH AUDIT (CORRECTED STATUS)
+LAST CHECK: 2026-09-19. No DTA model was retrained; original model and training code were not modified.
+Executed verification notebook: audit_ligand_input_path.ipynb (GitHub). A longer independently executed notebook with optional DAVIS/KIBA working-file coverage is also available from the revision workspace.
 
-DIAGNOSTIC
-Using the historical per-atom SMARTS assignment, acetic acid activates CarboxylicAcid + Alcohol; aspirin activates CarboxylicAcid + Ester + Alcohol + Ether + Aryl; ethyl acetate activates Ester + Ether. Dataset-wide diagnostics confirm 100% carboxylic-acid->alcohol and ester->ether nesting in the audited ligand structures.
+VERDICT
+Reviewer 3's core complaint about atom-level ligand features is SUPPORTED by the uploaded RECONSTRUCTED code. The previous draft in this file stated "we have corrected the feature-construction logic in the released preprocessing code"; that wording was misleading for the HISTORICAL/DEFAULT MODEL INPUT and must NOT be sent to the reviewer. The reconstructed code already has optional 'clean' policy and a molecule-level metadata cleanup, but its default ligand atom-level FG20 input continues to use the RAW, uncleaned matching policy. No after-correction FGgraphDTA performance is measured.
 
-RESPONSE TO REVIEWER
-We agree that the broad Alcohol and Ether SMARTS definitions create systematic overlap when applied independently at atom level. Re-running the historical assignment confirms the reviewer's chemical concern. We have corrected the feature-construction logic so that atoms belonging to CarboxylicAcid do not receive the broad Alcohol bit, atoms belonging to Ester do not receive the broad Ether bit, and Phenol takes precedence over Alcohol. We also revised the Methods to state the precedence rules explicitly.
+DIRECT SOURCE TRACE (from Fg-PVgraphDTA-main.zip):
+- src/fgpvdta/preprocessing/functional_groups.py:
+  detect_functional_groups(mol) -> cleanup_group_names(...): suppresses Ether if Ester present, Alcohol if CarboxylicAcid or Phenol present, in MOLECULE-LEVEL METADATA.
+  atom_functional_group_matrix(mol, overlap_policy='notebook') -> returns atom-level raw matches directly if overlap_policy == 'notebook'. Its separate 'clean' option suppresses same-atom CarboxylicAcid/Alcohol and Ester/Ether overlap. That option is NOT the default.
+- src/fgpvdta/preprocessing/ligand_graphs.py: build_ligand_graph(..., fg_overlap_policy='notebook') uses atom_functional_group_matrix(mol, fg_overlap_policy) for the model graph feature x. The metadata graph.functional_groups calls detect_functional_groups separately; clean metadata DOES NOT imply cleaned model-input features.
+- src/fgpvdta/preprocessing/feature_sets.py: ligand_features(mol, count) calls atom_functional_group_matrix(mol) with NO overlap policy argument -> defaults to notebook/raw.
+- src/fgpvdta/preprocessing/pipeline.py: preparation calls ligand_features(mol,count) to form FG20 graph inputs.
+- docs/HISTORICAL_DIFFERENCES.md explicitly says historical atom-level bits did not call cleanup.
+NOTE: this package describes itself as a reconstruction of notebooks, not a bitwise proof of final historical train-run artifacts. Until the actual original training notebook and persisted graph features are compared, do not claim to have independently inspected the exact checkpoint's model-input tensors.
 
-IMPORTANT SUBMISSION CONDITION
-These corrected bits change model inputs. A defensible before-versus-after performance result requires retraining FGgraphDTA under the same split/seeds. That retraining has NOT been completed in this environment. Do not invent a performance value.
+EXECUTED RDKit DIAGNOSTICS (original code, no architecture/training change):
+Acetic acid: raw atom-level {CarboxylicAcid, Alcohol}; molecule-level CLEAN metadata {CarboxylicAcid}.
+Aspirin: raw atom-level {CarboxylicAcid, Ester, Alcohol, Ether, Aryl}; CLEAN metadata {CarboxylicAcid, Ester, Aryl}.
+Ethyl acetate: raw atom-level {Ester, Ether}; clean {Ester}.
+Phenol: raw atom-level {Phenol, Aryl}, no Alcohol hit even without cleanup because Alcohol SMARTS requires nonaromatic carbon.
+Lactic acid has both a genuine OH group AND an acid: optional atom-level clean mode retains its genuine Alcohol bit while suppressing the acid-OH overlap; MOLECULE-LEVEL name cleanup improperly removes Alcohol for the entire molecule.
+2-methoxyethyl acetate has genuine ether plus ester: optional atom-level clean retains an independent Ether bit while removing same-atom Ester/Ether overlap; molecule-level cleanup suppresses all Ether labels in metadata.
+Dataset file cross-check (diagnostic working structure sets, NOT verified exact manuscript training population): DAVIS 68 valid ligands: 2/2 acids show same-atom Alcohol and 1/1 esters show same-atom Ether. KIBA working file of 2,025 unique structures: 98/98 acids and 119/119 esters show corresponding same-atom nesting; optional atom-level clean removes those overlaps in these working files. Do not silently imply KIBA 2,025 equals all 2,111 ligand IDs or exact final training set.
 
-IF RETRAINING CANNOT BE COMPLETED
-Use this transparent wording: 'We agree with the chemical error and have corrected the SMARTS precedence logic in the released preprocessing code. Because this changes the input representation and requires full retraining, we do not report an unverified post-hoc performance number. We have removed language implying mutually exclusive historical labels and explicitly identify the overlap as a limitation of the reported model.'
+HONEST SHORT REVIEWER RESPONSE IF THE AUTHOR CHOOSES TO KEEP THE EXISTING MODEL WITHOUT RETRAINING:
+"We thank the reviewer for identifying the overlapping SMARTS assignments. An audit of our reconstructed feature-extraction code confirmed that the molecule-level functional-group metadata applies precedence rules, but those rules were not applied to the default atom-level ligand FG20 features. RDKit tests reproduced the carboxylic-acid/alcohol and ester/ether overlaps described by the reviewer. We agree that these overlapping annotations limit the chemical specificity of the auxiliary FG20 representation, and have revised the manuscript to state this explicitly. The original atom-level graph representation remains available to the model, but this does not correct the FG20 annotations or establish that the model was unaffected. We have preserved the original architecture and reported results; no corrected-input model was trained, and therefore we cannot report the requested before/after performance ablation. We identify atom-specific SMARTS precedence and matched retraining as necessary follow-up work."
+NOTE: This is a truthful LIMITED response, not full compliance with the reviewer's explicit request to correct the input encoding and rerun a performance ablation. Use past tense "have revised" only after making the DOCX edits.
 
-METHODS AFTER CORRECTION
-Functional-group assignments are non-exclusive except for explicit precedence rules designed to avoid broad/specific duplicates: CarboxylicAcid suppresses Alcohol on participating atoms, Ester suppresses Ether, and Phenol suppresses Alcohol.
+MANUSCRIPT ADDITION IF THE ORIGINAL MODEL / RESULTS ARE RETAINED:
+WHERE: Discussion, in the feature-representation limitations paragraph (may combine with Comments 7 and 8).
+"The ligand-side FG20 encoding contains overlapping SMARTS definitions: the general alcohol pattern also matches the hydroxyl of a carboxylic acid, and the ether pattern matches the bridging oxygen of an ester. Although the molecular-level functional-group summary applies precedence rules, these rules were not applied to the default atom-level FG20 input in the reconstructed preprocessing implementation. Consequently, the corresponding auxiliary graph annotations may contain chemically nonspecific duplicate labels. The original atom-level graph features remain available to the model, but the impact of correcting the overlaps on DTA performance has not been evaluated. Future work should implement atom-specific exclusions and compare the original and corrected representations under a matched training and evaluation protocol."
+WHERE: Methods description of ligand FG annotation, clarify: "The 20 SMARTS patterns were assigned independently at the atom level in the reported representation; the precedence-based refinement of the molecule-level functional-group summary does not automatically alter these input features." Use only after verifying the real model's input pipeline if the reconstruction is the only available evidence.
+
+IF THE EDITOR REQUIRES COMPLETE COMPLIANCE:
+Actually correct overlapping SMARTS/atom-specific precedence in the feature input, retrain FGgraphDTA on the same original splits/seeds using both feature definitions, and report all newly measured results. An RDKit overlap diagnostic is not a before/after MODEL PERFORMANCE ablation. Never invent new MSE/CI/Pearson values or claim an untrained model was corrected.
+
