@@ -1,13 +1,127 @@
-STATUS: VALID CONCERN; SEPARATE LITERATURE AND IN-HOUSE PROVENANCE
+REVIEWER 3 — COMMENT 6: COMPARABILITY OF LITERATURE BASELINES AND IN-HOUSE MODELS
+STATUS: FULL COPY-READY RESPONSE, PRECISE MANUSCRIPT EDITS, TABLE/CAPTION AND CONSISTENCY CHECKS.
+AUTHOR'S DECISIONS FROM COMMENTS 1–5:
+(1) Keep the ORIGINAL-PAPER DGraphDTA results only, not a second "reproduced" run row.
+(2) DAVIS literature-reported DGraphDTA: CI 0.904 / MSE 0.202 / Pearson 0.867.
+(3) KIBA literature-reported DGraphDTA: CI 0.904 / MSE 0.126 / Pearson 0.903.
+(4) KIBA GraphDTA-GIN: CI 0.882 / MSE 0.147 (Comment 2).
+(5) KIBA DeepDTA CNN/CNN: CI 0.863 / MSE 0.194; reviewer confirms this published row is correct; KEEP numbers.
+(6) FGgraphDTA DAVIS: MSE 0.154 / CI 0.907 / Pearson 0.886.
+(7) FGgraphDTA KIBA: MSE 0.145 / CI 0.865 / Pearson 0.873; PVgraphDTA KIBA: MSE 0.130 / CI 0.898 / Pearson 0.877.
+CRITICAL DISTINCTION: This comment is about EVALUATION DESIGN, not merely transcription. Relabeling published results does NOT satisfy the previous request to rerun all baselines on an identical split. Do not claim a matched causal gain, statistical significance, or a five-fold result for the proposed models.
+Provenance: The user states that the authors' public DGraphDTA code was run at some point; this does not make the ORIGINAL-PAPER numbers chosen for the final table an in-house matched rerun. Do not state "we never ran DGraphDTA".
+The reviewer describes differing cross-validation protocols for DeepDTA/WideDTA/DeepCDA. Exact per-paper nested-versus-repeated-five-fold terminology should be independently checked against each primary methods section before using those more specific claims; it is enough here to state that the published protocols differ from the present single-split evaluation.
 
-VERIFY
-DeepDTA reports test-set averages over five models trained on five different training sets; its KIBA CNN/CNN value is CI 0.863, MSE 0.194. The proposed manuscript uses a different evaluation scheme, so literature values are not matched controls.
+=====================================================================
+A. RESPONSE TO REVIEWER — COPY-READY ENGLISH
+=====================================================================
+We thank the reviewer for highlighting the limitations of comparing literature-reported baseline results with the results of our proposed models under different evaluation protocols. We agree that our previous presentation did not sufficiently distinguish the sources of these results or their respective evaluation procedures. In particular, the label "reproduced" was inconsistent with the statement in the Experimental Protocol that baseline values were taken from previous publications.
 
-RESPONSE TO REVIEWER
-We agree that literature values and the proposed models were not generated under a common experimental protocol and should not have been presented as if they were matched reruns. We have separated result provenance: published baseline values are explicitly labelled as literature values, whereas our model and ablation results are identified as in-house experiments. We also removed percentage-improvement claims that compare unmatched protocols. Where we discuss the effect of functional-group enrichment, we now rely on the matched internal DAVIS ablation, in which the graph scaffold and split are held fixed.
+As detailed in our response to Comment 3, we have removed the "reproduced" label from the DGraphDTA comparison rows and replaced those entries with the values reported in the original DGraphDTA publication. We now identify them explicitly as literature-reported values rather than independently reproduced baselines evaluated under the same data partitions as the proposed methods. We have also revised the comparison-table notes and the Experimental Protocol section to distinguish results generated in the present study from published reference values.
 
-DEFENSIBLE INTERNAL STATEMENT
-Within the DAVIS ablation, graph-only MSE is 0.2018 and full FGgraphDTA MSE is 0.1546, a 23.39% reduction under the same ablation setting. Present this as an internal matched ablation, not as improvement over a literature row.
+We acknowledge that FGgraphDTA and PVgraphDTA were evaluated using a single 80/10/10 train/validation/test split, whereas the published comparison methods were evaluated under their respective protocols, including cross-validation procedures in several cited studies. Therefore, numerical differences between these results cannot be interpreted as controlled, matched performance improvements or used to establish the statistical reliability of relative model performance.
 
-FOOTNOTE
-Literature baselines are reported from their cited publications and may use different splitting/cross-validation protocols. They are provided for contextual comparison; direct differences should not be interpreted as controlled effect sizes.
+We have removed the statement that FGgraphDTA achieves a 23.8% improvement in DAVIS MSE over DGraphDTA. Although the numerical MSE values shown in the two studies differ, the evaluation conditions are not sufficiently matched to attribute the difference to the proposed architecture. The revised Results and Discussion describe cross-publication numerical differences as descriptive reference comparisons and identify the lack of a matched, repeated-run comparison as a limitation.
+
+We also acknowledge that the previously requested rerunning of all literature baselines under our exact partitions has not been completed. We therefore do not present the revised tables as satisfying that experimental request. A controlled assessment of relative performance would require evaluation of the baselines and proposed models on identical partitions, repeated runs, and appropriate uncertainty reporting.
+
+Finally, we thank the reviewer for confirming that the published DeepDTA CNN–CNN KIBA values (CI = 0.863 and MSE = 0.194) are correctly reported; these values remain unchanged. The separate error in the DGraphDTA KIBA row has been corrected to its original published values, as described in our responses to Comments 1 and 3.
+
+IMPORTANT SUBMISSION CONDITION: This response is phrased in the completed past tense. Only submit it AFTER making the stated manuscript/table/figure edits. This GitHub file is a reviewer-response and editing guide; the journal DOCX and plotted figures have not been edited by this GitHub commit.
+
+=====================================================================
+B. EXACT EDIT GUIDE: WHERE TO CHANGE AND WHAT TO REPLACE
+=====================================================================
+
+CHANGE 1 — EXPERIMENTAL PROTOCOL: BASELINE SOURCE PARAGRAPH
+LOCATION: Methods -> "Experimental Protocol", immediately after the text describing the 80/10/10 split.
+FIND the paragraph beginning:
+"For baseline comparison, we used reported benchmark values from previous studies where available."
+REPLACE THAT BASELINE-SOURCE PARAGRAPH WITH:
+"For comparison with existing methods, we used results reported in the respective original publications, as identified in the comparison tables. These literature-reported values were not obtained using the identical train/validation/test partitions employed for FGgraphDTA and PVgraphDTA. The published studies also differ in their evaluation procedures, preprocessing, and implementation settings. Consequently, comparisons between the proposed models and literature-reported methods are presented as descriptive cross-study references rather than controlled, matched evaluations. The present study does not establish that numerical differences between these results are attributable solely to model architecture."
+
+If you in fact ran specific OTHER baselines for the submitted tables, the sentence about all comparison methods must be narrowed: identify each such row as in-house and document its split/outputs separately. Do not call an independently run result a literature value.
+
+CHANGE 2 — EXPERIMENTAL PROTOCOL: LIMITATION PARAGRAPH
+LOCATION: Next paragraph discussing computational demands, random seeds, or absence of repeated-seed evaluation.
+REPLACE THE LIMITATION PARAGRAPH WITH:
+"The proposed models were evaluated using a single train/validation/test partition, and extensive repeated-seed experiments were not conducted. In addition, the literature-reported comparison methods were not all rerun under our exact data partitions. These limitations prevent a controlled assessment of relative performance and do not support conclusions about the statistical significance or reproducibility of differences between studies. Repeated evaluations of all methods under identical partitions, together with uncertainty estimates, are required for a more reliable head-to-head comparison."
+
+KEEP the separate claim that FGgraphDTA and PVgraphDTA share the same split ONLY if that is true of the actual experiments. Same-split in-house comparisons must not be confused with cross-study comparisons.
+
+CHANGE 3 — TABLE 8 (DAVIS) AND TABLE 10 (KIBA): LABEL AND SOURCE
+LOCATION: Results -> Table 8 DAVIS; Results -> Table 10 KIBA.
+DAVIS DGraphDTA OLD: "DGraphDTA [3] (reproduced) | GCN & GCN | CI 0.904 | MSE 0.202 | Pearson 0.867"
+DAVIS DGraphDTA NEW: "DGraphDTA [3] (literature-reported) | GCN & GCN | CI 0.904 | MSE 0.202 | Pearson 0.867"
+KIBA DGraphDTA OLD: "DGraphDTA [3] (reproduced) | GCN & GCN | CI 0.891 | MSE 0.147 | Pearson 0.903"
+KIBA DGraphDTA NEW: "DGraphDTA [3] (literature-reported) | GCN & GCN | CI 0.904 | MSE 0.126 | Pearson 0.903"
+These KIBA corrections implement Comments 1 and 3; do NOT retain the old in-house KIBA DGraphDTA row as a second reproduced row, according to the author's choice.
+TABLE 10 DeepDTA CNN/CNN: KEEP CI 0.863; MSE 0.194. No alteration required.
+TABLE 10 GraphDTA-GIN: use CI 0.882; MSE 0.147 as already specified in Comment 2.
+
+In BOTH comparison tables, add a separate "Result source" column: "Literature-reported" for a row copied from the cited original study; "In-house" for rows produced in this manuscript's experiments. Alternatively, arrange rows into two visibly labeled groups ("Literature-reported methods" and "In-house methods") if journal/table layout makes another column impractical. Do not add an unnecessary second in-house DGraphDTA row. Do not mark ANY baseline as "In-house" without confirming that its displayed numerical entries come from the corresponding in-house run.
+
+INSERT a note immediately below EACH comparison table:
+"Note: Results identified as 'Literature-reported' were obtained from the cited publications and were not generated using the same train/validation/test partitions as the proposed models. 'In-house' denotes results generated in the present study. Numerical comparisons across these two categories are descriptive and should not be interpreted as matched head-to-head evaluations."
+
+CHANGE 4 — RESULTS ON DAVIS: REMOVE 23.8% CROSS-PAPER IMPROVEMENT CLAIM
+LOCATION: Results -> "Results on the DAVIS Dataset", paragraph beginning:
+"The proposed models achieved competitive or improved results relative to the compared models."
+SPECIFIC OLD CLAIM TO REMOVE:
+"Compared with DGraphDTA, FGgraphDTA reduced the MSE from 0.202 to 0.154, corresponding to an approximate 23.8% reduction in prediction error."
+REPLACE THE PERFORMANCE-INTERPRETATION PARAGRAPH WITH:
+"On DAVIS, FGgraphDTA achieved an MSE of 0.154, a CI of 0.907, and a Pearson correlation of 0.886. These values are numerically more favorable than the literature-reported DGraphDTA values of 0.202, 0.904, and 0.867, respectively. However, because the published DGraphDTA results were not obtained using the identical evaluation protocol, this numerical difference represents a descriptive cross-study comparison rather than a demonstrated improvement under matched conditions. The contribution of functional-group enrichment within our own model is examined separately through the in-house ablation experiments."
+
+IMPORTANT: The in-house ablation must actually isolate functional-group enrichment before claiming it does. Do NOT transplant the "23.8%" figure into an internal ablation without separately confirming its exact variant, data split, and denominator.
+
+CHANGE 5 — RESULTS ON DAVIS: GRAPH BASELINES PARAGRAPH
+LOCATION: The paragraph immediately BEFORE the FGgraphDTA Results paragraph, beginning:
+"Graph-based models performed better than sequence-based models on DAVIS."
+REPLACE WITH:
+"Among the literature-reported DAVIS results, GraphDTA achieved an MSE of 0.229 and a CI of 0.893, while DGraphDTA reported an MSE of 0.202, a CI of 0.904, and a Pearson correlation of 0.867. These values provide published reference points for the proposed methods. Because the underlying studies did not necessarily use identical evaluation protocols, differences among the reported results should not be interpreted as controlled comparisons of model architectures."
+IF the full original paragraph includes extra supported information not shown here, retain those factual details while removing unmatched-superiority interpretations.
+
+CHANGE 6 — RESULTS ON KIBA: CORRECT COMPARISON AND INTERPRETATION
+LOCATION: "Results on the KIBA Dataset"; replace the part that says both GraphDTA and DGraphDTA have MSE 0.147; remove claims of an 11.4% PVgraphDTA MSE improvement over DGraphDTA and FGgraphDTA superiority over DGraphDTA.
+REPLACE THE BASELINE-COMPARISON PORTION WITH:
+"The original GraphDTA study reported an MSE of 0.147 and a CI of 0.882 for its GIN variant on KIBA. The published DGraphDTA results were an MSE of 0.126, a CI of 0.904, and a Pearson correlation of 0.903. In our experiments, FGgraphDTA achieved an MSE of 0.145, a CI of 0.865, and a Pearson correlation of 0.873, whereas PVgraphDTA achieved an MSE of 0.130, a CI of 0.898, and a Pearson correlation of 0.877. PVgraphDTA performed better than FGgraphDTA across the three reported metrics on KIBA. However, neither proposed model numerically exceeded the published DGraphDTA reference. Because the literature-reported results and our experimental results were obtained under different evaluation protocols, these cross-study differences cannot establish the relative performance of the architectures under matched conditions."
+INTEGRATE with Comment 1–5 edits and avoid duplicating the same paragraph in multiple sections.
+
+CHANGE 7 — DISCUSSION: COMPARABILITY LIMITATION
+LOCATION: "Discussion", after the paragraph contrasting DAVIS and KIBA, before the radar-plot discussion.
+ADD:
+"An important limitation of the present study is that the proposed models were evaluated on a single 80/10/10 split, whereas several literature-reported baselines were evaluated under different data partitions and validation procedures. The published baseline results therefore serve as descriptive reference values rather than matched experimental controls. In particular, the numerically lower DAVIS MSE of FGgraphDTA relative to the published DGraphDTA value should not be interpreted as a validated percentage improvement attributable to the proposed architecture. A controlled comparison will require rerunning the baseline methods and proposed models on identical partitions, with repeated runs and uncertainty estimates."
+Remove or rewrite any other assertion that literature-vs-in-house numerical differences prove architectural superiority or statistically reliable improvements.
+
+CHANGE 8 — FIGURES AND CAPTIONS
+LOCATION: DAVIS/KIBA comparison figures, especially any radar plots, captions, and discussion comparing the plotted results.
+ADD WHERE APPLICABLE:
+"Literature-reported and in-house results are shown together for descriptive comparison; they were not obtained under identical evaluation protocols."
+Figures may still show the results as context but must not imply controlled same-split gains. Correct the ACTUAL PLOTTED KIBA DGraphDTA values to CI 0.904 and MSE 0.126, GraphDTA-GIN CI to 0.882 if present, and recompute any normalization that depends on the plotted dataset (Comments 1, 2, 26). A caption edit alone does not repair wrong chart data.
+
+CHANGE 9 — ABSTRACT / CONCLUSION CROSS-CHECK
+If the abbreviated three-part Abstract selected for Comment 4 is present, its descriptive DAVIS/KIBA wording already avoids a 23.8% matched-improvement claim. Do not reintroduce a generalized superiority claim in the Abstract or Conclusion.
+Search globally for "23.8", "reproduced", "identical", "same split", "outperformed", "superior", "improvement over DGraphDTA", and claims about significance. Change only statements referring to cross-paper unmatched baseline results, not true same-split in-house ablation comparisons.
+
+=====================================================================
+C. SCIENTIFIC LIMITS AND REVIEWER'S UNFULFILLED REQUEST
+=====================================================================
+The above edits fix provenance disclosures and remove the interpretation of cross-study numbers as controlled experimental effects. They do NOT meet the reviewer's earlier request to rerun ALL baselines on exactly the same split. Do NOT suggest otherwise.
+The "23.8% improvement" is a numerical ratio of two different-study MSEs; even if the arithmetic is correct, no matched model improvement or uncertainty estimate follows.
+It is permissible to display published baselines as context IF clearly labeled, but whether the journal/reviewer will accept the absence of the requested new matched baseline experiments remains unresolved.
+DeepDTA CI 0.863 and MSE 0.194 on KIBA for CNN/CNN are retained; do not imply this row is erroneous.
+Do not confuse the DAVIS graph-only ablation control with the original-paper DGraphDTA reference; they are separate provenance categories.
+
+=====================================================================
+D. FINAL PRE-SUBMISSION CHECKLIST
+=====================================================================
+[ ] Verify actual provenance of every row in Tables 8 and 10; label/group literature and in-house results.
+[ ] DGraphDTA DAVIS and KIBA rows match published values and carry no "(reproduced)" label.
+[ ] DeepDTA KIBA published CI 0.863 / MSE 0.194 unchanged.
+[ ] Experimental Protocol explicitly reports mismatched splits/protocols and single-split limitations.
+[ ] Unmatched DAVIS DGraphDTA-vs-FGgraphDTA 23.8% improvement claim removed from all sections.
+[ ] KIBA DGraphDTA old 0.891 / 0.147 replaced; old KIBA 11.4% superiority claim removed.
+[ ] GraphDTA-GIN KIBA CI 0.882 corrected.
+[ ] Discussion states need for identical-split repeated-run experiments.
+[ ] Figure numerical values, normalization, captions checked.
+[ ] Reviewer response does not claim that all baselines were rerun; original DOCX is actually revised before using the past-tense response.
