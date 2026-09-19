@@ -1,10 +1,104 @@
-STATUS: ARITHMETIC VERIFIED; NEGATIVE RESULT SHOULD BE STATED PLAINLY
+REVIEWER 3 — COMMENT 5
+PVgraphDTA's negative DAVIS result and the visual-branch ablation
 
-CHECKED VALUES
-DGraphDTA reference: MSE 0.202, CI 0.904, Pearson 0.867. PVgraphDTA: 0.207, 0.875, 0.849. Ablation: graph-only 0.2018/0.9034; +ResNet 0.2216/0.8648; +AE 0.2148/0.8704; full +InfoNCE 0.2070/0.8750. Relative to graph-only, full PV has 2.58% higher MSE and CI lower by 0.0284; the visual branch alone increases MSE by 9.81%.
+STATUS: Copy-ready response and precise manuscript substitutions, based on the supplied clean revised manuscript (paragraphs under "Results on the DAVIS Dataset", "Ablation Study", "Discussion", and "Conclusions"). No new model training required to acknowledge the reported result. The manuscript DOCX itself has NOT been edited by this GitHub update.
 
-RESPONSE TO REVIEWER
-We agree that the previous wording understated the DAVIS result. PVgraphDTA is not only lower than FGgraphDTA on DAVIS; it is also worse than the displayed DGraphDTA reference on all three metrics. The component ablation shows the same pattern: adding the ResNet branch to the graph-only scaffold increases MSE from 0.2018 to 0.2216 and decreases CI from 0.9034 to 0.8648. AE gating and InfoNCE recover part of that loss, but the full PVgraphDTA configuration (MSE 0.2070, CI 0.8750) does not recover the graph-only DAVIS performance. We now state this negative result explicitly and avoid attributing it solely to dataset size, because the current experiments do not establish the cause.
+DECISIONS CONSISTENT WITH COMMENTS 1–4:
+- DAVIS DGraphDTA CI 0.904 / MSE 0.202 / Pearson 0.867 = LITERATURE-REPORTED reference (Comment 3), not a matched independently rerun row.
+- DAVIS FGgraphDTA CI 0.907 / MSE 0.154 / Pearson 0.886.
+- DAVIS PVgraphDTA CI 0.875 / MSE 0.207 / Pearson 0.849.
+- DAVIS component ablation (SAME-SPLIT, graph-only scaffold compared with successive visual additions): graph only MSE 0.2018 / CI 0.9034; +ResNet image MSE 0.2216 / CI 0.8648; +AE gate MSE 0.2148 / CI 0.8704; +InfoNCE MSE 0.2070 / CI 0.8750.
+- Pearson is NOT reported in the PVgraphDTA component ablation table. Do not fabricate ablation Pearson or claim the visual branch harms ALL metrics within the ablation. The full-model main-results Pearson is 0.849.
+- Graph-only scaffold in the ablation is an IN-HOUSE control and is distinct from the literature-reported DGraphDTA row, even though its rounded DAVIS MSE/CI are similar. Do not conflate them.
 
-PAPER TEXT
-On DAVIS, PVgraphDTA underperformed both FGgraphDTA and the graph-only reference across the reported metrics. The visual branch was a net negative contributor under the present DAVIS configuration; AE gating and InfoNCE recovered part, but not all, of that loss. The cause cannot be isolated from these data alone and may involve contact-map quality, visual-encoder capacity, optimization, or dataset characteristics.
+======================================================================
+A. RESPONSE TO REVIEWER — ENGLISH, COPY-READY AFTER APPLYING EDITS
+======================================================================
+We thank the reviewer for identifying that our previous wording understated the negative DAVIS result. We agree that it was insufficient to state only that PVgraphDTA performed worse than FGgraphDTA. In the revised DAVIS Results, we explicitly report that PVgraphDTA (MSE = 0.207, CI = 0.875, Pearson = 0.849) also has numerically less favorable values on all three metrics than the published DGraphDTA reference (MSE = 0.202, CI = 0.904, Pearson = 0.867). In line with our response to Comment 3, the DGraphDTA values are now identified as literature-reported and this particular comparison is described as descriptive rather than a matched evaluation under identical data partitions.
+
+We have also revised the PVgraphDTA ablation interpretation to state the negative contribution of the visual branch directly. On DAVIS, adding the ResNet image branch to the graph-only scaffold increased MSE from 0.2018 to 0.2216 and decreased CI from 0.9034 to 0.8648. Autoencoder gating and InfoNCE progressively improved the multimodal configurations (MSE = 0.2148 and 0.2070, respectively), but the full PVgraphDTA configuration still had higher MSE (0.2070 versus 0.2018) and lower CI (0.8750 versus 0.9034) than the graph-only control. Thus, the added visual pathway had a net negative effect on the reported DAVIS ablation metrics in the evaluated configuration, despite partial recovery by the additional components.
+
+Finally, we revised the Discussion to acknowledge this limitation explicitly and removed the unsupported attribution of the DAVIS decrease solely to dataset size. Dataset size, contact-map quality, model complexity and optimization may warrant future investigation, but the current ablation does not establish any of them as the cause. Our conclusion is restricted to the observed DAVIS configuration rather than claiming that visual protein information is generally unhelpful.
+
+IMPORTANT BEFORE SUBMISSION: Past-tense "we have revised" should be used only AFTER the manuscript edits described below have been applied. This GitHub update is a response/guide, not an edit of the journal-submission DOCX.
+
+======================================================================
+B. EXACT MANUSCRIPT REPLACEMENTS
+======================================================================
+1. RESULTS -> "Results on the DAVIS Dataset"
+Find the existing paragraph starting:
+"PVgraphDTA achieved an MSE of 0.207, a CI of 0.875, and a [Pearson] of 0.849 on the DAVIS dataset."
+It currently continues:
+"Although its test performance was lower than that of FGgraphDTA, it introduced a novel structure-aware protein representation by treating contact maps as image-like inputs. This result suggests that contact map image encoding can learn useful spatial patterns, though this more complex multimodal model may require larger datasets or stronger regularization to generalize effectively. The comparison of the proposed models with DGraphDTA on the DAVIS dataset is shown in Figure 6."
+
+REPLACE THE ENTIRE PARAGRAPH WITH:
+"On DAVIS, PVgraphDTA achieved an MSE of 0.207, a CI of 0.875, and a Pearson correlation of 0.849. These results were numerically less favorable than both FGgraphDTA and the literature-reported DGraphDTA reference (MSE = 0.202, CI = 0.904, and Pearson = 0.867) across all three metrics. The comparison with the published DGraphDTA values is descriptive because the evaluation protocols were not identical. The DAVIS ablation results further show that the full multimodal configuration did not outperform the graph-only scaffold on MSE or CI (Table 12). The comparison of the proposed models with DGraphDTA on DAVIS is shown in Figure 6."
+
+This replacement removes the unsupported inference that the DAVIS results themselves demonstrate useful spatial patterns and removes the unverified dataset-size explanation from the Results section.
+
+2. ABLATION STUDY -> PVgraphDTA component ablation -> paragraph IMMEDIATELY AFTER Table 12
+CURRENT:
+"Adding the visual branch alone reduced performance on DAVIS. The addition of AE gating improved MSE from 0.2216 to 0.2148, and the InfoNCE objective further improved it to 0.2070. A similar recovery was observed for CI. However, the complete PVgraphDTA model did not outperform the graph-only model on DAVIS. These results suggest that the additional components improve the multimodal branch, although the simpler graph representation remains more effective on this dataset."
+
+REPLACE WITH:
+"On DAVIS, adding the ResNet image branch increased MSE from 0.2018 for the graph-only scaffold to 0.2216 and decreased CI from 0.9034 to 0.8648. Autoencoder gating reduced MSE to 0.2148 (CI = 0.8704), and the InfoNCE objective further reduced it to 0.2070 (CI = 0.8750). Nevertheless, the full PVgraphDTA configuration did not recover the graph-only scaffold's performance (MSE = 0.2018, CI = 0.9034). Thus, the addition of the visual pathway had a net negative contribution to the reported DAVIS ablation metrics in this configuration, despite the partial recovery provided by gating and contrastive learning. These comparisons establish the observed performance pattern but do not identify its underlying cause."
+
+Retain Table 12 values unchanged. The observed negative result is supported by the table; it is not necessary to rerun the model merely to report that observation.
+
+3. DISCUSSION -> paragraph starting:
+"The models exhibited asymmetric performance: FGgraphDTA excelled on the smaller, focused DAVIS dataset, while PVgraphDTA performed best on the larger, more diverse KIBA benchmark."
+The CURRENT paragraph asserts:
+"This disparity reflects dataset scale ... KIBA's size accommodates PVgraphDTA's complex multimodal design ... PVgraphDTA's superior MSE and CI on KIBA confirm that contact map image encoding benefits from sufficient training data; its weaker performance on DAVIS likely stems from model complexity relative to the limited dataset size."
+
+REPLACE THE ENTIRE PARAGRAPH WITH:
+"The proposed models exhibited dataset-dependent results. On DAVIS, FGgraphDTA achieved numerically favorable results relative to the literature-reported DGraphDTA reference, whereas PVgraphDTA had less favorable MSE, CI, and Pearson values. The PVgraphDTA ablation on DAVIS further showed that adding the visual branch increased MSE and decreased CI relative to the graph-only scaffold. Although autoencoder gating and InfoNCE partly mitigated these declines, the full multimodal model did not outperform the graph-only control on this dataset. On KIBA, PVgraphDTA performed better than FGgraphDTA in our reported experiments, but neither proposed model numerically exceeded the corrected literature-reported DGraphDTA values. Dataset size, protein contact-map quality, representation complexity, or optimization may contribute to the observed differences; however, the present experiments do not isolate a causal explanation. The benefits of the visual branch therefore cannot be assumed to generalize across datasets."
+
+This also coordinates with Comments 1, 3 and 4: do not repeat the claim that PVgraphDTA achieves a matched superiority to published DGraphDTA on KIBA.
+
+4. CONCLUSIONS -> paragraph starting:
+"The ablation results further showed that functional-group enrichment contributes directly ..."
+CURRENT PVgraphDTA portion:
+"In PVgraphDTA, the visual branch alone did not improve performance on DAVIS, although AE gating and InfoNCE progressively improved the multimodal representation. These findings indicate that the benefits of the proposed representations are dataset- and model-dependent."
+
+REPLACE THOSE TWO SENTENCES ONLY WITH:
+"For PVgraphDTA, adding the visual branch to the graph-only scaffold worsened DAVIS MSE and CI; autoencoder gating and InfoNCE partly recovered this loss, but the full model remained below the graph-only control on both metrics. These observations show that adding visual protein information did not yield a net DAVIS benefit in the evaluated configuration and that performance varied by dataset and model."
+
+5. RESULTS -> KIBA paragraph starting "PVgraphDTA achieved the strongest overall performance on KIBA ..."
+If that paragraph still contains:
+"These results indicate that PVgraphDTA benefits from the larger size and greater diversity of the KIBA dataset. As this model employs multimodal representation learning ... it likely requires more training samples ... Consequently, its stronger performance on KIBA compared with DAVIS is expected and consistent with this explanation."
+DELETE those causal/speculative sentences or replace them with:
+"The different DAVIS and KIBA results indicate dataset-dependent performance. The current experiments do not establish whether dataset size, contact-map quality, or other factors explain this difference."
+Apply the independent Comment 1 corrections to its earlier DGraphDTA-related claims and numbers (published KIBA CI 0.904 / MSE 0.126 / Pearson 0.903). Do not retain "~11.4% MSE improvement over DGraphDTA".
+
+6. ABSTRACT: If the Comment 4 shortened Abstract has ALREADY been inserted, no new Abstract change is needed for Comment 5: it explicitly states that PVgraphDTA did not show comparable DAVIS gains. If the old Abstract is still present, use the complete replacement in Comment_04_Abstract_Claims, not a contradictory new version.
+
+======================================================================
+C. NUMERICAL AND EVIDENCE CHECKS
+======================================================================
+DAVIS DGraphDTA literature reference vs PVgraphDTA:
+MSE: 0.202 vs 0.207 (PV greater by 0.005).
+CI: 0.904 vs 0.875 (PV lower by 0.029).
+Pearson: 0.867 vs 0.849 (PV lower by 0.018).
+These are cross-publication descriptive numerical differences, NOT a matched comparison.
+
+DAVIS ablation, same-experiment graph-only scaffold vs +image:
+MSE: 0.2018 -> 0.2216 (increase 0.0198; approximately 9.81%).
+CI: 0.9034 -> 0.8648 (decrease 0.0386).
+Graph-only vs full PV:
+MSE: 0.2018 -> 0.2070 (increase 0.0052; approximately 2.58%).
+CI: 0.9034 -> 0.8750 (decrease 0.0284).
+Gating and InfoNCE recover PART of the earlier loss; neither restores graph-only DAVIS performance.
+Do not claim statistical significance or universal visual-branch harm from single-run estimates; if repeated-seed uncertainty is requested, see Comment 14.
+
+======================================================================
+D. FIGURES / TABLES / RESPONSE CHECKLIST
+======================================================================
+[ ] Table 8 DAVIS DGraphDTA label changed to "(literature-reported)" (Comment 3); numerical values unchanged.
+[ ] Table 12 PVgraphDTA ablation values unchanged; replace the under-table interpretation as specified in B2.
+[ ] Results DAVIS paragraph replaced, explicitly compares PVgraphDTA with published DGraphDTA across all metrics.
+[ ] Discussion removes "DAVIS small dataset CAUSED the decline" unsupported claim.
+[ ] KIBA paragraph removes dataset-size certainty and old DGraphDTA superiority claims where still present.
+[ ] Conclusion acknowledges net negative DAVIS visual-branch result, not just partial recovery.
+[ ] Figure 6 captions/labels checked for "(reproduced)" and changed to "(literature-reported)" if present; DAVIS metric values do not need to change.
+[ ] Check that Comment 4 Abstract wording and Comment 5 revisions agree.
+[ ] Only submit response using past tense after journal manuscript edits are complete.
