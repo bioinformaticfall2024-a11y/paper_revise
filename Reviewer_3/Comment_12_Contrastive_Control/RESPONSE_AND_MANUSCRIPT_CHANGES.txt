@@ -1,13 +1,61 @@
-STATUS: NEW MODEL-TRAINING CONTROL REQUIRED; NOT COMPLETED IN THIS ENVIRONMENT
+REVIEWER 3 — COMMENT 12: ADDITIONAL GRAPH-ONLY + INFONCE CONTROL ON KIBA
+RESPONSE TO REVIEWER AND READY-TO-INSERT MANUSCRIPT TEXT (ENGLISH)
 
-WHY THE REVIEWER IS RIGHT
-The existing progressive ablation graph-only -> +vision -> +AE -> +InfoNCE does not isolate contrastive regularization from the image branch. The change from MSE 0.2148 to 0.2070 after adding InfoNCE only shows a benefit within the already-multimodal model.
+RESULTS SUPPLIED BY THE AUTHOR FOR THE NEW KIBA CONTROL
+Graph-only + InfoNCE: MSE = 0.142; CI = 0.874.
+Full PVgraphDTA: MSE = 0.130; CI = 0.898.
+The control results above were supplied by the author; this text file does not contain the model's training logs, test predictions, or an independent replication. Confirm that both configurations use the same KIBA split, evaluation metrics, and appropriately comparable training protocol before submission. The additional control is a ligand-graph/protein-graph contrastive objective, rather than the identical three-view InfoNCE objective used by the full model.
 
-MINIMUM CONTROL
-Run graph-only + ligand-protein InfoNCE: same ligand/protein graph encoders, no ResNet/AE, projection heads for ligand and protein embeddings, symmetric in-batch InfoNCE with tau=0.07 and alpha=0.5, identical split/optimizer/checkpoint/seeds.
+1. RESPONSE TO REVIEWER 3 — COMMENT 12
 
-RESPONSE TEMPLATE AFTER REAL RUN
-We agree that the original progressive ablation did not isolate the contrastive objective from the visual branch. We therefore added a graph-only + ligand-protein InfoNCE control under the same split and optimization settings. The graph-only model obtained [MSE/CI], graph-only+InfoNCE obtained [MSE/CI], and full PVgraphDTA obtained [MSE/CI]. These results show [insert only the interpretation supported by observed values]. We revised the attribution of the PVgraphDTA result accordingly.
+We thank the reviewer for emphasizing the need to distinguish the contribution of the contact-map visual representation from that of contrastive regularization. We agree that the original progressive component-wise ablation on DAVIS shows the incremental effect of adding components in the evaluated sequence but does not include a graph-only configuration trained with a contrastive objective.
 
-IF THE RUN CANNOT BE COMPLETED
-Remove causal statements attributing the behavior specifically to the contact-map visual branch or InfoNCE, and state that the current ablation cannot identify their independent contributions. This is honest but may not fully satisfy the explicit experimental request.
+To address the requested control, we additionally evaluated a Graph-only + InfoNCE configuration on KIBA, the dataset on which PVgraphDTA shows a performance improvement in our benchmark results. This control retains the ligand and protein graph encoders while removing the contact-map visual branch and AE gating. A contrastive objective is applied to the ligand and protein graph representations. Since the full PVgraphDTA contrastive objective also contains terms involving image-based representations, the graph-only control uses an adapted graph–graph contrastive objective rather than the identical multimodal loss.
+
+The Graph-only + InfoNCE control achieved an MSE of 0.142 and a CI of 0.874 on KIBA. The full PVgraphDTA model achieved an MSE of 0.130 and a CI of 0.898 under the reported KIBA evaluation. Hence, the full configuration yielded lower prediction error and higher concordance than the evaluated graph-only contrastive control. This comparison shows that adding the evaluated graph-based contrastive objective to the graph-only scaffold did not reproduce the complete model's KIBA performance.
+
+We also clarify that the autoencoder is pretrained separately to obtain the latent representation used for visual-feature gating. Its reconstruction loss is not jointly optimized with the affinity-prediction and contrastive objectives during PVgraphDTA training.
+
+In response to the reviewer's concern, we have added the KIBA control and revised the discussion to distinguish the DAVIS component-wise results from the additional KIBA comparison. The new result supports a performance difference between the complete multimodal configuration and the evaluated graph-only contrastive control, but it does not independently isolate the contribution of contact-map images: the full model also includes AE gating and an image-dependent multimodal contrastive objective. We therefore avoid attributing the full KIBA improvement exclusively to the visual branch.
+
+2. MANUSCRIPT CHANGE A — METHODS: DEFINE THE ADDITIONAL CONTROL
+
+LOCATION: Proposed Methodology → PVgraphDTA → contrastive learning / training objective. Insert immediately after the existing explanation of the InfoNCE objective (or at the end of that subsection).
+
+PASTE:
+
+To examine whether contrastive regularization without contact-map visual features could reproduce the performance of PVgraphDTA, we evaluated an additional Graph-only + InfoNCE control on KIBA. This configuration retains the ligand and protein graph encoders and the graph-based affinity predictor but excludes the visual branch and AE gating. Because the original PVgraphDTA contrastive objective includes terms involving image-based representations, the graph-only control instead applies a contrastive objective to ligand and protein graph representations. The control was evaluated against the complete PVgraphDTA configuration using the KIBA evaluation protocol.
+
+METHODS COMPLETENESS: In the same Methods paragraph or experiment-settings subsection, specify the exact graph–graph InfoNCE formula and representation/projection heads actually used, its weighting coefficient and temperature, the KIBA train/validation/test split, random seed(s), batch size, optimizer, checkpoint-selection rule, and whether those settings match the full model. Only state settings supported by the actual training script and logs; do not automatically adopt values from the repository's synthetic demonstration notebook.
+
+3. MANUSCRIPT CHANGE B — RESULTS AND DISCUSSION: ADD A SHORT KIBA CONTROL SUBSECTION
+
+LOCATION: Immediately after the current DAVIS component-wise ablation (Table 12) and its interpretation, add the subsection title:
+
+Additional Contrastive Control on KIBA
+
+INSERT THE FOLLOWING COMPACT TWO-ROW TABLE AS A NEW TABLE (DO NOT RELABEL THE EXISTING DAVIS TABLE 12):
+
+Table [X]. Additional graph-only contrastive control compared with full PVgraphDTA on KIBA.
+
+Model variant | Contact-map visual branch | AE gating | InfoNCE | MSE (lower is better) | CI (higher is better)
+Graph-only + InfoNCE | No | No | Yes (graph–graph) | 0.142 | 0.874
+Full PVgraphDTA | Yes | Yes | Yes (multimodal) | 0.130 | 0.898
+
+Caption note: The graph-only control uses ligand–protein graph contrastive learning, whereas the full model uses the original multimodal contrastive formulation. The autoencoder used for gating is pretrained separately.
+
+PASTE THIS PARAGRAPH DIRECTLY AFTER THE NEW TABLE:
+
+To investigate whether contrastive regularization without contact-map visual features could reproduce the KIBA performance of PVgraphDTA, we evaluated an additional Graph-only + InfoNCE control. The control retained the ligand and protein graph encoders while excluding the visual branch and AE gating. As shown in Table [X], Graph-only + InfoNCE obtained an MSE of 0.142 and a CI of 0.874, whereas the complete PVgraphDTA model obtained an MSE of 0.130 and a CI of 0.898. Thus, the complete model achieved lower prediction error and higher concordance than the evaluated graph-only contrastive control. The result indicates that the graph-based contrastive objective alone did not reproduce the complete multimodal model's performance on KIBA under the evaluated conditions. However, this comparison does not separately quantify the visual branch's contribution, because the full model also incorporates AE gating and a multimodal contrastive objective.
+
+4. MANUSCRIPT CHANGE C — CLARIFY THE EXISTING DAVIS TABLE 12 DISCUSSION
+
+LOCATION: Append to the end of the paragraph interpreting the existing component-wise ablation on DAVIS (Table 12), or replace any sentence that attributes the KIBA improvement exclusively to the visual branch.
+
+PASTE:
+
+The DAVIS component-wise ablation evaluates incremental additions of the visual branch, AE gating, and InfoNCE in a fixed sequence. Although AE gating and InfoNCE improved performance relative to their immediately preceding multimodal variants, the graph-only scaffold achieved a lower MSE and higher CI than the complete PVgraphDTA configuration in this DAVIS experiment (0.2018 versus 0.2070 for MSE; 0.9034 versus 0.8750 for CI). The supplementary KIBA control addresses a different question: the complete model achieved better MSE and CI than a graph-only model trained with an adapted graph-based contrastive objective. The effects therefore differ across the evaluated settings, and the KIBA result should not be attributed exclusively to the contact-map visual branch on the basis of these comparisons alone.
+
+5. FINAL SUBMISSION CHECK
+
+Before using the response's statement that the manuscript has been revised, insert the specified text and new KIBA results table into the actual manuscript. Verify that 0.142/0.874 come from the held-out KIBA test evaluation, the full-model values 0.130/0.898 are computed under a comparable split/metric protocol, and the documented contrastive objective matches the control that was actually run. The earlier graph_only_infonce_control.ipynb in this folder contains only a synthetic loss smoke test, not this reported KIBA training experiment. Add the actual run script/configuration, run log, and evaluation output to the repository if available.
