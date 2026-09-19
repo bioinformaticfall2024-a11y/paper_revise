@@ -1,3 +1,33 @@
+COMMENT 7 — SHORT AUTHOR-SELECTED RESPONSE AND MANUSCRIPT EDITS
+AUTHOR DECISION: Preserve the FGgraphDTA code, protein-side FG20 branch, existing weights, and previously reported results; NO model retraining or new performance experiment. Acknowledge redundancy as a limitation, not as a new-information contribution.
+NOTE: The reviewer expressly asked for branch removal/replacement. This text-only retention route does NOT fulfill that part of the request, and acceptance cannot be promised. Confirm the audited feature-extraction code is the exact version used for the reported model before claiming its 12/8 counts in the journal.
+
+1. SHORT RESPONSE TO REVIEWER — COPY-READY AFTER PAPER EDITS
+
+We thank the reviewer for identifying the redundancy and limited discriminability of the protein-side FG20 features. We agree that FG20 is deterministically derived from residue identity, already represented by the one-hot encoding, and therefore does not provide independent residue-level information. In an RDKit audit of the recovered free-amino-acid feature-extraction procedure, 12 of the 20 FG dimensions were always zero, one was always one, and the 20 amino acids produced only eight distinct signatures. These implementation-specific counts differ from those reported in the review, but confirm the central limitation.
+
+We have retained the original branch as an auxiliary engineered recoding rather than a new source of biochemical information. The existing DAVIS ablation reports MSE values of 0.1648 for ligand FG alone and 0.1546 for combined ligand and protein FG. This single-split observation motivates retaining the investigated configuration, but does not establish an independent-information gain, a robust benefit across datasets, or a causal explanation for the KIBA ranking results. We have added a paragraph to the Discussion explicitly reporting FG20's measured redundancy and limited discriminability, clarified its role in Methods, and identified context-dependent residue features and matched removal experiments as future work. We acknowledge that the retained branch remains redundant.
+
+2. EXACT MANUSCRIPT INSERTION — DISCUSSION / LIMITATIONS
+WHERE: Discussion, near the end of the section after discussing DAVIS/KIBA behavior and before the concluding paragraph.
+ADD:
+"One limitation of FGgraphDTA is that its protein-side FG20 features are determined by amino-acid identity, which is already included in the residue one-hot encoding. An RDKit audit of the free-amino-acid feature-extraction procedure found that 12 of the 20 dimensions were always zero, one was always one, and the 20 standard amino acids produced only eight distinct FG signatures. Thus, FG20 provides a coarse, redundant chemical recoding rather than independent residue-level information. Although our DAVIS ablation showed a lower MSE when protein FG was combined with ligand FG (0.1546) than with ligand FG alone (0.1648), this single-split result does not establish a robust benefit or explain the KIBA ranking behavior. The current architecture retains FG20 as an auxiliary engineered feature; future work should assess context-dependent residue descriptors and matched models with and without this branch."
+
+3. EXACT MANUSCRIPT INSERTION — METHODS / PROTEIN FEATURE ENCODING
+WHERE: Immediately after the original description of applying the 20 SMARTS patterns to protein amino acids.
+ADD:
+"Because this vector is computed from fixed amino-acid structures, protein-side FG20 is a deterministic recoding of residue identity and does not introduce independent information beyond the existing residue one-hot features."
+
+4. CONSISTENCY AND SUBMISSION CONDITIONS
+- Update any existing claim that protein FG20 adds NEW/INDEPENDENT biochemical information or encodes observed residue protonation, metal coordination, or solvent exposure; these are not determined by the static FG20 encoding.
+- Preserve existing Table 11 numerical results without claiming they are repeated-seed or KIBA ablation results.
+- If the exact production preprocessing has NOT been verified against the recovered audit, replace the numerical audit counts in the final reviewer response/manuscript with validated values from that production code. The central redundancy conclusion remains true for any fixed per-residue FG vector.
+- Change "we have added/clarified" to future-tense until you actually edit the submitted manuscript. Committing this guidance does not change the journal DOCX.
+- The reviewer requests removal OR replacement; a limitation paragraph and existing DAVIS ablation are a transparent scientific defense of RETENTION, but not full compliance with that request.
+
+=====================================================================
+PRIOR DETAILED AUDIT, LONGER RESPONSE AND ALTERNATIVE EDIT GUIDANCE
+=====================================================================
 REVIEWER 3 — COMMENT 7: KEEP CURRENT MODEL, NO NEW MODEL TRAINING
 Final decision for this response route (2026-09-19): The author elects to PRESERVE the FGgraphDTA architecture, weights/results, and existing in-house DAVIS ablation. This route does NOT implement the reviewer's requested removal/replacement of the protein-FG branch. Its defense must be transparent: accept informational redundancy; quantify observed encoding; distinguish representational redundancy from lack of any learned effect; acknowledge uncertainty and the unresolved request. No false claim of new KIBA ablation or retrained performance.
 
