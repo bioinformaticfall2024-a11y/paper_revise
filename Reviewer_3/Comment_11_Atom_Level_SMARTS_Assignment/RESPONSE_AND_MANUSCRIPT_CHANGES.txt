@@ -1,12 +1,46 @@
-STATUS: EXACT HISTORICAL CODE PATH INSPECTED; METHODS DESCRIPTION CAN BE FIXED WITHOUT NEW TRAINING
+REVIEWER 3 — COMMENT 11
+ATOM-LEVEL SMARTS ASSIGNMENT
+FINAL DRAFT: RESPONSE TO REVIEWER + EXACT MANUSCRIPT EDITS
 
-IMPLEMENTED RULE
-For each SMARTS query, RDKit GetSubstructMatches returns atom-index tuples. In the historical per-atom implementation, every atom participating in each match receives the corresponding bit. If an atom participates in multiple patterns, multiple bits remain active. No representative atom is selected. The historical per-atom path does not resolve overlaps.
+1. RESPONSE TO REVIEWER
 
-RESPONSE TO REVIEWER
-We thank the reviewer for identifying an important missing implementation detail. We have now specified the atom-level projection rule explicitly. For each SMARTS pattern, all atoms returned in every RDKit substructure match receive the corresponding binary functional-group indicator. An atom may therefore receive multiple functional-group bits when it participates in overlapping substructures; no representative atom is selected. Our code audit further showed that the historical per-atom feature path did not apply the molecule-level cleanup rule described in the previous text. We have corrected the Methods so that it reflects the actual historical assignment and state the corrected precedence rules separately for the revised preprocessing variant.
+We thank the reviewer for pointing out that our description of atom-level SMARTS assignment was insufficient for reproducibility. We have revised the FGgraphDTA methodology to specify how a multi-atom substructure match is projected onto individual ligand-atom features, how repeated matches are treated, and how overlaps between functional-group patterns are handled.
 
-METHODS TEXT
-For each SMARTS query, all RDKit substructure matches were enumerated. Every atom index participating in a match was assigned a value of 1 in the corresponding functional-group dimension. Because dimensions were evaluated independently, an atom could carry more than one functional-group bit when SMARTS patterns overlapped; no representative atom was selected.
+For each of the twenty predefined SMARTS patterns, RDKit identifies the substructure matches in the ligand molecular graph. Every atom participating in each returned match is assigned a value of 1 in the corresponding functional-group dimension; the indicator is not restricted to a representative atom. The assignment is binary, so multiple occurrences of the same pattern involving an atom do not increase its bit beyond 1. The patterns are evaluated independently. Consequently, when an atom participates in matches of different functional-group patterns, multiple bits can be active simultaneously in its twenty-dimensional functional-group vector.
 
-Do not retain the old claim that phenol/alcohol cleanup was applied to the historical per-atom training features unless the result-producing code proves it.
+For example, in a molecule containing an ester, all atoms returned by the ester SMARTS match receive the ester indicator. If one of these atoms also participates in an ether SMARTS match, the original atom-level encoding may assign both the ester and ether indicators. The model uses this multi-hot functional-group annotation alongside the original atom descriptors and molecular graph connectivity, rather than treating the functional-group labels as mutually exclusive classes.
+
+We have also clarified the scope of the refinement step discussed previously using the phenol–alcohol example. The precedence rules described for the molecule-level functional-group summary are separate from the default atom-level encoding used as ligand-model input; they do not automatically remove overlapping bits from the atom-level feature matrix. We have corrected the Methods wording so that the refinement example is not presented as a general atom-level overlap-resolution algorithm.
+
+The twenty-dimensional functional-group vector for each ligand atom is concatenated with its original seventy-eight-dimensional atom descriptor vector, yielding the ninety-eight-dimensional ligand-atom features used in FGgraphDTA. These clarifications specify the complete substructure-to-atom projection rule without changing the proposed architecture.
+
+2. WHAT TO CHANGE IN THE MANUSCRIPT, AND WHERE
+
+EDIT A — INSERT THE ATOM-LEVEL ASSIGNMENT RULE
+
+WHERE: Proposed Methodology → FGgraphDTA → functional-group feature extraction. Insert immediately after the paragraph introducing RDKit-based SMARTS matching and before the description of the final ligand-atom feature concatenation (or replace that paragraph if it already loosely describes assigning groups to atoms).
+
+TEXT TO INSERT:
+
+For each functional-group SMARTS pattern, all matching substructures are identified using RDKit. Every atom belonging to a detected match is assigned a value of 1 in the corresponding functional-group dimension; no single representative atom is selected. The resulting atom-level feature vector is binary and multi-hot: repeated matches of the same SMARTS pattern do not increase its indicator beyond 1, whereas participation in matches of different patterns may activate multiple indicators simultaneously. The twenty patterns are evaluated independently, and overlapping assignments are retained in the atom-level ligand features. The resulting twenty-dimensional functional-group vector is concatenated with the original seventy-eight-dimensional atom descriptors, producing a ninety-eight-dimensional feature vector for each ligand atom.
+
+OPTIONAL EQUATION, IF DESIRED IN THE SAME LOCATION:
+
+F_(i,k) = 1 if atom i belongs to at least one substructure match of SMARTS pattern k, and 0 otherwise, for k = 1,...,20.
+
+EDIT B — REPLACE OR CLARIFY THE EXISTING PHENOL–ALCOHOL REFINEMENT PARAGRAPH
+
+WHERE: Same FGgraphDTA subsection. Locate the paragraph beginning "A logical refinement step is also applied to reduce overlap..." or the corresponding paragraph containing the phenol–alcohol example. Replace the claim that refinement is applied to every ligand atom with the following distinction:
+
+A separate refinement procedure is used for the molecule-level functional-group summary to reduce redundant group annotations through precedence rules for related categories. This procedure should be distinguished from the default atom-level functional-group encoding used as ligand-model input. In the atom-level encoding, each SMARTS pattern is evaluated independently and overlapping matches are retained; consequently, an atom may have multiple active functional-group indicators. The phenol–alcohol example illustrates the summary-level refinement and does not imply that a general overlap-resolution step is applied to the atom-level model inputs.
+
+EDIT C — ALIGN THE WORDING WITH COMMENT 9
+
+WHERE: Search the entire Methods section, figure captions, and Discussion for statements implying that the original atom-level representation is chemically exclusive or that ester–ether and acid–alcohol overlaps were eliminated by refinement. Replace such claims with the all-matched-atoms / independent multi-hot rule given above.
+
+3. EVIDENCE AND SCOPE
+
+The atom-wise RDKit matching behavior and separation of the molecule-level summary from the default atom-level features are documented in the project's Comment 09 code audit:
+Reviewer_3/Comment_09_SMARTS_Overlap/audit_ligand_input_path.ipynb
+
+This file contains reviewer-response text and manuscript insertion instructions; it does not itself modify the manuscript or any model code. Apply Edits A–C to the revised manuscript before stating in the submitted response letter that the manuscript "has been revised."
