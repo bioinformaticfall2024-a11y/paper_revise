@@ -1,3 +1,12 @@
+SHORT RESPONSE TO REVIEWER — COMMENT 9 (RETENTION OF ORIGINAL MODEL; NO RETRAINING)
+
+We thank the reviewer for identifying these SMARTS overlaps. Our RDKit audit confirmed that the default atom-level ligand features can assign Alcohol to carboxylic-acid hydroxyls and Ether to ester oxygens. Although a separate molecule-level functional-group summary applies precedence rules, those rules do not correct the default atom-level input. We acknowledge this limitation and have clarified it in the manuscript. We retain the original model and reported results: the underlying atom-level graph remains available, but this does not establish that the overlapping auxiliary labels had no effect. Because we have not trained a model with corrected features, we cannot report a before-and-after performance ablation. Atom-specific exclusion rules and matched retraining are necessary to assess their impact.
+
+SUBMISSION NOTE: "have clarified it in the manuscript" is appropriate ONLY AFTER the proposed Discussion/Methods edits below have been applied to the actual submitted manuscript. This response acknowledges the issue but does NOT fulfill the request to correct model inputs and report a performance ablation.
+
+=====================================================================
+SUPPORTING AUDIT, MANUSCRIPT INSERTIONS, AND TECHNICAL LIMITATIONS
+=====================================================================
 REVIEWER 3 — COMMENT 9: ORIGINAL-CODE PATH AUDIT (CORRECTED STATUS)
 LAST CHECK: 2026-09-19. No DTA model was retrained; original model and training code were not modified.
 Executed verification notebook: audit_ligand_input_path.ipynb (GitHub). A longer independently executed notebook with optional DAVIS/KIBA working-file coverage is also available from the revision workspace.
