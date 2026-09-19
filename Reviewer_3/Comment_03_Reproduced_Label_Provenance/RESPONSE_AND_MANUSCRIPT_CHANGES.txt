@@ -1,12 +1,82 @@
-STATUS: PROVENANCE ISSUE; SAFEST FIX IS TO RELABEL AS LITERATURE VALUES
+REVIEWER 3 — COMMENT 3: "REPRODUCED" LABEL / DGraphDTA PROVENANCE
+STATUS: DECISION CONFIRMED BY AUTHOR; RESPONSE AND EDIT INSTRUCTIONS READY.
+AUTHOR'S CHOICE: Show ONLY DGraphDTA results from the ORIGINAL DGraphDTA PAPER in the revised DAVIS and KIBA comparison tables. Remove the previously displayed in-house DGraphDTA KIBA row (0.891 / 0.147 / 0.903), rather than adding a second row. Replace "(reproduced)" with "(literature-reported)" (or "(reported)" consistently throughout).
+IMPORTANT FACTUAL NUANCE: The author states that they DID run the authors' public DGraphDTA implementation (https://github.com/595693085/DGraphDTA). Do NOT say "we never ran DGraphDTA" or that the old 0.891/0.147 KIBA results were necessarily copied/transcribed. Instead say the REVISED TABLE presents published numbers only and no longer claims that those TABLE ENTRIES are matched independent reruns. The reason for the old DAVIS three-decimal coincidence and the full provenance of the old KIBA run have NOT been established. We make no unsupported causal claims about them.
+SOURCE: Jiang et al., "DGraphDTA: a dual graph neural network for drug–target binding affinity prediction," RSC Advances (2020), DOI 10.1039/D0RA02297G, original DAVIS / KIBA results tables. Code repository supplied by author: https://github.com/595693085/DGraphDTA
 
-CHECK
-The Experimental Protocol says comparison baselines are taken from published studies, while the tables call DGraphDTA 'reproduced'. The available project snapshot does not contain historical prediction files, exact split-index files, or run artifacts establishing a matched independent rerun for those displayed rows.
+====================================================================
+A. REVIEWER RESPONSE (English — use after manuscript edits)
+====================================================================
+We thank the reviewer for highlighting the ambiguity of the label "reproduced" and the need to distinguish literature-reported values from an independently evaluated matched baseline. Although we ran the publicly available DGraphDTA implementation during our work, the previously displayed baseline rows were not accompanied by the prediction files, exact split indices, random seeds, and environment records required to establish that those table entries represented matched reruns under the evaluation protocol of the proposed models. We therefore elected not to present those entries as reproduced or matched-baseline results in the revised manuscript.
 
-RESPONSE TO REVIEWER
-We agree that the term 'reproduced' was not adequately supported by the artifacts provided with the manuscript. The displayed baseline values should not have been labelled as an independent matched reproduction without accompanying prediction files, split indices, seeds, and environment records. We have therefore removed the 'reproduced' label from literature rows and explicitly identify them as values reported in the original publications. We also revised the text to avoid treating cross-publication differences as controlled matched effects. Any future in-house rerun will be reported separately together with persisted splits, random seeds, environment specifications, and prediction files.
+To remove this ambiguity, we have replaced the DGraphDTA comparison rows with the values reported in the original DGraphDTA publication and have explicitly labeled them "literature-reported" in both benchmark tables. For DAVIS, the published DGraphDTA GCN&GCN results are CI = 0.904, MSE = 0.202, and Pearson = 0.867; for KIBA, they are CI = 0.904, MSE = 0.126, and Pearson = 0.903. Thus, the DAVIS numerical entries remain unchanged, whereas the previous KIBA numerical entries (CI = 0.891, MSE = 0.147, Pearson = 0.903) have been replaced with the original published values. The previous KIBA results are not retained as a separate reproduced row in the revised comparison table.
 
-PAPER CHANGES
-- Replace 'DGraphDTA (reproduced)' with 'DGraphDTA [literature]'.
-- Add footnote: 'Baseline values marked literature are quoted from the cited publications and were not generated under the present split.'
-- Keep in-house ablations separate from literature comparisons.
+We have also clarified in the table notes and the experimental comparison text that the DGraphDTA entries are literature-reported reference values, not results obtained under identical train/validation/test partitions to those of our proposed models. Accordingly, cross-study numerical differences are described as descriptive reference comparisons rather than controlled head-to-head performance differences. We do not infer from the prior DAVIS agreement or the prior KIBA discrepancy alone whether any particular run was or was not independently executed; the revision instead makes the provenance and limits of the displayed results explicit. Statements and figures affected by the corrected KIBA DGraphDTA values have been updated as detailed in our response to Comment 1.
+
+AUTHOR VERIFICATION BEFORE SUBMITTING RESPONSE: Use past tense "have replaced/clarified/updated" only after performing all listed manuscript/figure edits. The GitHub response guide being updated is not the revised manuscript itself. If not all figures have been updated, amend that sentence to describe precisely what has been done.
+
+====================================================================
+B. WHERE TO EDIT THE MANUSCRIPT — EXACT BEFORE / AFTER
+====================================================================
+1) DAVIS: Results section -> Table 8 ("Performance of compared models on the DAVIS dataset"), DGraphDTA row.
+BEFORE: DGraphDTA [3] (reproduced) | GCN & GCN | 0.904 | 0.202 | 0.867
+AFTER:  DGraphDTA [3] (literature-reported) | GCN & GCN | 0.904 | 0.202 | 0.867
+No numerical change on DAVIS. Do not alter the published numbers to make them look like a rerun.
+
+2) KIBA: Results section -> Table 10 ("Performance of compared models on the KIBA dataset"), DGraphDTA row.
+BEFORE: DGraphDTA [3] (reproduced) | GCN & GCN | 0.891 | 0.147 | 0.903
+AFTER:  DGraphDTA [3] (literature-reported) | GCN & GCN | 0.904 | 0.126 | 0.903
+Do NOT keep the earlier 0.891 / 0.147 / 0.903 as a second "(reproduced)" row: the author explicitly chose published-only DGraphDTA entries.
+
+3) Immediately below BOTH benchmark tables, insert a short table note (or one common note in the comparison-methods subsection if the journal discourages duplicated notes):
+"The DGraphDTA values are literature-reported results taken from the original publication and were not evaluated under the identical train/validation/test partitions used for the proposed models in this study."
+If other cited baselines are also literature-reported, identify their status explicitly in the corresponding table note. Do NOT assert that every baseline was literature-reported without checking whether other methods were actually rerun by the authors.
+
+4) Methods / Experimental Setup -> subsection introducing comparison with existing models, immediately BEFORE the DAVIS and KIBA benchmark results (or the existing paragraph on sources of baseline results):
+ADD:
+"The DGraphDTA results included in our DAVIS and KIBA comparison tables are the published results of the original study and are labeled as literature-reported values. Although the publicly available DGraphDTA code was run during the development of this work, the DGraphDTA entries displayed in the revised tables are not presented as independently reproduced, matched runs under our train/validation/test partitions. Therefore, numerical comparisons with these literature values are descriptive cross-study references rather than controlled, matched head-to-head comparisons."
+This phrasing transparently distinguishes the fact of an earlier code run from the provenance of the REVISED table entries. If the manuscript already states the baseline values come from publications, integrate this wording there rather than repeating it verbatim.
+
+5) Results -> "Results on the KIBA Dataset", existing sentence:
+"Both GraphDTA and DGraphDTA attained an MSE of 0.147"
+REPLACE WITH:
+"The original GraphDTA publication reports an MSE of 0.147 for the GIN variant on KIBA, whereas the published DGraphDTA GCN&GCN result is an MSE of 0.126."
+For the GraphDTA–GIN KIBA CI use 0.882 in Table 10 (Comment 2); do not accidentally reuse its previous CI 0.889.
+
+6) Results -> KIBA discussion of DGraphDTA and the proposed models:
+REPLACE claims of "PVgraphDTA achieved ~11.4% MSE improvement over DGraphDTA", "FGgraphDTA outperformed DGraphDTA on KIBA", or "best/strongest overall KIBA" with:
+"The published DGraphDTA study reports CI = 0.904, MSE = 0.126 and Pearson = 0.903 on KIBA. In our experiments, FGgraphDTA achieved CI = 0.865, MSE = 0.145 and Pearson = 0.873, while PVgraphDTA achieved CI = 0.898, MSE = 0.130 and Pearson = 0.877. These values come from different studies/evaluation protocols and therefore provide descriptive reference points rather than an identical-split comparison. Among the two proposed models, PVgraphDTA yielded numerically lower MSE and higher CI and Pearson on KIBA."
+Do not call the proposed-model results inferior/superior UNDER MATCHED CONDITIONS to literature numbers. Full coordinated Comment 1 edits are documented in Comment_01_DGraphDTA_KIBA_Baseline.
+
+7) Search entire Abstract, Results, Discussion, Conclusion and captions for:
+"reproduced", "our reproduced", "we reproduced DGraphDTA", "matched baseline", "same/identical split", "11.4%", "0.891", "0.147", and claims of superiority to DGraphDTA on KIBA.
+- Where "reproduced" describes a DISPLAYED DGraphDTA TABLE ENTRY, replace it with "literature-reported".
+- Do not globally replace numbers (other model rows can validly have 0.891 or 0.147).
+- Do not claim that the authors never executed DGraphDTA: they state they DID run the available code.
+
+====================================================================
+C. FIGURES: CHECK DATA, NOT JUST CAPTIONS
+====================================================================
+Figure 7 (KIBA comparison): if it plots DGraphDTA, replace CI 0.891 with 0.904 and MSE 0.147 with 0.126, then regenerate; the DGraphDTA Pearson 0.903 stays the same. GraphDTA–GIN CI change to 0.882 is separately required by Comment 2 if plotted.
+Figure 8 (KIBA proposed vs. DGraphDTA): regenerate plots and any calculated improvement percentages using the PUBLISHED DGraphDTA results; remove unsupported "~11.4%" superiority claims.
+Figure 10 (KIBA radar): recompute using corrected published DGraphDTA row. If normalization depends on table-wide minima/maxima, rerun the normalization for ALL models and clearly describe the formula (also see Comment 26).
+DAVIS plots: numerical DGraphDTA metrics stay unchanged; replace any "(reproduced)" label/caption only.
+
+====================================================================
+D. WHAT THIS CHOICE DOES AND DOES NOT REQUIRE
+====================================================================
+- Since the revised DGraphDTA rows are sourced to the publication, there is NO need to manufacture prediction files, train/test indices, seeds, or environment details for THESE LITERATURE-REPORTED TABLE ENTRIES.
+- The previous independent code run need not be presented as a matched baseline. If any other rows elsewhere are still called reproduced/matched, their own provenance and evidence must be checked separately.
+- Do not claim the former KIBA numbers were definitely due to transcription, defective code, or a particular split without saved run provenance.
+- Do not present the published DGraphDTA comparison as evidence of a controlled same-split performance improvement.
+
+====================================================================
+E. PRE-SUBMISSION CHECKLIST
+====================================================================
+[ ] DAVIS Table 8 DGraphDTA label changed; numbers 0.904 / 0.202 / 0.867 untouched.
+[ ] KIBA Table 10 DGraphDTA label changed and numbers set to 0.904 / 0.126 / 0.903.
+[ ] No second "our run"/"reproduced" DGraphDTA comparison row retained.
+[ ] Explanation of literature provenance and protocol differences added in Methods and/or table notes.
+[ ] Misleading "reproduced" wording and KIBA DGraphDTA performance claims revised throughout.
+[ ] Figures 7, 8 and 10 regenerated if they use the old KIBA DGraphDTA results.
+[ ] Reviewer-response past-tense statements checked against changes actually made to the manuscript.
