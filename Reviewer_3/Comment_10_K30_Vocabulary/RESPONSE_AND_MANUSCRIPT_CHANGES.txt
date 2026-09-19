@@ -1,10 +1,42 @@
-STATUS: PROVENANCE PROBLEM; RECOMMENDED FIX IS TO REMOVE THE K=10/K=30 VOCABULARY-SIZE TABLE UNLESS ORIGINAL DEFINITIONS ARE RECOVERED
+REVIEWER 3 — COMMENT 10
+DRAFT RESPONSE + EXACT MANUSCRIPT INSERTION LOCATIONS (PARAGRAPHS ONLY; NO TABLES)
 
-CHECK
-The Methods define only the historical 20 SMARTS patterns. The recovered repository now contains a reproducible proposed K10/K30 reviewer protocol, but its documentation explicitly states that K30's ten extra motifs are new extensions absent from the historical notebooks/manuscript. Those new definitions cannot honestly be used retroactively to explain the already-reported K=30 performance row.
+IMPORTANT SCIENTIFIC/PROVENANCE STATUS
+The proposed K=10 and K=30 group lists below were supplied/selected during this revision discussion. The existing repository audit found NO verified historical training configuration linking these particular lists to the previously reported K=10 (MSE 0.1761, CI 0.9060) and K=30 (MSE 0.1592, CI 0.9070) results. The new ten K=30 motifs were not present in the recovered historical 20-pattern implementation. DO NOT claim that these groups generated the existing reported ablation values without locating original training artifacts or conducting the corresponding new training experiments. A computational-resources explanation for K=30 rather than K=40 addresses the deviation in scope, but not the lack of provenance or performance evidence.
 
-RESPONSE TO REVIEWER
-We agree that the K=10/K=30 vocabulary-size ablation was not reproducible from the manuscript as written. During the audit we could not establish a provenance record that unambiguously links the reported K=10 and K=30 performance values to a preserved list/subset-selection rule from the original experiment. Rather than retroactively defining those settings after seeing the results, we have removed this vocabulary-size ablation from the revised manuscript. The primary FGgraphDTA method remains the explicitly defined K=20 vocabulary in Table 5, and the exact K=20 SMARTS definitions and feature-assignment procedure are provided in the released code.
+The following reviewer response and manuscript text are therefore a CONDITIONAL DRAFT for use after the exact vocabularies have been implemented, corresponding K=10 and K=30 models have been trained/evaluated or original evidence has been recovered, and the actual model results and code released. Until then, use the truthful fallback under Section 4 instead and remove unverifiable rows.
 
-PAPER CHANGE
-Remove Table 13 (K=0/10/20/30 vocabulary-size ablation) unless original K10/K30 lists and result artifacts are recovered. Do not use the current newly proposed K30 list as if it generated the historical row.
+1. REVIEWER RESPONSE — CONDITIONAL ON VERIFICATION / NEW EXPERIMENTS
+
+We thank the reviewer for pointing out that the functional-group vocabulary-size ablation was not sufficiently documented. We have clarified the composition of the reduced and expanded vocabularies and the rationale for the selected sizes. For K = 10, the subset consists of carboxylic acid, ester, amide, ketone, alcohol, phenol, ether, primary amine, secondary amine, and aryl. The subset was chosen to retain common acidic, carbonyl-containing, hydrogen-bonding, basic, and aromatic motifs; it is a predefined chemistry-motivated subset rather than a ranking established by the ablation results. The K = 20 setting retains all twenty original SMARTS definitions reported in the functional-group table.
+
+For K = 30, the twenty original groups are supplemented with pyridine, pyrimidine, imidazole, quinazoline, sulfonamide, aryl fluoride, aryl chloride, trifluoromethyl, urea, and acrylamide. The additional motifs were selected to represent nitrogen-containing heterocycles, aromatic halogen substituents, polar nitrogen/sulfur-containing groups, and a representative electrophilic amide motif that are not separately identified by the original twenty descriptors. The complete, ordered group-to-SMARTS mapping and feature-generation procedure [INSERT THE VERIFIED REPOSITORY FILE/PATH] are provided to allow the encodings to be reproduced.
+
+We used K = 30 rather than the previously requested K = 40 because of available computational and processing limitations and to limit the additional feature-generation and model-evaluation workload. We acknowledge that this is a narrower vocabulary-size comparison than requested. We have clarified this deviation in the revised manuscript and restricted our conclusions to the vocabulary sizes actually evaluated. [INSERT VERIFIED EXPERIMENTAL METRICS AND SPLIT/SEED DETAILS ONLY AFTER THE K=10 AND K=30 EXPERIMENTS ARE VERIFIED.]
+
+IMPORTANT: Do not submit the above in past tense unless the described experiments and code artifacts exist. Adding names now is not proof that the previous results came from these names.
+
+2. PROPOSED MANUSCRIPT ADDITION — METHODS / FGgraphDTA, DIRECTLY AFTER THE EXISTING ORIGINAL-20 FUNCTIONAL-GROUP TABLE
+
+To examine the effect of functional-group vocabulary size, we defined reduced and expanded sets around the original twenty-group FGgraphDTA representation. The K = 10 subset comprises carboxylic acid, ester, amide, ketone, alcohol, phenol, ether, primary amine, secondary amine, and aryl, selected to retain representative acidic, polar, hydrogen-bonding, basic, and aromatic motifs. K = 20 uses the original twenty groups listed in [INSERT CORRECT TABLE NUMBER]. The proposed K = 30 vocabulary retains those twenty groups and adds pyridine, pyrimidine, imidazole, quinazoline, sulfonamide, aryl fluoride, aryl chloride, trifluoromethyl, urea, and acrylamide to represent additional heteroaromatic, halogenated, polar, and electrophilic substructures. For reproducibility, the exact ordered SMARTS definitions and subset selection are supplied in [INSERT VERIFIED CODE/APPENDIX REFERENCE].
+
+3. PROPOSED MANUSCRIPT ADDITION — RESULTS / VOCABULARY-SIZE ABLATION, DIRECTLY AFTER THE EXISTING K=0/10/20/30 RESULTS TABLE (IF VERIFIED AND RETAINED)
+
+The analysis was limited to K = 30, rather than extending to K = 40, because of available computational and processing resources. Accordingly, the comparison examines only the tested vocabulary configurations and does not establish the optimal vocabulary size. [AFTER VERIFICATION: Insert the measured K=10, K=20, and K=30 metrics and discuss them without implying that a larger vocabulary always improves performance.]
+
+4. READY-TO-SUBMIT FALLBACK IF ORIGINAL K=10/K=30 RUNS CANNOT BE DOCUMENTED AND NO NEW TRAINING IS DONE
+
+RESPONSE TO REVIEWER:
+We thank the reviewer for identifying the missing definitions and the unexplained deviation from the requested K = 40 experiment. We considered a chemistry-motivated K = 10 subset (carboxylic acid, ester, amide, ketone, alcohol, phenol, ether, primary amine, secondary amine, and aryl) and a proposed K = 30 expansion (the original twenty groups plus pyridine, pyrimidine, imidazole, quinazoline, sulfonamide, aryl fluoride, aryl chloride, trifluoromethyl, urea, and acrylamide). However, our audit could not establish that these subsequently specified configurations generated the K = 10 and K = 30 performance values reported in the previous manuscript. To avoid retrospectively assigning new feature definitions to unverified results, we have removed the unsupported vocabulary-size ablation rather than presenting the proposed lists as historically evaluated settings. We did not perform a K = 40 experiment because of available computational and processing limitations. We retain the original, explicitly documented K = 20 FGgraphDTA representation and identify a controlled, reproducible comparison of expanded vocabularies as future work.
+
+MANUSCRIPT — METHODS/FGgraphDTA:
+The reported FGgraphDTA model uses the twenty functional groups defined in [CORRECT TABLE NUMBER]. Reduced and expanded vocabularies remain potential extensions, but were not included as experimentally validated comparisons in the present study.
+
+MANUSCRIPT — RESULTS:
+Remove the K=0/10/20/30 vocabulary-size ablation table and its numerical conclusions if the associated training provenance cannot be verified; retain any other ablation experiments only where supported by independently traceable runs.
+
+5. FULL PROPOSED 30-GROUP DEFINITION — PARAGRAPH-ONLY, FOR A VERIFIED EXPERIMENTAL CONFIGURATION (NOT THE HISTORICAL RESULT WITHOUT PROOF)
+
+The K = 10 groups correspond to original vocabulary indices 1, 2, 3, 7, 8, 9, 10, 13, 14, and 20, respectively. Their SMARTS definitions are those in the original twenty-group table; ensure the model feature extraction follows this exact order. The ten additional patterns proposed for K = 30 are pyridine (`[n]1ccccc1`), pyrimidine (`[n]1c[n]ccc1`), imidazole (`[nH,n]1c[nH,n]cc1`), quinazoline (`c1ccc2ncncc2c1`), sulfonamide (`[SX4](=[OX1])(=[OX1])[NX3]`), aryl fluoride (`[a]-[F]`), aryl chloride (`[a]-[Cl]`), trifluoromethyl (`[CX4]([F])([F])[F]`), urea (`[NX3][CX3](=[OX1])[NX3]`), and acrylamide (`[CH2]=[CH][CX3](=[OX1])[NX3]`). These proposed SMARTS expressions should be independently checked against representative molecules, dataset coverage, intended atom-assignment behavior and overlap policy before they are incorporated into actual feature-generation code and scientific claims.
+
+The proposed vocabulary is an experimental design, not evidence that the earlier K=10/K=30 metrics were obtained from it. If a new experiment is run, report its ACTUAL measured results and exact preprocessing, split, random seed(s), and implementation.
