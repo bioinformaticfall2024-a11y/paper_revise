@@ -1,10 +1,32 @@
-STATUS: FORMULA VERIFIED; MANUSCRIPT SHOULD BE EXPLICIT
+REVIEWER 3 — COMMENT 17: DAVIS pKd CONVERSION AND LABEL BOUNDARY
+Status: Reviewer-response draft and exact manuscript insertion. Uploading this file DOES NOT itself edit the manuscript or response letter. Apply the manuscript change before saying "we have revised."
 
-EXACT CONVERSION
-For Kd in nanomolar: pKd = -log10(Kd_nM / 10^9) = 9 - log10(Kd_nM). Thus 1 nM->9, 10 nM->8, 100 nM->7, 1000 nM->6, 10000 nM->5. The original DAVIS data identify weak/non-detected binding beyond 10 uM (=10,000 nM), corresponding to the benchmark boundary pKd=5.
+RESPONSE TO REVIEWER — COMMENT 17
 
-RESPONSE TO REVIEWER
-We agree that the unit conversion was under-specified. We have replaced the verbal description with the exact formula pKd = -log10(Kd_nM/10^9) = 9 - log10(Kd_nM). We also state the treatment of weak/non-detected DAVIS measurements at the 10 uM assay boundary, corresponding to pKd = 5 in the benchmark representation. This makes clear that the logarithm is not applied directly to the raw nanomolar value.
+We thank the reviewer for highlighting the need to clarify the DAVIS affinity transformation. Our affinity representation follows the original DGraphDTA methodology (Jiang et al., 2020), in which dissociation constants reported in nanomolar are converted to the pKd scale using
 
-METHODS TEXT
-For DAVIS, dissociation constants reported in nanomolar were converted as pKd = -log10(Kd_nM x 10^-9) = 9 - log10(Kd_nM). Measurements reported as weak/non-detected beyond the 10 uM assay limit were represented at the benchmark boundary of 10,000 nM (pKd = 5), consistent with the standard DAVIS/DeepDTA preprocessing convention.
+    pKd = -log10(Kd_nM / 10^9) = 9 - log10(Kd_nM).
+
+Thus, the negative logarithm was not applied directly to the raw nanomolar values.
+
+Regarding the truncation threshold, we examined the affinity labels in our processed DAVIS dataset. The stored pKd values range from 5.0000 to 10.6198, with no values below 5. The lower boundary of pKd = 5 corresponds to a dissociation constant of 10,000 nM (10 µM), consistent with the benchmark representation of weak or undetected binding measurements. The processed dataset already contained affinity labels on this scale, and no additional truncation was applied during model training.
+
+We agree that the previous manuscript did not specify the unit conversion and affinity-label boundary sufficiently clearly. We have therefore revised the DAVIS dataset description to provide the explicit conversion formula and clarify the lower boundary present in the processed affinity labels. These clarifications do not change the affinity values used for training or the previously reported experimental results.
+
+WHAT TO CHANGE IN THE MANUSCRIPT
+
+WHERE: Materials and Methods (or Materials and Data Preparation) → Benchmark Datasets → DAVIS; immediately after the existing description of the DAVIS affinity values. Replace the vague sentence about negative base-ten logarithms / equivalent scaling in nanomolar units with the following precise paragraph:
+
+"For DAVIS, dissociation constants reported in nanomolar are represented on the pKd scale following the original DGraphDTA methodology (Jiang et al., 2020):
+
+    pKd = -log10(Kd_nM / 10^9) = 9 - log10(Kd_nM),
+
+where Kd_nM denotes the dissociation constant in nanomolar units. The processed DAVIS affinity labels used in our experiments range from 5.0000 to 10.6198, with no values below 5. The lower label boundary pKd = 5 corresponds to Kd = 10,000 nM (10 µM) and is consistent with the benchmark representation of weak or undetected binding. The model was trained on these preprocessed pKd labels without applying an additional truncation during training."
+
+No extra table, training run, or result modification is required if the supplied affinity-label file is the actual one used for the reported experiments.
+
+PRECISION / VERIFICATION NOTES
+- The original DGraphDTA paper specifies the nM-to-molar conversion in its Equation (1); the paper's equation alone does not establish where or how the DAVIS source-data censoring/truncation was implemented.
+- A minimum observed label of 5 establishes the boundary in the processed file, but does not, by itself, prove a particular historical capping algorithm (e.g., Kd_used = min(Kd_raw, 10,000 nM)). Do not assert that such an operation was run by the authors unless raw-data preprocessing code verifies it.
+- If the editor specifically requests the ORIGINAL source-data censoring procedure, locate the raw DAVIS records or authoritative benchmark preprocessing documentation. If the processed file was not the file used in the reported runs, verify its actual label range before submitting.
+- Do not state that the manuscript was revised until the paragraph above is inserted into the manuscript.
