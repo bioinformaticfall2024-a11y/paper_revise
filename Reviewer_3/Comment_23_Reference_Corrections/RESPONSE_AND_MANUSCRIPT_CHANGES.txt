@@ -1,14 +1,90 @@
-STATUS: REFERENCE MISMATCHES VERIFIED; REPLACE THEM
+REVIEWER 3 — COMMENT 23: THREE CITATION CORRECTIONS
+STATUS: Complete response draft + exact manuscript-edit instructions. This GitHub file is updated; the Word manuscript and official response letter have NOT been edited here. Use the past-tense reviewer response only AFTER applying the changes.
 
-1. LATE-FUSION CLAIM
-Current text cites Cheng-Prusoff for a fusion claim; that source is unrelated. Recommended replacement: Zhang L. et al., GPCNDTA: Prediction of drug-target binding affinity through cross-attention networks augmented with graph features and pharmacophores. Computers in Biology and Medicine 166 (2023) 107512. DOI 10.1016/j.compbiomed.2023.107512.
-Safer wording: Several DTA architectures encode drug and protein streams separately before fusion, motivating interaction modules such as cross-attention that allow learned representations from the two biomolecules to interact.
+ORIGINAL COMMENT
+“Three references are cited for propositions they do not support. The statement that late fusion misses meaningful interaction patterns between molecular groups and protein regions is attributed to reference 8, which is the 1973 Cheng-Prusoff paper on the relationship between inhibition constants and IC50 values and has no bearing on fusion strategy. The DAVIS dataset is attributed to reference 14, which is a self-attention message-passing network for lipophilicity and aqueous solubility. The claim that convolutional networks are highly effective at extracting spatial features from image-like data is attributed to reference 22, which is the authors' own non-local graph network paper. Please replace these with sources that support the respective statements.”
 
-2. DAVIS DATASET
-Use the original dataset source: Davis MI et al. Comprehensive analysis of kinase inhibitor selectivity. Nature Biotechnology 29, 1046-1051 (2011). DOI 10.1038/nbt.1990.
+VERIFICATION AGAINST THE UPLOADED “Revised Manuscript (clean)”:
+Original [8] = Cheng/Prusoff 1973 (Ki vs IC50), not fusion.
+Original [13] = Michel et al. PconsC4 contact prediction, also not fusion; remove it from THAT sentence but retain it where PconsC4 is discussed.
+Original [9] = Pahikkala et al., a relevant DTA benchmark paper; retain in DAVIS sentence.
+Original [14] = Tang et al., lipophilicity/solubility SAMPN, not DAVIS.
+Original [22] = the authors' NLB-DTA conference paper; retain where describing their previous work, not for the image-CNN claim.
+Original [23] = ImageDTA, relevant to CNN/image-like DTA input; retain.
+Original [29] = He et al. ResNet, already in the manuscript and appropriate for the CNN/image statement; retain and additionally cite it there.
+Reference numbers below are the OLD numbers from the uploaded manuscript. If references are added or renumbered, use your final reference-manager numbering instead of literally copying the old numbers.
 
-3. CNN/IMAGE FEATURE CLAIM
-Cite an appropriate CNN/ResNet source (the manuscript already cites He et al., Deep Residual Learning for Image Recognition) rather than the authors' NLB-DTA paper; optionally also cite ImageDTA if making a DTA-specific image claim.
+=====================
+A. RESPONSE TO REVIEWER
+=====================
+[Paste into the official response letter ONLY after implementing changes in the Word manuscript.]
 
-RESPONSE TO REVIEWER
-We agree. The three propositions were paired with references that did not directly support them. We replaced the late-fusion citation with a DTA cross-attention study, replaced the DAVIS citation with the original Davis et al. kinase-affinity publication, and cited an appropriate CNN/ResNet source for the image-feature statement. We also audited nearby citations so that each reference supports the proposition for which it is cited.
+We thank the reviewer for identifying the three citation mismatches. We checked the relevant statements and their cited sources and corrected them as follows:
+
+(1) Late-fusion discussion: We replaced the unrelated Cheng–Prusoff citation with Zhang et al.'s GPCNDTA study (2023; DOI: 10.1016/j.compbiomed.2023.107512), which investigates cross-attention for drug–target representation learning. We also removed the unrelated PconsC4 citation from this particular sentence and refined the wording to describe the architectural distinction precisely.
+
+(2) DAVIS dataset: We replaced the unrelated lipophilicity/solubility citation with the original kinase-inhibitor selectivity study by Davis et al. (2011; DOI: 10.1038/nbt.1990), while retaining the relevant existing drug–target benchmark citation.
+
+(3) CNN-based image features: We removed the NLB-DTA citation from the image-feature statement and cited the existing original ResNet reference by He et al. (2016; DOI: 10.1109/CVPR.2016.90), alongside the existing relevant ImageDTA reference.
+
+We checked the resulting in-text citations against the bibliography and updated their numbering consistently. These are reference and wording corrections; no model architecture or experimental results were changed.
+
+========================================
+B. EXACT TEXT TO CHANGE IN THE MANUSCRIPT
+========================================
+
+CHANGE 1 — “Limitations and Motivations” section, paragraph beginning “Another limitation of many DTA models ...”, immediately before Figure 1.
+
+FIND the existing ending (original citation numbering):
+“Late fusion often misses meaningful interaction patterns between specific molecular groups and protein regions [8,13]. This motivates our two proposed models: FGgraphDTA enhances chemical semantics in both ligand and protein graphs, while PVgraphDTA introduces structure-aware protein representation from contact map images.”
+
+REPLACE THOSE TWO SENTENCES WITH:
+“In conventional late-fusion architectures, ligand and protein features are encoded independently before their embeddings are combined; unlike explicit cross-attention modules, this design does not directly model fine-grained cross-stream interactions during independent feature extraction, as illustrated by the cross-attention-based GPCNDTA model [NEW GPCNDTA REFERENCE]. Our proposed models retain embedding-level fusion while investigating complementary representation strategies: FGgraphDTA enriches ligand and protein graph features, and PVgraphDTA incorporates contact-map image information.”
+
+Do NOT use original [8] Cheng–Prusoff or original [13] PconsC4 in this passage. Keep [8] for Ki/IC50 and [13] for PconsC4 elsewhere where they actually support the content. The revised wording does not suggest that the present models themselves implement cross-attention.
+
+ADD TO BIBLIOGRAPHY (NEW reference; assign final numerical index according to your journal/reference manager):
+Zhang L, Wang C-C, Zhang Y, Chen X. GPCNDTA: Prediction of drug-target binding affinity through cross-attention networks augmented with graph features and pharmacophores. Computers in Biology and Medicine. 2023;166:107512. https://doi.org/10.1016/j.compbiomed.2023.107512
+Publisher/record: https://pubmed.ncbi.nlm.nih.gov/37788507/
+Note: This study is about cross-attention in DTA; do NOT describe it as direct evidence that ALL late-fusion networks necessarily fail.
+
+CHANGE 2 — “Introduction” section, paragraph immediately after Figure 1 (the sentence beginning “The proposed models are evaluated on DAVIS and KIBA datasets ...”).
+
+FIND:
+“DAVIS has been widely used for kinase-inhibitor affinity prediction [9,14] and KIBA provides a larger benchmark for evaluating DTA prediction models [5].”
+
+REPLACE WITH:
+“The DAVIS dataset originates from the experimental kinase-inhibitor selectivity study by Davis et al. [NEW DAVIS REFERENCE] and has been used as a drug–target affinity prediction benchmark [9]. KIBA provides a larger benchmark for evaluating DTA prediction models [5].”
+
+REMOVE original [14] from the DAVIS sentence. RETAIN original [9], which is a relevant drug–target prediction study. Do NOT overwrite the existing bibliography entry [14] with the DAVIS paper unless you have checked every other [14] citation in the complete manuscript; ADD the original DAVIS source as its own reference. Do not confuse Davis et al.'s original 72-inhibitor experimental panel with the commonly processed 68-ligand DAVIS benchmark.
+
+ADD TO BIBLIOGRAPHY (NEW reference; complete author list and DOI checked against publisher/PubMed):
+Davis MI, Hunt JP, Herrgard S, Ciceri P, Wodicka LM, Pallares G, Hocker M, Treiber DK, Zarrinkar PP. Comprehensive analysis of kinase inhibitor selectivity. Nature Biotechnology. 2011;29(11):1046–1051. https://doi.org/10.1038/nbt.1990
+Publisher: https://www.nature.com/articles/nbt.1990
+PubMed: https://pubmed.ncbi.nlm.nih.gov/22037378/
+
+CHANGE 3 — “Related Work” section, paragraph beginning “Vision-based protein representation offers ...”, directly after the NLB-DTA paragraph.
+
+FIND the exact last sentence:
+“This is advantageous because CNNs are highly effective at extracting spatial features from image-like data [22,23].”
+
+REPLACE WITH:
+“CNN-based architectures can extract visual features from image-formatted inputs, as demonstrated by residual networks for image recognition [29] and by image-based approaches to drug–target affinity prediction [23].”
+
+OLD REFERENCES [23] AND [29] ALREADY EXIST IN YOUR MANUSCRIPT:
+Old [23] Han L, Kang L, Guo Q. ImageDTA: A Simple Model for Drug-Target Binding Affinity Prediction. ACS Omega. 2024;9:28485–28493. https://doi.org/10.1021/acsomega.4c02308
+Old [29] He K, Zhang X, Ren S, Sun J. Deep Residual Learning for Image Recognition. Existing manuscript entry cites the 2015 arXiv preprint, https://doi.org/10.48550/arXiv.1512.03385; published CVPR 2016 version: Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR). 2016:770–778. https://doi.org/10.1109/CVPR.2016.90
+
+EITHER retain your existing [29] arXiv entry as published in the manuscript OR (preferably, if consistent with journal reference style) update the SAME reference [29] to the published CVPR 2016 conference citation above, keeping all in-text citations to that same source. Do not add a duplicate ResNet entry just to use the conference DOI.
+
+Original [22] (authors' NLB-DTA) MUST REMAIN in the prior-work paragraph, especially to satisfy Comment 21. Only remove [22] from the image-feature claim.
+
+============================
+C. FINAL BIBLIOGRAPHY CHECK
+============================
+1. Add TWO new entries: GPCNDTA DOI 10.1016/j.compbiomed.2023.107512 and Davis et al. DOI 10.1038/nbt.1990.
+2. Reuse existing ImageDTA [23] and ResNet [29]; published ResNet DOI, if you elect to upgrade that entry, is 10.1109/CVPR.2016.90.
+3. Do not delete the unrelated originals [8], [13], [14], [22] if they are cited correctly elsewhere. If an entry becomes completely uncited, apply journal bibliography rules after checking ALL in-text citations.
+4. Rebuild/renumber numeric references based on first appearance as required by the journal. “NEW” placeholders above must be replaced by the final reference-manager generated numbers. Do not blindly keep [9], [23], or [29] if earlier insertions renumber them.
+5. Check every occurrence of the original citation numbers throughout manuscript, and synchronize the clean/colored versions and the official reviewer response.
+6. Only then submit the completed-action response in Section A. This GitHub text is an edit plan; the actual manuscript has not been modified by this GitHub commit.
