@@ -1,14 +1,13 @@
-STATUS: CONTACT THRESHOLD VERIFIED; AE/COLD-TARGET PROVENANCE MUST BE STATED CAREFULLY
-
-VERIFIED
-Recovered protein-graph code uses contact probability >= 0.5 as the graph-edge threshold. This is separate from the autoencoder masked-MSE threshold 0.05, which only determines which image pixels contribute to AE reconstruction loss.
+REVIEWER 3 — COMMENT 16
+Status: Response-letter text only, as requested. No manuscript edits or new experimental results are claimed.
 
 RESPONSE TO REVIEWER
-We thank the reviewer for identifying the ambiguity between the two thresholds. We now state them explicitly and separately. Protein graph edges are formed from predicted contacts with probability >= 0.5, whereas the autoencoder masked reconstruction loss uses a pixel threshold of 0.05; the latter does not define graph edges.
 
-Regarding the cold-target setting, the cold-target result currently reported evaluates DGraphDTA and FGgraphDTA only; PVgraphDTA and its autoencoder are not part of that displayed experiment. Therefore AE exposure to held-out proteins does not affect the currently displayed cold-target result. If a PVgraphDTA cold-target experiment is added for Comment 19, the AE should be trained only on training-target contact maps and then frozen before validation/test embedding extraction to preserve a strictly inductive protein-disjoint protocol. The recovered reviewer pipeline supports this split-aware behavior.
+We thank the reviewer for highlighting these implementation details. The contact-probability threshold for constructing protein-graph edges and the autoencoder mask threshold are independent parameters used in separate stages. In our protein-graph implementation, residue pairs are connected when their predicted contact probability is at least 0.5; the separate threshold of 0.05 is used for the autoencoder reconstruction mask and does not determine graph edges.
 
-METHODS TEXT
-Protein graph edges were created for residue pairs with PconsC4 contact probability >= 0.5. This threshold is distinct from the 0.05 threshold used only in the masked-MSE objective during autoencoder pretraining.
+Regarding the cold-target experiment, the reported cold-target results concern DGraphDTA and FGgraphDTA, not the autoencoder-based PVgraphDTA model. In addition, the autoencoder was not trained using contact maps from held-out test proteins. Accordingly, held-out test-protein contact maps did not contribute to learning its parameters, and there was no test-target information leakage through autoencoder training. We appreciate the opportunity to clarify the distinction between these components and the evaluation protocol.
 
-For any standard random-interaction experiment in which AE pretraining used all unique proteins, state this explicitly as unsupervised/transductive feature pretraining rather than affinity-label leakage.
+INTERNAL CHECK BEFORE SUBMISSION
+- The 0.5 graph-edge and 0.05 autoencoder-mask values are documented in the recovered implementation; confirm that the original experiment used these values.
+- The statement that held-out proteins were excluded from AE training follows the author's confirmation; ensure original training logs/split records agree. Do not extrapolate it to any different standard random-interaction training protocol.
+- This is a response-only update. The manuscript has NOT been amended as part of this GitHub commit; the text does not claim that it has been.
