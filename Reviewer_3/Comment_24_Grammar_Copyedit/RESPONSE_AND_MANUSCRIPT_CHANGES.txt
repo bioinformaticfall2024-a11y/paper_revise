@@ -1,16 +1,46 @@
-STATUS: CURRENT MANUSCRIPT SEARCH CONFIRMS THE LISTED ERRORS; FULL COPY-EDIT REQUIRED
+REVIEWER 3 — COMMENT 24: LANGUAGE AND TYPOGRAPHICAL ERRORS
+STATUS: Proposed wording ready; make these changes in BOTH manuscript versions and complete a final human copy-edit before submitting.
 
-VERIFIED FIXES
-1. 'computer aided drug discovery' -> 'computer-aided drug discovery'.
-2. 'a large libraries of candidate molecules' -> 'a large library of candidate molecules'.
-3. 'As summarized in Table 8. it contains...' -> 'As summarized in Table 8, it contains...'.
-4. 'This information that critically affects...' -> 'This information critically affects hydrogen bonding, polarity, charge, and molecular interactions.'
-5. 'However, PVgraphDTA integrates ..., these features...' -> 'PVgraphDTA integrates complementary ligand, protein, and structural representations; however, these features are currently extracted through separate encoders and combined through embedding-level fusion.'
-6. 'repeated -fold cross-validation' -> if repeated CV was not performed, write simply 'repeated cross-validation was not performed' rather than guessing the missing number.
-7. 'with considered statistically significant' -> 'with p < 0.05 considered statistically significant.'
-8. Replace the causal dataset-size explanation with a non-causal description because the experiments do not isolate dataset size.
+SHORT RESPONSE TO REVIEWER (use after corrections and copy-edit are completed)
+Thank you for identifying the remaining language and formatting errors. We have corrected the cited sentences, punctuation, hyphenation, and missing statistical notation, and completed a final human copy-edit of the revised manuscript.
 
-RESPONSE TO REVIEWER
-We thank the reviewer. We performed a full copy-edit of the revised manuscript rather than correcting only the listed examples. The identified punctuation, agreement, sentence-fragment, missing-symbol, and hyphenation errors were corrected, including 'computer-aided,' 'a large library,' the Table 8 punctuation, the malformed significance sentence, and the Discussion sentences highlighted by the reviewer. We also removed causal language that was not directly established by the experiments.
+WHERE TO EDIT THE MANUSCRIPT (search for the quoted text; page/line numbers may shift)
+1. ABSTRACT, Background
+   Find: "computer aided drug discovery"
+   Replace: "computer-aided drug discovery"
 
-Repeat the copy-edit after all scientific edits are finalized because table/equation deletions and new paragraphs can create new cross-reference errors.
+2. INTRODUCTION, virtual screening paragraph
+   Find: "a large libraries of candidate molecules"
+   Replace: "large libraries of candidate molecules" (or "a large library of candidate molecules" if singular is intended).
+
+3. RESULTS, DAVIS description next to Table 8
+   Find: "As summarized in Table 8. it contains 68 drugs"
+   Replace the sentence with: "As summarized in Table 8, the original DAVIS benchmark comprises 68 drugs, 442 proteins, and 30,056 drug–target interactions."
+   Check the table number after renumbering; clarify the ACTUAL experimental cohort separately under Comment 15.
+
+4. DISCUSSION, dataset comparison
+   Find: "This disparity reflects dataset scale and means that compact chemical enrichment suffices for DAVIS, whereas KIBA's size accommodates PVgraphDTA's complex multimodal design."
+   Replace: "FGgraphDTA achieved a lower MSE on DAVIS, whereas PVgraphDTA achieved a lower MSE on KIBA. Differences in dataset size and composition may contribute to this pattern, but their individual effects were not isolated."
+   Recheck against any subsequently updated results before submission. Avoid claiming that dataset size alone explains the difference.
+
+5. DISCUSSION / LIMITATIONS, separate encoders
+   Find: "However, PVgraphDTA integrates complementary ligand, protein, and structural representations, these features are currently extracted through separate encoders"
+   Replace: "Although PVgraphDTA integrates complementary ligand, protein, and structural representations, these features are currently extracted through separate encoders and combined through embedding-level fusion."
+
+6. DISCUSSION, sentence fragment
+   Find: "This information that critically affects hydrogen bonding, polarity, charge, and molecular interactions."
+   Replace: "Functional-group information can influence hydrogen-bonding capacity, polarity, charge distribution, and molecular interactions."
+
+7. EXPERIMENTAL PROTOCOL, cross-validation
+   Find: "repeated -fold cross-validation"
+   If no repeated cross-validation was performed, write: "Repeated cross-validation was not performed." Do not invent a number of folds.
+
+8. EXPERIMENTAL PROTOCOL, statistical significance
+   Find: "with considered statistically significant"
+   Replace the full sentence with: "Statistical significance was assessed using a two-sided paired Student's t-test on per-target MSE across the 58 held-out proteins. A p-value below 0.05 was considered statistically significant."
+   Confirm the threshold matches the actual analysis; inspect the exported PDF for missing mathematical symbols.
+
+FINAL CHECK
+- Human-proofread all sections, tables, captions, equations, references, declarations, and newly added text.
+- Inspect the FINAL exported PDF; verify symbols, cross-references, table numbers, and punctuation.
+- Do not state the copy-edit is completed in the response letter until it actually is.
