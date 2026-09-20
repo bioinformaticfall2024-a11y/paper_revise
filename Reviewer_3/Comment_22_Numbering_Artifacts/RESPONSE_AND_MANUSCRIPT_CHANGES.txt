@@ -1,14 +1,70 @@
-STATUS: EDITORIAL; SHOULD BE FIXED COMPLETELY
+REVIEWER 3 — COMMENT 22: TABLE CAPTION, EQUATION CROSS-REFERENCES, AND NUMBERING
 
-RESPONSE TO REVIEWER
-We thank the reviewer. We performed a dedicated numbering and production-artifact pass. The stray 'molecular graph constructiontom' artifact has been removed. We also reviewed every displayed equation and retained numbers only for equations explicitly cross-referenced in the body; otherwise equation numbers were removed. After the substantive revisions, all figure/table/equation references were rechecked for sequential numbering and correct in-text citation.
+USER'S DECISION
+KEEP ALL existing equations AND KEEP ALL existing equation numbers. Do not delete equations or remove equation numbers. Fix the identified caption typo, add meaningful in-text cross-references for the numbered equations, and check all figure/table/equation numbering after the other manuscript revisions.
 
-SPECIFIC FIX
-'Table 3. Summary of atom-level features extracted for ligand molecular graph constructiontom' -> 'Table 3. Summary of atom-level features extracted for ligand molecular graph construction.'
+STATUS
+Draft instructions and reviewer response prepared. Changes described here have NOT automatically been applied to the manuscript. Use the completed-action response below ONLY AFTER performing and checking the edits in the actual manuscript.
 
-FINAL CHECK
-- Tables sequential and cited near first appearance.
-- Figures sequential and cited.
-- Equations either cross-referenced or unnumbered.
-- No orphan caption-like equation tables.
-- Recheck numbering after deleting/adding tables during this revision.
+REVIEWER COMMENT
+“Table and equation numbering defects remain. The caption of the atom-feature table ends with a stray editing artefact, reading ‘molecular graph constructiontom’. The manuscript contains roughly thirty display equations carrying numbers that appear only in caption-like tables, while the body text never refers to an equation by number, so the numbering serves no purpose; it should either be cross-referenced or removed. Figure and table citations otherwise appear consecutive and complete, but I ask the authors to verify the numbering after any restructuring.”
+
+A. RESPONSE TO REVIEWER — TO USE AFTER ALL CHANGES HAVE BEEN MADE
+
+We thank the reviewer for identifying the remaining caption and equation-numbering issues. We have corrected the stray editing artifact in the atom-feature table caption, which now reads “Table 3. Summary of atom-level features extracted for ligand molecular graph construction.”
+
+We have retained the mathematical equations and their original numbering because they document the methodological formulation. To make the numbering useful and to address the reviewer's concern, we have revised the accompanying text to introduce explicit, correctly matched in-text cross-references to the numbered equations. We have also checked their displayed numbering and formatting for consistency.
+
+Finally, after completing the manuscript revisions, we have checked the sequence of figure, table, and equation numbers and their corresponding references in the text and captions, correcting any inconsistencies. These editorial changes do not alter the mathematical expressions, the proposed methods, or the reported experimental results.
+
+IMPORTANT: If the cross-references or final numbering check have not yet been completed, do not claim in the submitted response that they have been completed. Finish the checklist first.
+
+B. EXACT MANUSCRIPT CHANGES AND WHERE TO MAKE THEM
+
+1) CORRECT THE KNOWN CAPTION TYPO.
+Location: “Ligand Preprocessing” section, atom-level feature table (Table 3 in the uploaded revised manuscript).
+FIND:
+Table 3. Summary of atom-level features extracted for ligand molecular graph constructiontom
+REPLACE WITH:
+Table 3. Summary of atom-level features extracted for ligand molecular graph construction
+Do not change the table contents or feature dimensions when making this typographical fix. Retain the caption's existing numbering unless later manuscript changes legitimately renumber it.
+
+2) KEEP ALL EQUATIONS AND EQUATION NUMBERS; ADD TEXT CROSS-REFERENCES.
+Location: throughout the Methods / Materials and Data Preparation / Model / Loss sections, at the paragraph where each displayed equation is first introduced or when the equation is discussed again.
+For EACH existing numbered displayed equation:
+  a. Identify exactly what the equation represents and its current final number.
+  b. At a natural place in the neighboring prose, refer to its actual number, e.g., “... as defined in Equation (1).”
+  c. Keep the full mathematical expression and its number intact.
+  d. Check that the sentence refers to the CORRECT expression; do not assign an example number to a different formula.
+  e. Where several related equations are introduced together, natural wording such as “Equations (X)–(Y) define ...” is appropriate only after verifying that every equation in that range actually belongs to the described step.
+
+CONFIRMED EXAMPLE from the manuscript's MSE-loss introduction:
+CURRENT:
+“The model is trained to minimize the discrepancy between [the predicted and observed affinity values] using the mean squared error (MSE) loss function:”
+REVISED:
+“The model is trained to minimize the discrepancy between the predicted and observed affinity values using the mean squared error (MSE) loss function, as defined in Equation (1):”
+Keep the MSE formula and its displayed (1) number unchanged. If earlier edits have renumbered this equation, replace (1) with its verified final number.
+
+Possible other places to introduce references, USING VERIFIED FINAL EQUATION NUMBERS ONLY: ligand/protein graph operations, functional-group augmentation, graph pooling, protein-image/autoencoder feature processing, feature-fusion equations, regression objective and InfoNCE/contrastive loss. Do NOT copy a guessed equation number into the manuscript.
+
+3) REVIEW EQUATION-NUMBER LAYOUT.
+The reviewer describes numbers appearing in caption-like tables. Inspect the Word source: make sure each equation number is visibly tied to its own equation, aligned consistently and not mistakenly presented as a separate table caption. If the existing Word table layout is needed for alignment, it can remain provided it prints correctly and all cross-references point to the right equation. Do NOT change mathematical expressions merely to adjust layout. Where feasible use Word's stable cross-references/bookmarks/fields to avoid broken references after editing.
+
+4) FINAL CHECK OF TABLES, FIGURES AND EQUATIONS — DO THIS LAST.
+After incorporating any other reviewer-requested insertions/deletions:
+  - Verify every table caption is numbered sequentially in order of first appearance and every in-text “Table X” points to the right table.
+  - Verify every figure caption is numbered sequentially in order of first appearance and every in-text “Figure X” points to the right figure.
+  - Verify every displayed equation's number is unique, sequential as appropriate, positioned next to its equation, and matches its prose cross-reference(s).
+  - Update Word fields/cross-references (e.g., select all and update fields where applicable) and inspect the final exported PDF as well as the Word source.
+  - Inspect captions for stray text and spacing artifacts; only the “constructiontom” defect is specifically identified here. Do not assert other captions have been comprehensively checked unless the final inspection has actually been completed.
+
+C. FINAL CHECKLIST (MARK AFTER WORK IN THE MANUSCRIPT, NOT JUST IN THIS FILE)
+[ ] Delete only the extra “tom” from the atom-feature table caption.
+[ ] Retain every displayed equation and its number.
+[ ] Add and verify prose cross-references for the numbered equations.
+[ ] Check layout and ensure equation numbers are attached to the correct expressions.
+[ ] Once the other revisions are final, audit all table/figure/equation numbers and citations in the Word source AND exported PDF.
+[ ] Only then paste the completed-action response from Section A into the official response letter.
+
+SOURCE BASIS
+Reviewer 3, Comment 22; uploaded revised manuscript, Ligand Preprocessing/atom-feature table and numbered MSE equation. This file provides proposed editorial changes, not evidence that the manuscript itself has already been corrected.
