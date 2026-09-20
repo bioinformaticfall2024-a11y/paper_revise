@@ -1,20 +1,34 @@
-STATUS: MIX OF VERIFIED EDITS + ONE EXTERNAL ARCHIVING ACTION
+REVIEWER 3 — COMMENT 27: MINOR ITEMS AND CODE ARCHIVE
+STATUS: MANUSCRIPT EDITS PREPARED. Author confirms that 'X' is the 21st amino-acid one-hot category and provides an existing Figshare DOI: https://doi.org/10.6084/m9.figshare.33886678. Verify that the published Figshare record actually contains a downloadable snapshot of the relevant FGgraphDTA and PVgraphDTA source code before claiming that the code has been permanently archived there. A DOI alone does not establish the archived contents.
 
-1. AMINO-ACID ALPHABET
-Recovered preprocessing uses the 21 symbols ACDEFGHIKLMNPQRSTVWYX: 20 standard amino acids plus X/unknown. Change prose to: 'A 21-category one-hot encoding was used (20 standard amino acids plus X for unknown/other residues).'
+SHORT RESPONSE TO REVIEWER (use after making the edits and checking Figshare contents)
+Thank you for these comments. We have clarified that the 21-dimensional amino-acid encoding comprises the 20 standard residues plus an X category for other or unknown residues. We have corrected the RDKit citation and Keywords punctuation, and added the persistent Figshare archive DOI (10.6084/m9.figshare.33886678) to the Data Availability statement.
 
-2. RDKIT REFERENCE
-The token 'Ric' appears in some archived RDKit/Zenodo contributor metadata and cannot safely be expanded by guessing. Prefer a canonical RDKit software citation generated from official RDKit release/website metadata or the journal's software-citation format.
+EXACT MANUSCRIPT CHANGES — make in BOTH clean and marked-up revised manuscript versions
 
-3. KEYWORDS
-Remove the terminal period if required by journal style.
+1) PROPOSED METHOD 2: PVgraphDTA — paragraph describing amino-acid identity in the contact-map image, immediately after the positional-encoding equations.
+Find: "Therefore, amino acid one-hot encoding is also added. In this encoding, each amino acid is represented as a one-hot vector over the standard 20-letter amino acid alphabet."
+Replace with: "Therefore, amino-acid one-hot encoding is also added. Each residue is represented by a 21-dimensional one-hot vector comprising the 20 standard amino acids and an additional X category for other or unknown residues."
+Leave the remaining paragraph about expansion along the row and column axes intact. If the image branch uses a different alphabet from the residue graph, correct the description to match the actual implementation instead of assuming identical dimensions.
 
-4. PERSISTENT CODE ARCHIVE
-A mutable GitHub URL alone is weaker than a persistent archive. Before submission, create a tagged release of the exact source version, archive it on Zenodo (or equivalent), obtain a DOI, and add the DOI plus release tag/commit hash to Data Availability.
+2) PROTEIN PREPROCESSING — immediately before Table 4 ("Protein residue-level node features").
+After the sentence introducing the 54-dimensional residue feature vector, add:
+"The residue-identity component is 21-dimensional: 20 positions represent the standard amino acids, and the additional X position represents other or unknown residues."
+Table 4: keep "Residue identity = 21" and "Total = 54"; NO model input-dimension change is necessary.
 
-RESPONSE TO REVIEWER
-We thank the reviewer. We reconciled the residue encoding description with the implemented 21-category alphabet (20 standard residues plus X/unknown), corrected the Keywords formatting, and replaced the problematic RDKit bibliographic entry with a verified software citation. We also archived the exact code release used for the revised manuscript in a persistent repository and added its DOI and version/commit identifier to the Data Availability statement.
+3) REFERENCES — current reference 28 (RDKit release). Find:
+"28. Landrum G, Tosco P, Kelley B, Ric, Sriniker, Gedeck, et al. rdkit/rdkit: 2021_09_3 (Q3 2021) Release [Internet]. Zenodo; 2021 [cited 2026 June 16]. https://doi.org/10.5281/ZENODO.5773460"
+Suggested software-first replacement, retaining the same archived version and DOI without guessing a full name for 'Ric':
+"28. RDKit: Open-source cheminformatics. rdkit/rdkit: 2021_09_3 (Q3 2021) Release. Zenodo; 2021. https://doi.org/10.5281/zenodo.5773460"
+Follow the journal's software-reference formatting if it requires named authors. Do NOT expand 'Ric' into a guessed name.
 
-DO NOT USE THE LAST SENTENCE UNTIL A REAL DOI EXISTS.
-DATA AVAILABILITY TEMPLATE
-The source code corresponding to this revision is available at [GitHub URL], release [TAG], commit [SHA], and is permanently archived at Zenodo: https://doi.org/[DOI].
+4) ABSTRACT — Keywords line: remove ONLY the final full stop after "Graph neural network." so it ends "Graph neural network".
+
+5) DECLARATIONS → Availability of data and materials — after the existing GitHub repository link, add the Figshare DOI. Suggested complete paragraph:
+"The datasets used in this study are publicly available benchmark datasets. DAVIS and KIBA are available from their original sources as cited in this article. The source code for FGgraphDTA and PVgraphDTA is available at https://github.com/saeed77t/Fg-PVgraphDTA. An archived version of the source code is available on Figshare at https://doi.org/10.6084/m9.figshare.33886678."
+ONLY use the last sentence after verifying the Figshare record contains the relevant source-code files. If it archives a different item, update Figshare appropriately and adjust this statement. No additional Zenodo DOI is needed if Figshare contains the appropriate versioned code archive.
+
+LAST CHECK
+- Verify DOI resolves publicly, actual archived files are downloadable, and the archived code matches the revision being cited (ideally identify the release or Git commit in the archive description).
+- The reviewer does not request changing the encoding or rerunning experiments.
+- Keep the reply concise and do not claim archive contents were independently checked unless they were.
