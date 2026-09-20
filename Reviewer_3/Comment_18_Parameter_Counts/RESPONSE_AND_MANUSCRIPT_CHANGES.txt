@@ -1,22 +1,60 @@
-STATUS: ANALYTICAL PARAMETER AUDIT COMPLETED; TABLE NEEDS CORRECTION
+REVIEWER 3 — COMMENT 18
+Parameter-count reconciliation and manuscript/reviewer-response draft
+Status: author confirmed ResNet-101 was frozen during DTA training. The exact counts below are an executed ANALYTICAL audit of the reconstructed model dimensions, not a count obtained by loading the original result-producing checkpoints. Before submission, cross-check the original model definitions and align the paper's Table 6 and Table 7. The manuscript DOCX and the model-source repository are not modified by this document.
 
-EXACT COUNTS FROM RECOVERED ARCHITECTURE
-Base graph model (78-D ligand + 54-D protein): 1,693,525.
-Ligand-FG only (98/54): 1,814,305.
-Protein-FG only (78/74): 1,803,745.
-FGgraphDTA (98/74): 1,924,525; increase vs base = 231,000.
-PV predictor (graph encoders + CNN projection + three InfoNCE projections + 3-stream head): 2,136,405.
-Autoencoder: 17,627,698.
-Torchvision ResNet-101 with classifier: 44,549,160.
-Removed classifier: 2,049,000.
-Headless ResNet-101 backbone used as feature extractor: 42,500,160.
-PV predictor + AE = 19,764,103.
-PV predictor + AE + headless ResNet = 62,264,263.
+AUTHOR CONFIRMATION / PROVENANCE
+The author explicitly confirmed on 2026-09-20 that the ResNet-101 backbone used for the reported PVgraphDTA experiments was frozen during DTA training. Earlier recovered repository documentation said historical full PV fine-tuned by default; this conflict MUST be checked and corrected against the original training notebook/configuration before making a final reproducibility claim. Frozen parameter weights are separate from BatchNorm running statistics; check whether the backbone was in eval() mode if claiming that the entire feature extractor remained fixed.
 
-RESPONSE TO REVIEWER
-We thank the reviewer for prompting an exact recount. The standard torchvision ResNet-101 contains 44,549,160 parameters with its 1000-class classifier. In our feature extractor, the final 2048x1000 classifier (2,049,000 parameters including bias) is replaced by an identity layer, leaving 42,500,160 backbone parameters; therefore the earlier ~42.5M value refers specifically to the headless backbone. We agree, however, that the complexity table was internally inconsistent and that calling the ~19.76M subtotal the full pipeline was misleading because it omitted the ResNet backbone.
+VERIFIED ANALYTICAL COUNTS FROM THE RECOVERED ARCHITECTURE
+- DGraphDTA-style graph baseline (ligand 78-D; protein 54-D): 1,693,525 trainable parameters.
+- Ligand-FG only (98-D; 54-D): 1,814,305.
+- Protein-FG only (78-D; 74-D): 1,803,745.
+- Full FGgraphDTA (98-D; 74-D): 1,924,525; increase vs. baseline = 231,000.
+- PVgraphDTA trainable predictor: 2,136,405.
+- Standard torchvision ResNet-101 WITH its 1000-class head: 44,549,160.
+- Removed classifier (2048 x 1000 weights + 1000 biases): 2,049,000.
+- PV headless ResNet-101 feature extractor: 42,500,160 frozen parameters.
+- Separately trained AE: 17,627,698 parameters.
+- PV online DTA model (trainable predictor + frozen headless ResNet): 44,636,565.
+- PV aggregate across predictor, ResNet and separately trained AE: 62,264,263.
+- Predictor + AE subtotal, which MUST NOT be called the "full pipeline": 19,764,103.
 
-We also re-counted the graph models. The 78/54 base graph architecture has 1,693,525 parameters, whereas FGgraphDTA with 98/74 inputs has 1,924,525, an increase of 231,000. The previous table incorrectly listed both as ~1.925M. We have replaced the table with exact component-wise counts and explicitly state which components are included and which are trainable.
+EXACT MANUSCRIPT CHANGE — REPLACE TABLE 7 (Experimental Setup)
+Caption: Table 7. Parameter counts of the DGraphDTA-style baseline, FGgraphDTA and PVgraphDTA, distinguishing trainable predictor parameters, frozen visual-backbone parameters and separately trained auxiliary parameters.
 
-IMPORTANT HISTORICAL CHECK
-Recovered historical documentation indicates the result-producing full PV notebook fine-tuned the ImageNet-pretrained ResNet-101 by default, whereas the reconstructed repository currently defaults to a frozen backbone. Before final submission, align the trainable-parameter statement with the exact historical run; do not claim frozen weights if the result-producing notebook fine-tuned them.
+Model | Trainable DTA parameters | Frozen ResNet-101 | Separately trained AE | DTA model total | All components
+DGraphDTA-style baseline | 1,693,525 | – | – | 1,693,525 | 1,693,525
+FGgraphDTA | 1,924,525 | – | – | 1,924,525 | 1,924,525
+PVgraphDTA | 2,136,405 | 42,500,160 | 17,627,698 | 44,636,565 | 62,264,263
+
+Table note: "DTA model total" counts the trainable affinity predictor and any frozen backbone used for online feature extraction, whereas "All components" additionally counts the separately trained AE used to precompute fixed latent protein features. The headless ResNet backbone was frozen during DTA training, according to the author's confirmation. The AE is not executed in the online DTA forward pass if stored AE latent features are used. The aggregate is an architectural inventory, NOT the number of simultaneously trainable parameters or a direct estimate of runtime.
+
+EXACT MANUSCRIPT CHANGE — PARAGRAPH IMMEDIATELY AFTER TABLE 7
+The computational requirements of the proposed models were analyzed by distinguishing trainable predictor parameters, frozen feature-extraction parameters, and separately trained auxiliary components, as summarized in Table 7. The DGraphDTA-style baseline contains 1,693,525 trainable parameters, whereas FGgraphDTA contains 1,924,525 parameters. The additional 231,000 parameters in FGgraphDTA arise from functional-group enrichment, which increases the ligand and protein input feature dimensions from 78 to 98 and from 54 to 74, respectively. In the implemented graph encoders, these changes affect the dimensions of the graph-convolutional layers and subsequent feature-projection layers.
+
+PVgraphDTA contains 2,136,405 trainable predictor parameters and additionally incorporates a pretrained ResNet-101 visual feature extractor. The original 1,000-class classification layer of ResNet-101 is replaced with an identity operation, reducing the backbone parameter count from 44,549,160 to 42,500,160. During DTA training, the ResNet-101 backbone weights were frozen, while the graph encoders, visual projection layer, contrastive projection heads, and affinity-prediction layers remained trainable. Consequently, the frozen backbone parameters are excluded from the trainable DTA parameter count but included in the overall model parameter count.
+
+The autoencoder contains 17,627,698 parameters and is trained separately to generate 128-dimensional protein structural representations. These latent representations are precomputed and remain fixed during DTA training. Therefore, the autoencoder parameters are included in the aggregate parameter count of the complete framework but are not included in the DTA model parameter count. The PVgraphDTA model, including its frozen visual backbone, contains 44,636,565 parameters, while the aggregate count across the predictor, visual backbone, and separately trained autoencoder is 62,264,263 parameters.
+
+Although freezing ResNet-101 reduces the number of parameters requiring gradient updates during affinity-predictor training, the visual feature-extraction stage still introduces additional computational and memory requirements compared with the graph-only models. The reported parameter counts therefore distinguish model size from the number of parameters optimized during DTA training.
+
+ARCHITECTURE TABLE CONSISTENCY CHECK
+Where Table 6 says "ligand hidden dimension" and "protein hidden dimension" = 128, verify whether those labels refer to the final graph EMBEDDING dimension rather than every GCN layer. In the reconstructed graph-encoder code, intermediate widths scale with input_dim. If this matches the original experiment code, relabel to "ligand embedding dimension" and "protein embedding dimension" = 128.
+
+COMPLETE RESPONSE TO REVIEWER — USE ONLY AFTER APPLYING MANUSCRIPT EDITS AND VERIFYING THE HISTORICAL MODEL
+We thank the reviewer for carefully examining the computational-complexity analysis and identifying inconsistencies in the reported parameter counts. We agree that the previous presentation did not clearly distinguish trainable predictor parameters, frozen feature-extraction parameters, and parameters of the separately trained autoencoder. We have therefore corrected Table 7 and clarified the contributions of the individual components.
+
+First, the reviewer is correct that the standard torchvision ResNet-101 contains 44,549,160 parameters when its original 1,000-class classification head is present. Our implementation removes that fully connected classification head and replaces it with an identity operation, removing 2,049,000 parameters. Thus, the visual backbone actually used as a feature extractor contains 42,500,160 parameters, consistent with our previously reported approximate figure of 42.5 million. The backbone weights were frozen during DTA training, as confirmed by the author; these parameters were not optimized with the DTA predictor. We agree nevertheless that frozen parameters must be stated separately and included in the overall model inventory because they contribute to feature-extraction memory and compute requirements.
+
+Second, our revised table distinguishes the 2,136,405 trainable PVgraphDTA predictor parameters, 42,500,160 frozen ResNet-101 backbone parameters, and 17,627,698 parameters of the independently trained autoencoder. The AE was used to generate precomputed 128-dimensional representations rather than being optimized jointly with the affinity predictor. Thus, the online DTA model comprises 44,636,565 parameters, whereas the aggregate architectural inventory across all components is 62,264,263 parameters. We agree that the previous "full pipeline" designation for the predictor-plus-AE subtotal was misleading because it excluded the ResNet backbone; this terminology has been replaced with explicit component definitions.
+
+Third, we re-examined the DGraphDTA-style baseline and FGgraphDTA. Their previous identical count of approximately 1.925 million was incorrect. In the audited graph architecture, the baseline with 78-dimensional ligand and 54-dimensional protein node features contains 1,693,525 parameters, whereas the full FGgraphDTA with corresponding 98- and 74-dimensional features contains 1,924,525, a difference of 231,000. The increase affects multiple graph-convolutional and feature-projection layers because their widths depend on input_dim, not only the first convolution. We have updated Table 7 and clarified the relevant graph-encoder dimensions in the architecture description.
+
+These changes correct the parameter accounting and distinguish trainable model size, frozen feature-extraction size, and separately trained preprocessing components without changing the reported experimental predictions.
+
+REPRODUCIBILITY CHECKLIST BEFORE SUBMISSION
+[ ] Confirm the original result-producing PV configuration and whether BatchNorm statistics were frozen.
+[ ] Instantiate exact original models and check sum(p.numel() for p in model.parameters()) and trainable subset; ensure no double-counting of shared modules.
+[ ] Verify whether the AE latent was precomputed and whether it ran during online inference.
+[ ] Transfer Table 7 and revised prose into both manuscript versions, and update the response letter.
+[ ] Correct the contradictory "historical fine-tuning by default" note in the actual model-source repository only after checking original evidence.
