@@ -1,16 +1,17 @@
-STATUS: EASY FIX; USE ONE EXACT TRANSFORMATION AND MATCH THE PLOTTING CODE
+REVIEWER 3 — COMMENT 26: RADAR-PLOT MSE TRANSFORMATION
+STATUS: Caption/text correction only, provided the existing plot was generated with the stated formula. The author confirms that the plot uses 1 − MSE, NOT negative MSE. No plot changes or new experiments are requested for this wording correction.
 
-RECOMMENDED DEFINITION
-If the actual plot uses min-max normalization:
-MSE_norm = (MSE - MSE_min) / (MSE_max - MSE_min)
-Radar MSE score = 1 - MSE_norm.
-Thus larger values are better on every radar axis.
+SHORT RESPONSE TO REVIEWER (use after updating the manuscript)
+Thank you for pointing out this ambiguity. We have removed the alternative “negative MSE” expression and clarified that the radar plot uses the 1 − MSE transformation. The plotted results remain unchanged.
 
-RESPONSE TO REVIEWER
-We agree that '1-MSE or negative MSE' was ambiguous and mathematically inconsistent. We removed the alternative wording and now state the exact transformation used to construct the radar axis. MSE is first min-max normalized across the models shown in the relevant radar plot and then inverted as 1 - normalized MSE, so that larger values indicate better performance on all axes. The figure caption and plotting code now use the same definition.
+EXACT MANUSCRIPT CHANGE
+Location: Discussion / radar-plot description and corresponding figure caption. Search for “or negative MSE”.
 
-CAPTION
-For visualization, MSE was min-max normalized across the models included in the plot and converted to 1 - normalized MSE; therefore, larger values indicate better performance on all radar axes.
+Before: “… (1 − MSE or negative MSE) …”
+After:  “… (1 − MSE) …”
 
-IMPORTANT
-Verify the original figure-generation code before final submission. If it used a different formula, state the actual formula rather than changing only the caption.
+Suggested full explanatory sentence:
+“For the radar plot, MSE values were inverted using 1 − MSE so that higher values indicate better performance.”
+
+IMPORTANT ACCURACY CHECK
+The reviewer cites the previous response letter as saying “one minus normalized MSE.” If the data used for the plot were normalized BEFORE inversion, state “1 − normalized MSE” instead, and specify the normalization method in the manuscript. If the plotting code uses raw MSE values directly, state “1 − MSE” and do not claim min–max normalization. Removing “or negative MSE” alone does not establish whether the input MSE was normalized: match the text to the actual plotted values. Do not assert that the plotting code was checked if it was not.
