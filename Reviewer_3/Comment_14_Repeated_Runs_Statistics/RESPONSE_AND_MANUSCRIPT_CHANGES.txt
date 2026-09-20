@@ -1,15 +1,50 @@
-STATUS: MAJOR EXPERIMENT REQUIRED; CURRENT MANUSCRIPT DOES NOT HAVE FIVE-SEED MAIN-TABLE RESULTS
+REVIEWER 3 — COMMENT 14: REPEATED RUNS AND STATISTICAL RELIABILITY
+Status: DOCUMENTATION UPDATED; NO ADDITIONAL EXPERIMENT OR BOOTSTRAP CLAIMED.
+Use this response only after inserting the specified manuscript changes.
 
-CHECK
-The recovered pipeline supports seeds 11, 22, 33, 44, and 55 and can aggregate mean/sample SD, paired-seed tests, target-level tests and bootstrap intervals. No research-scale five-seed result artifacts are present in the supplied files, and the current environment lacks the full prepared structural assets needed to run them honestly.
+EVIDENCE ACTUALLY AVAILABLE
+- FGgraphDTA, DAVIS cold-target: 58 held-out proteins; 3,944 test interactions.
+- Single-run overall MSE = 0.4252; CI = 0.8106; Spearman rho = 0.7020.
+- Previously reported paired per-protein MSE test: t(57) = 2.13, two-sided p = 0.038. This test has NOT been independently recalculated here.
+- Main DAVIS and KIBA model results are single-run estimates.
+- Actual paired per-protein values, interaction-level predictions, and five-seed output artifacts have NOT been supplied or verified for this response.
+- No new confidence intervals, seed-level means/SDs, CI/Spearman t-tests, or bootstrap significance results can responsibly be claimed from the retained summary numbers.
 
-WHAT TO RUN
-1. Main DAVIS and KIBA proposed-model experiments for seeds 11/22/33/44/55 using one persisted split per dataset.
-2. Report mean +/- sample SD for MSE, CI, Pearson and preferably Spearman.
-3. For cold-target, run multiple split seeds or give a target-level bootstrap CI; training seeds alone do not measure split variability.
-4. If testing multiple outcomes, state multiplicity handling or label analyses exploratory.
+RESPONSE TO REVIEWER 3, COMMENT 14 (paste after making manuscript changes)
 
-RESPONSE TEMPLATE AFTER RUNS
-We agree that single-run estimates were insufficient. We repeated the principal experiments over five training seeds (11, 22, 33, 44, 55) using the same persisted split for each dataset and now report mean +/- SD in the main tables. For the cold-target analysis, we additionally [repeated the target split over N split seeds / computed a target-level bootstrap confidence interval], and we revised the significance claim accordingly.
+We thank the reviewer for emphasizing the importance of repeated experimental evaluations and statistical uncertainty quantification. We agree that repeating training over different random seeds and testing several independent protein-disjoint splits would permit a more complete assessment of stability and generalization.
 
-DO NOT SUBMIT THIS AS COMPLETED UNTIL THE RESULT FILES EXIST.
+The requested five training runs for each principal model–dataset configuration, together with repeated cold-target training, exceed the computational resources currently available to us. In particular, the PVgraphDTA workflow includes additional structural preprocessing and visual feature extraction. We therefore could not complete the requested repeated-run experiments within this revision. We recognize that computational limitations do not eliminate the resulting statistical uncertainty.
+
+The main DAVIS and KIBA results are single-run point estimates; they should not be interpreted as estimates of run-to-run reproducibility. In the existing DAVIS cold-target evaluation, FGgraphDTA achieved MSE = 0.4252, CI = 0.8106 and Spearman rho = 0.7020 on 58 held-out proteins and 3,944 test interactions. The previously reported two-sided paired per-protein MSE test yielded t(57) = 2.13, p = 0.038. This unadjusted test is limited to one selected protein-disjoint split and does not establish robustness to changes of training seed or held-out proteins.
+
+We have not reported a bootstrap interval because the underlying paired protein-level observations or test predictions needed for valid nonparametric resampling have not been made available for this revision; the summary metrics and t-statistic alone do not identify the empirical bootstrap distribution. We have revised the Experimental Setup, cold-target Results, Discussion, and Conclusion to state these limitations clearly and to avoid claims of statistically established improvements across seeds or independent partitions. We recognize that repeated-seed and repeated-split validation remains outstanding and thank the reviewer for identifying this limitation.
+
+MANUSCRIPT TEXT TO ADD / REPLACE
+
+1. EXPERIMENTAL SETUP / EXPERIMENTAL PROTOCOL
+Where: Immediately after the paragraph defining the main DAVIS and KIBA training/evaluation protocol, before the Results section.
+Text to add:
+"The main DAVIS and KIBA benchmark results were obtained from single training runs under the reported experimental settings. Due to the computational resources available for this study, independent five-seed evaluations were not performed. The resulting performance metrics are point estimates, and variability due to random initialization, stochastic optimization, and alternative data partitions has not been quantified."
+
+2. DAVIS COLD-TARGET RESULTS
+Where: Immediately after the existing cold-target results table and the paragraph stating the paired t-test result. Keep the actual results table; do not add a fabricated bootstrap column.
+Text to add or use to replace an overconfident significance claim:
+"FGgraphDTA obtained an MSE of 0.4252, a concordance index of 0.8106, and a Spearman correlation of 0.7020 on the single DAVIS cold-target test split comprising 58 held-out proteins and 3,944 interactions. The previously reported paired per-protein MSE test yielded t(57) = 2.13 and an unadjusted two-sided p-value of 0.038. Because this analysis was based on one protein-disjoint split and one training run, the result should not be interpreted as evidence of stable improvement across alternative target partitions or random seeds. An empirical bootstrap confidence interval was not estimated from the available summary statistics."
+
+3. DISCUSSION — LIMITATIONS
+Where: Insert in the limitations subsection, after the paragraph discussing external validation and before future directions.
+Text to add:
+"Statistical reliability is an additional limitation. The main benchmark comparisons rely on single-run point estimates, and the DAVIS cold-target evaluation uses only one protein-disjoint split. Although an unadjusted paired test was reported for the existing cold-target experiment, repeated training and repeated splitting have not been performed. The reported test therefore cannot establish robustness to training randomness, partition choice, or multiple comparisons. Future work should evaluate multiple training seeds and protein-disjoint partitions and retain paired test predictions for prespecified uncertainty analyses."
+
+4. CONCLUSION
+Where: After summarizing the measured results and before final future-work sentences.
+Text to add:
+"The present results were obtained from single-run benchmark evaluations and one cold-target split; repeated-seed and repeated-split evaluations are needed to establish the stability of the observed differences."
+
+IMPORTANT PRESENTATION NOTES
+- This is an honest PARTIAL response to Comment 14; it does not satisfy the request for five-seed main tables.
+- Do not use invented intervals such as [0.3792, 0.4721] or [0.0022, 0.0394].
+- Do not state that a 10,000-resample bootstrap was performed.
+- The previously reported p = 0.038 is unadjusted, and a single comparison does not establish reproducibility.
+- Do not change the main manuscript file or response letter to say "we have revised" until the above edits are actually applied to the submitted documents.
