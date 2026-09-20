@@ -1,19 +1,48 @@
-STATUS: CRITICAL PROVENANCE/COHORT ISSUE; CANNOT BE RESOLVED SAFELY FROM PROSE ALONE
+REVIEWER 3 — COMMENT 15: DAVIS COHORT SIZES
+Status: Reviewer-response draft and manuscript insertion text. These are proposed edits to apply to the manuscript and response letter; uploading this document does NOT edit the manuscript itself.
 
-KNOWN
-The manuscript gives raw DAVIS size 68 drugs / 442 proteins / 30,056 pairs, while the cold-target section states a processed structural subset of 287 proteins / 19,516 interactions. Recovered preprocessing documentation confirms that requiring alignments/contact maps can filter targets. The available files do not contain the original experiment-level filter report needed to prove exactly which cohort generated every displayed result.
+RESPONSE TO REVIEWER — COMMENT 15
 
-RESPONSE STRUCTURE AFTER VERIFYING ORIGINAL LOGS
-We thank the reviewer for identifying an ambiguity between the raw benchmark size and the structurally usable cohort. The 68/442/30,056 values describe the original DAVIS benchmark, whereas [EXACT VERIFIED COHORT] was used for [EXPERIMENT] after requiring [ALIGNMENT/CONTACT-MAP/OTHER] assets. We have added a preprocessing flow table reporting the number of targets and interactions after each filter, rejection reasons, whether filtering occurred before splitting, and final train/validation/test sizes.
+We thank the reviewer for allowing us to clarify the DAVIS populations. The values of 442 proteins and 30,056 pairs describe the complete public DAVIS matrix (68 × 442). The cold-target analysis used a separately defined structure-eligible cohort of 287 proteins and 19,516 pairs (68 × 287). Of these, 58 complete targets and 3,944 pairs (68 × 58) were held out for testing, leaving 229 targets and 15,572 pairs (68 × 229) for development. These counts are internally consistent and reflect the exclusion of complete targets rather than missing drug–target interactions within the retained cohort. [IF CONFIRMED FROM ORIGINAL SPLITS: The same proteins, pairs, and test split were used for DGraphDTA and FGgraphDTA, ensuring a matched comparison.] Although structural filtering may affect the composition of the evaluation cohort, the absence of a usable contact map does not, by itself, establish that an excluded protein is a harder affinity-prediction target or that its exclusion favors FGgraphDTA. We have clarified the distinction between the complete DAVIS benchmark, the structure-eligible cold-target cohort, and the held-out test population, and we acknowledge that findings from the reduced cohort cannot automatically be generalized to the 155 excluded targets.
 
-TABLE TO ADD
-Stage | Drugs | Proteins | Interactions | Exclusion reason
-Raw DAVIS | 68 | 442 | 30,056 | --
-After ligand validation | [ ] | [ ] | [ ] | [ ]
-After alignment availability | [ ] | [ ] | [ ] | missing/invalid MSA
-After contact-map availability | [ ] | [ ] | [ ] | missing/invalid map
-Final main cohort | [ ] | [ ] | [ ] | --
-Cold-target train/val/test | [ ] | [ ] | [ ] | protein-disjoint split
+The reviewer also asks which cohort was used in each MAIN DAVIS experiment, the exact filtering criteria and counts by exclusion reason, and whether filtering preceded the split. The paragraph above DOES NOT by itself answer those questions. Verify the original records and add this short factual sentence BEFORE submission:
+"Specifically, [FGgraphDTA main DAVIS: N proteins / N pairs], [PVgraphDTA main DAVIS: N proteins / N pairs], and [cold-target: 287 proteins / 19,516 pairs] were used. Target eligibility was determined by [actual criterion], [before/after] partitioning; [counts by rejection reason or supplementary manifest reference]."
+Do not assert values or an original validation split without source records. Only say "We have clarified ..." after making the manuscript edits below.
 
-IMPORTANT
-Do not claim the main model used all 442 targets unless actual graph/contact assets and split files prove it. Recover the filter_report/original logs first.
+MANUSCRIPT CHANGES — TEXT AND EXACT PLACEMENT
+
+1. BENCHMARK DATASETS / DAVIS DATASET DESCRIPTION
+Where: Immediately AFTER the sentence introducing the DAVIS benchmark and its original size.
+Add:
+"The complete DAVIS benchmark comprises 68 drugs, 442 proteins, and 30,056 drug–target interactions. For the additional cold-target evaluation, a structure-eligible subset containing 287 proteins and 19,516 interactions was used. The cohort sizes reported for the main benchmark and cold-target evaluation therefore refer to distinct experimental populations."
+
+2. COLD-TARGET RESULTS
+Where: Immediately BEFORE the existing DAVIS cold-target results table; keep the original table and its observed metrics unchanged.
+Add:
+"The cold-target evaluation was conducted on the structure-eligible DAVIS subset comprising 287 proteins and 19,516 interactions. Of these, 58 proteins (3,944 interactions) were held out for testing, leaving 229 proteins (15,572 interactions) in the development population. [IF VERIFIED: DGraphDTA and FGgraphDTA were evaluated using the same held-out proteins and drug–target pairs.] As this analysis was restricted to structurally eligible proteins, its findings cannot automatically be generalized to all 442 DAVIS targets."
+Note: "development population" is intentional: it does NOT claim that all 229 proteins were used for fitting rather than validation.
+
+3. MAIN DAVIS RESULTS TABLE CAPTION OR IMMEDIATELY PRECEDING PARAGRAPH
+Where: Caption of the main DAVIS results table (NOT the cold-target table).
+Add ONE of the following after verifying the actual population:
+- If full DAVIS: "The main DAVIS experiments used all 442 proteins and 30,056 drug–target interactions; the separate cold-target experiment used the 287-protein structure-eligible cohort."
+- If processed subset: "The main DAVIS experiments used [VERIFIED NUMBER] proteins and [VERIFIED NUMBER] drug–target interactions after [VERIFIED FILTERING CRITERION]. The 442-protein/30,056-interaction figures describe the original benchmark rather than this experimental cohort."
+- If FGgraphDTA and PVgraphDTA used different cohorts, identify the population for EACH model and avoid describing them as matched comparisons unless same test examples were used.
+Do not choose a caption without checking original split/data artifacts.
+
+4. DATA PREPARATION: FILTERING PROTOCOL AND REJECTION REASONS
+Where: Immediately after the description of sequence alignments/contact-map generation.
+Add a one- or two-sentence factual explanation once records are verified:
+"Proteins were retained for the [NAME THE EXPERIMENT] evaluation when [EXACT ORIGINAL INPUT-ELIGIBILITY RULE]. Eligibility filtering was performed [BEFORE/AFTER] [ORIGINAL SPLIT PROCEDURE]. Among the 155 proteins absent from the cold-target cohort, [N] failed [REASON 1], [N] failed [REASON 2], and [N] failed [REASON 3], assigning each target to its first applicable rejection reason; the retained and excluded protein identifiers are provided in [ACTUAL SUPPLEMENT OR REPOSITORY FILE]."
+Only list categories that occurred and only report counts supported by actual logs. A total of 155 is NOT a per-reason breakdown. Do not claim that a manifest exists unless it is deposited.
+
+5. DISCUSSION / LIMITATIONS
+Where: In the limitations discussion, near the paragraph about external validation.
+Add:
+"The cold-target evaluation was restricted to proteins for which the required structural input representations were available. Consequently, its findings apply directly to the evaluated structure-eligible cohort and cannot automatically be generalized to all proteins in the original DAVIS benchmark. Although structural eligibility does not necessarily indicate affinity-prediction difficulty, selection effects arising from exclusion of proteins without usable structural representations cannot be ruled out."
+
+HONESTY / INTERPRETATION NOTES
+- The arithmetic 442 × 68 = 30,056; 287 × 68 = 19,516; 58 × 68 = 3,944; 229 × 68 = 15,572 and 442 − 287 = 155 is exact. It does NOT demonstrate structural-filter timing, exclusion causes, or the population used for the main DAVIS experiments.
+- A matched test cohort avoids comparing the two models on different test samples; it does NOT prove that filtering cannot change relative performance.
+- Do not claim a 183-target training / 46-target validation split unless that exact split was used in the original experiment.
+- The reviewer asks whether filtering occurred before splitting, and for rejection counts and a manifest. These remain to be verified rather than invented.
