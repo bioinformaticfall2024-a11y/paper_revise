@@ -22,7 +22,7 @@ This repository separates verified analytical/source checks from experiments tha
 | 16 | Threshold verified; provenance clarification | `Comment_16_Contact_Threshold_AE_Transductive/` |
 | 17 | Formula verified | `Comment_17_pKd_Conversion/` |
 | 18 | Parameter audit + replacement Table 7 and response drafted; author confirms ResNet frozen; original run documentation must be reconciled | `Comment_18_Parameter_Counts/` |
-| 19 | PV COLD-TARGET TRAINING REQUIRED | `Comment_19_PV_Cold_Target/` |
+| 19 | Resource-limited reviewer response + manuscript limitation drafted; PV cold-target experiment NOT RUN | `Comment_19_PV_Cold_Target/` |
 | 20 | ALPHAFOLD COMPARISON RUN REQUIRED | `Comment_20_AlphaFold_Contact_Map/` |
 | 21 | Source-checked; disclosure/text edit | `Comment_21_NLB_DTA_Disclosure/` |
 | 22 | Editorial correction | `Comment_22_Numbering_Artifacts/` |
@@ -39,7 +39,7 @@ This repository separates verified analytical/source checks from experiments tha
 - Comment 14: five-seed main results and stronger cold-target uncertainty analysis require training/results.
 - Comment 15: exact cohort/filter provenance must be recovered from the actual run artifacts.
 - Comment 18: author confirms frozen ResNet-101 weights; reconcile the conflicting historical fine-tuning note against the original result-producing notebook and verify the exact parameter counts before submission.
-- Comment 19: PVgraphDTA cold-target requires training.
+- Comment 19: reviewer response and limitation paragraph drafted under stated computational constraints; PVgraphDTA cold-target remains untested and requires a real training run for direct unseen-target claims.
 - Comment 20: AlphaFold-derived contact-map comparison requires structures and training.
 - Comment 27: a real persistent DOI must be created; do not use a placeholder as if completed.
 
