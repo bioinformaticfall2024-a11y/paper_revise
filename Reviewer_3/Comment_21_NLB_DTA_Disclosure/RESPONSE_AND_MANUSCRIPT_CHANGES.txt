@@ -1,13 +1,54 @@
-STATUS: SOURCE-CHECKED; TEXT/DISCLOSURE CORRECTION REQUIRED
+REVIEWER 3 — COMMENT 21: NLB-DTA PRIOR-WORK DISCLOSURE
+STATUS: Draft response and proposed manuscript insertions. Apply and verify the manuscript edits before submitting the response letter.
 
-SOURCE CHECK
-The authors' previous NLB-DTA publication reports DAVIS CI 0.898, MSE 0.179, Pearson 0.876 in its comparison table (with extra-decimal prose elsewhere), and explicitly places KIBA evaluation in future work. There is therefore no published NLB-DTA KIBA number to insert.
+ORIGINAL REVIEWER COMMENT
+“The authors' own previous model is presented selectively. The DAVIS table includes NLB-DTA with MSE 0.179, better than the DGraphDTA baseline of 0.202 and better than PVgraphDTA, yet the Results section never mentions it, the KIBA table omits it entirely, and the Related Work paragraph that introduces it does not disclose that it is the authors' own prior work. Including a stronger prior method in a table while excluding it from the discussion gives a misleading impression of the improvement. Please either discuss NLB-DTA in the Results or remove it from the comparison, and disclose the relationship to this prior work explicitly.”
 
-RESPONSE TO REVIEWER
-We agree that the relationship to NLB-DTA should have been disclosed and its DAVIS result should have been discussed explicitly. NLB-DTA is our previous work and reports DAVIS performance of CI 0.898, MSE 0.179 and Pearson correlation 0.876. This MSE is better than the displayed DGraphDTA literature value and better than PVgraphDTA on DAVIS, so omitting it from the Results discussion was incomplete. We now identify NLB-DTA explicitly as our prior work and discuss its relationship to the present models. The NLB-DTA publication did not evaluate KIBA and instead identified KIBA as future work; therefore we do not invent a KIBA result and mark it as not reported where appropriate.
+DECISION / EVIDENCE
+* Retain NLB-DTA in the DAVIS comparison table and explicitly discuss its results. Identify it as the authors' previous conference paper.
+* The prior NLB-DTA paper's DAVIS comparison table reports MSE 0.179, CI 0.898, Pearson 0.876. Its prose gives additional decimal places for some metrics; use consistent table precision unless verified otherwise.
+* The prior NLB-DTA publication reports DAVIS experiments only and identifies KIBA evaluation as future work. Do not fabricate a KIBA result or imply the earlier paper tested KIBA. Explain this omission in KIBA Results (or mark 'NR, not reported' with a footnote if a row is added).
+* NLB-DTA's reported DAVIS MSE (0.179) is lower than the displayed DGraphDTA literature value (0.202) and PVgraphDTA (0.207). FGgraphDTA's displayed MSE (about 0.154) is lower than NLB-DTA's. These are comparisons of reported numbers, NOT a controlled head-to-head or evidence of statistically significant architectural superiority; the previous and current evaluation protocols/splits may differ.
+* Conference versus journal status is not a reason to conceal relevant prior work. Keep the existing NLB-DTA citation; check its author list, venue, year and bibliographic details against the published proceedings.
 
-RELATED WORK INSERT
-In our previous work, NLB-DTA introduced a non-local block between lightweight graph-convolution layers to model long-range graph interactions. That study evaluated DAVIS and reported CI 0.898, MSE 0.179 and Pearson 0.876, but did not report a KIBA experiment. The present work differs by focusing on explicit functional-group enrichment (FGgraphDTA) and contact-map image representations with multimodal contrastive learning (PVgraphDTA).
+A. RESPONSE TO REVIEWER — PASTE AFTER THE MANUSCRIPT CHANGES ARE MADE
 
-RESULTS INSERT
-NLB-DTA, our previously published graph model, reported a DAVIS MSE of 0.179, which is lower than the displayed DGraphDTA literature value and the present PVgraphDTA result, while its CI (0.898) is below FGgraphDTA's displayed CI.
+We thank the reviewer for identifying the incomplete presentation of our previous NLB-DTA work. We agree that the relationship between that conference paper and the present study should be disclosed explicitly and that the DAVIS result should be discussed, rather than appearing only in a comparison table.
+
+We have revised the Related Work section to identify NLB-DTA [22] explicitly as our prior work. NLB-DTA introduced non-local operations into ligand and protein graph encoders to model long-range graph dependencies. By contrast, the present study investigates explicit functional-group enrichment in FGgraphDTA and contact-map image representations with autoencoder-based features and contrastive learning in PVgraphDTA. The two proposed architectures are distinct approaches and are not presented as direct extensions of the NLB-DTA architecture.
+
+We have retained NLB-DTA in the DAVIS comparison table and added an explicit discussion in the DAVIS Results section. The prior publication reports MSE 0.179, CI 0.898, and Pearson correlation 0.876 on DAVIS. We now acknowledge that its reported MSE is lower than the DGraphDTA value displayed in the comparison table (0.202) and the present PVgraphDTA result (0.207); FGgraphDTA reports a lower MSE (approximately 0.154). We also clarify that these reported values may have been obtained under different data splits or evaluation protocols and therefore do not constitute a fully matched comparison or establish statistical significance.
+
+Regarding KIBA, the earlier NLB-DTA conference paper evaluated DAVIS but did not report a KIBA experiment; KIBA evaluation was identified as future work. We have added an explanation to the KIBA Results section rather than reporting an unavailable result. These changes make the previous contribution and the scope of the benchmark comparisons explicit.
+
+B. EXACT MANUSCRIPT CHANGES — COPY/PASTE TEXT AND PLACEMENT
+
+1. RELATED WORK — REPLACE the existing paragraph that introduces NLB-DTA [22] (the paragraph beginning “The non-local idea has been applied to DTA prediction in NLB-DTA ...”) with:
+
+“In our previous conference work, we introduced NLB-DTA [22], a dual-graph model that incorporates non-local blocks into ligand and protein graph encoders to capture long-range dependencies beyond local message passing. On DAVIS, NLB-DTA reported an MSE of 0.179, a concordance index (CI) of 0.898, and a Pearson correlation of 0.876. The present study examines two different representation strategies: FGgraphDTA augments ligand and protein graphs with explicit functional-group features, whereas PVgraphDTA incorporates contact-map image features, autoencoder representations, and contrastive learning. These are distinct architectural approaches rather than direct extensions of NLB-DTA.”
+
+2. DAVIS RESULTS — KEEP the NLB-DTA row and its original citation in the DAVIS performance table. ADD immediately after the main paragraph discussing FGgraphDTA and PVgraphDTA on DAVIS:
+
+“Our previously published NLB-DTA model [22] provides an additional literature-reported reference point for the DAVIS comparison. NLB-DTA reported an MSE of 0.179, a CI of 0.898, and a Pearson correlation of 0.876. Its reported MSE is lower than the DGraphDTA literature value shown in the table (0.202) and that of PVgraphDTA (0.207), whereas FGgraphDTA reports a lower MSE (approximately 0.154). Therefore, although FGgraphDTA achieves a lower reported MSE, the contact-map visual approach in PVgraphDTA does not improve on NLB-DTA's previously reported DAVIS MSE. Because the literature-reported result and the present experiments may involve different data partitions or evaluation protocols, these numerical differences should not be interpreted as a controlled, statistically validated head-to-head comparison.”
+
+3. KIBA RESULTS — ADD after the KIBA performance table or in the paragraph immediately following that table:
+
+“NLB-DTA [22] is not included in the KIBA numerical comparison because our earlier conference study evaluated the model on DAVIS only and did not report KIBA results. A matched KIBA evaluation of NLB-DTA would require a separate experiment and is not claimed here.”
+
+4. DAVIS TABLE CAPTION / FOOTNOTE — IF the table does not already distinguish literature values from in-house evaluations, ADD a footnote:
+
+“NLB-DTA values are taken from our previously published conference paper [22] and are literature-reported results. Literature-reported and present-study results may differ in data splits and evaluation protocols.”
+
+5. CHECK ANY BROAD PERFORMANCE CLAIMS — Where the Abstract, Results, Discussion or Conclusion implies that both proposed models outperform all previous methods on both datasets, qualify the statement to reflect the actual dataset- and metric-specific outcomes. Do not claim NLB-DTA was run on KIBA or that FGgraphDTA is statistically superior to NLB-DTA without a matched experiment.
+
+FINAL CHECKLIST BEFORE SUBMISSION
+[ ] Related Work explicitly says “our previous conference work” and cites NLB-DTA correctly.
+[ ] DAVIS table retains NLB-DTA's 0.179 / 0.898 / 0.876 values in correct metric columns.
+[ ] DAVIS Results openly acknowledges NLB-DTA's lower MSE than PVgraphDTA and the displayed DGraphDTA literature row.
+[ ] KIBA Results explicitly explains why NLB-DTA has no published KIBA entry.
+[ ] Literature versus in-house provenance, splits and statistical-comparison caveats are consistent with answers to Reviewer 3 Comments 3, 6 and 14.
+[ ] Only after applying edits, use the past-tense “we have revised” response above.
+
+SOURCE DOCUMENTS (project uploads)
+- Enhancing Drug–Target Affinity Prediction with Non-Local Block Graph Neural Networks (previous conference paper), DAVIS comparison table and discussion of future KIBA work.
+- Chemically-Informed and Structure-Aware Graph Neural Networks for Drug-Target Affinity Prediction (current revised manuscript), Related Work and DAVIS/KIBA performance tables.
