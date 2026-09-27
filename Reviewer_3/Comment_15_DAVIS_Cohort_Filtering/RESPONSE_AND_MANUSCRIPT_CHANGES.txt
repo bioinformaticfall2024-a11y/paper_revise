@@ -1,48 +1,152 @@
 REVIEWER 3 — COMMENT 15: DAVIS COHORT SIZES
-Status: Reviewer-response draft and manuscript insertion text. These are proposed edits to apply to the manuscript and response letter; uploading this document does NOT edit the manuscript itself.
+Status: Cohort audit completed. Reviewer-response text and exact manuscript changes are ready. No new model training is required for this comment.
 
-RESPONSE TO REVIEWER — COMMENT 15
+============================================================
+A. FINAL RESPONSE TO REVIEWER — COMMENT 15
+============================================================
 
-We thank the reviewer for allowing us to clarify the DAVIS populations. The values of 442 proteins and 30,056 pairs describe the complete public DAVIS matrix (68 × 442). The cold-target analysis used a separately defined structure-eligible cohort of 287 proteins and 19,516 pairs (68 × 287). Of these, 58 complete targets and 3,944 pairs (68 × 58) were held out for testing, leaving 229 targets and 15,572 pairs (68 × 229) for development. These counts are internally consistent and reflect the exclusion of complete targets rather than missing drug–target interactions within the retained cohort. [IF CONFIRMED FROM ORIGINAL SPLITS: The same proteins, pairs, and test split were used for DGraphDTA and FGgraphDTA, ensuring a matched comparison.] Although structural filtering may affect the composition of the evaluation cohort, the absence of a usable contact map does not, by itself, establish that an excluded protein is a harder affinity-prediction target or that its exclusion favors FGgraphDTA. We have clarified the distinction between the complete DAVIS benchmark, the structure-eligible cold-target cohort, and the held-out test population, and we acknowledge that findings from the reduced cohort cannot automatically be generalized to the 155 excluded targets.
+We thank the reviewer for identifying this ambiguity and prompting this clarification.
 
-The reviewer also asks which cohort was used in each MAIN DAVIS experiment, the exact filtering criteria and counts by exclusion reason, and whether filtering preceded the split. The paragraph above DOES NOT by itself answer those questions. Verify the original records and add this short factual sentence BEFORE submission:
-"Specifically, [FGgraphDTA main DAVIS: N proteins / N pairs], [PVgraphDTA main DAVIS: N proteins / N pairs], and [cold-target: 287 proteins / 19,516 pairs] were used. Target eligibility was determined by [actual criterion], [before/after] partitioning; [counts by rejection reason or supplementary manifest reference]."
-Do not assert values or an original validation split without source records. Only say "We have clarified ..." after making the manuscript edits below.
+1. Main DAVIS benchmark cohort
 
-MANUSCRIPT CHANGES — TEXT AND EXACT PLACEMENT
+We clarify that the main FGgraphDTA and PVgraphDTA experiments reported in Table 8 used the complete DAVIS benchmark comprising 68 drugs, 442 target entries, and 30,056 drug–target interactions, using the same nominal DAVIS benchmark population reported in the literature. Complete PconsC4 contact maps and HHblits alignment files were available for all 442 target entries used in the main benchmark workflow. Therefore, the reduction to 287 targets in the additional cold-target experiment was not caused by unavailable PconsC4 contact maps, failed contact-map generation, or missing alignment files.
 
-1. BENCHMARK DATASETS / DAVIS DATASET DESCRIPTION
-Where: Immediately AFTER the sentence introducing the DAVIS benchmark and its original size.
-Add:
-"The complete DAVIS benchmark comprises 68 drugs, 442 proteins, and 30,056 drug–target interactions. For the additional cold-target evaluation, a structure-eligible subset containing 287 proteins and 19,516 interactions was used. The cohort sizes reported for the main benchmark and cold-target evaluation therefore refer to distinct experimental populations."
+For the main DAVIS benchmark experiments, the 30,056 interactions were divided using the reported 80/10/10 random interaction split, corresponding to 24,044 training interactions, 3,006 validation interactions, and 3,006 test interactions.
 
-2. COLD-TARGET RESULTS
-Where: Immediately BEFORE the existing DAVIS cold-target results table; keep the original table and its observed metrics unchanged.
-Add:
-"The cold-target evaluation was conducted on the structure-eligible DAVIS subset comprising 287 proteins and 19,516 interactions. Of these, 58 proteins (3,944 interactions) were held out for testing, leaving 229 proteins (15,572 interactions) in the development population. [IF VERIFIED: DGraphDTA and FGgraphDTA were evaluated using the same held-out proteins and drug–target pairs.] As this analysis was restricted to structurally eligible proteins, its findings cannot automatically be generalized to all 442 DAVIS targets."
-Note: "development population" is intentional: it does NOT claim that all 229 proteins were used for fitting rather than validation.
+2. Nature of the 287-target cold-target cohort
 
-3. MAIN DAVIS RESULTS TABLE CAPTION OR IMMEDIATELY PRECEDING PARAGRAPH
-Where: Caption of the main DAVIS results table (NOT the cold-target table).
-Add ONE of the following after verifying the actual population:
-- If full DAVIS: "The main DAVIS experiments used all 442 proteins and 30,056 drug–target interactions; the separate cold-target experiment used the 287-protein structure-eligible cohort."
-- If processed subset: "The main DAVIS experiments used [VERIFIED NUMBER] proteins and [VERIFIED NUMBER] drug–target interactions after [VERIFIED FILTERING CRITERION]. The 442-protein/30,056-interaction figures describe the original benchmark rather than this experimental cohort."
-- If FGgraphDTA and PVgraphDTA used different cohorts, identify the population for EACH model and avoid describing them as matched comparisons unless same test examples were used.
-Do not choose a caption without checking original split/data artifacts.
+The 287-target / 19,516-interaction population was specific to the additional protein-disjoint (cold-target) experiment performed during revision and was constructed from a separately prepared, pre-filtered tabular DAVIS dataset. We acknowledge that describing these as "287 usable proteins" in the previous revision was imprecise because it could be interpreted as indicating that the remaining DAVIS targets lacked usable structural information.
 
-4. DATA PREPARATION: FILTERING PROTOCOL AND REJECTION REASONS
-Where: Immediately after the description of sequence alignments/contact-map generation.
-Add a one- or two-sentence factual explanation once records are verified:
-"Proteins were retained for the [NAME THE EXPERIMENT] evaluation when [EXACT ORIGINAL INPUT-ELIGIBILITY RULE]. Eligibility filtering was performed [BEFORE/AFTER] [ORIGINAL SPLIT PROCEDURE]. Among the 155 proteins absent from the cold-target cohort, [N] failed [REASON 1], [N] failed [REASON 2], and [N] failed [REASON 3], assigning each target to its first applicable rejection reason; the retained and excluded protein identifiers are provided in [ACTUAL SUPPLEMENT OR REPOSITORY FILE]."
-Only list categories that occurred and only report counts supported by actual logs. A total of 155 is NOT a per-reason breakdown. Do not claim that a manifest exists unless it is deposited.
+We further agree with the reviewer that target identity and sequence redundancy require particular care in DAVIS. A sequence-level audit of the 287-target subset showed that it contains 268 unique sequence strings. The subset retains certain modified target entries, including BRAF(V600E), EGFR(L858R), FLT3(D835H), and KIT(D816V), while omitting some other kinase entries such as ABL2, BTK, and JNK1–3. Thus, the 287-target cohort should not be retrospectively described as a strictly canonical wild-type subset. Likewise, because the complete PconsC4 and alignment resources were available for the main 442-target benchmark, the 155 omitted target entries should not be retrospectively attributed to PconsC4 failure or shallow multiple-sequence alignments.
 
-5. DISCUSSION / LIMITATIONS
-Where: In the limitations discussion, near the paragraph about external validation.
-Add:
-"The cold-target evaluation was restricted to proteins for which the required structural input representations were available. Consequently, its findings apply directly to the evaluated structure-eligible cohort and cannot automatically be generalized to all proteins in the original DAVIS benchmark. Although structural eligibility does not necessarily indicate affinity-prediction difficulty, selection effects arising from exclusion of proteins without usable structural representations cannot be ruled out."
+The historical construction record for this separately prepared 287-target table does not preserve a complete auditable first-failure rule for all 155 omitted target entries. Rather than assigning an unsupported post-hoc biological or structural explanation, we now report the exact cohort composition and sample sizes and explicitly limit the interpretation of the cold-target experiment to this evaluated subset.
 
-HONESTY / INTERPRETATION NOTES
-- The arithmetic 442 × 68 = 30,056; 287 × 68 = 19,516; 58 × 68 = 3,944; 229 × 68 = 15,572 and 442 − 287 = 155 is exact. It does NOT demonstrate structural-filter timing, exclusion causes, or the population used for the main DAVIS experiments.
-- A matched test cohort avoids comparing the two models on different test samples; it does NOT prove that filtering cannot change relative performance.
-- Do not claim a 183-target training / 46-target validation split unless that exact split was used in the original experiment.
-- The reviewer asks whether filtering occurred before splitting, and for rejection counts and a manifest. These remain to be verified rather than invented.
+3. Cold-target partition and matched comparison
+
+For the additional cold-target experiment, the 287 target entries correspond to 19,516 drug–target interactions (68 × 287). Fifty-eight target entries (20.2%) and all 3,944 associated interactions were held out completely for testing, while the remaining 229 target entries and 15,572 interactions were used for training. No interaction associated with a held-out target identifier was included in the training set. No separate validation subset was reported for this additional cold-target analysis.
+
+Importantly, DGraphDTA and FGgraphDTA were evaluated using the same 287-target cohort and the same cold-target partition, so their comparison within this experiment is matched with respect to the evaluated target population. FGgraphDTA achieved MSE = 0.4252 and CI = 0.8106, compared with MSE = 0.4460 and CI = 0.8020 for DGraphDTA. The paired analysis across the 58 held-out target entries yielded t(57) = 2.13 and p = 0.038.
+
+We have revised the manuscript to clearly distinguish the complete 442-target / 30,056-interaction DAVIS benchmark used in the main experiments from the 287-target / 19,516-interaction subset used only for the additional cold-target experiment. We also revised the wording so that the cold-target cohort is no longer described as "287 usable proteins," and we limit the cold-target generalization claim to the evaluated cohort.
+
+============================================================
+B. MANUSCRIPT CHANGES — WHAT TO CHANGE AND WHERE
+============================================================
+
+1. EXPERIMENTAL PROTOCOL — MAIN DAVIS SPLIT
+--------------------------------------------
+WHERE:
+In the Experimental Protocol subsection, immediately after the sentence stating that the processed data were split into 80% training, 10% validation, and 10% test sets.
+
+ADD:
+
+"For the main DAVIS benchmark experiments, the complete 442-target, 30,056-interaction dataset was used. The 80/10/10 interaction-level partition contained 24,044 training interactions, 3,006 validation interactions, and 3,006 test interactions."
+
+PURPOSE:
+This directly answers the reviewer's request for the actual train/validation/test sizes of the main DAVIS experiments.
+
+2. COLD-TARGET PROTOCOL — REPLACE THE CURRENT 287-'USABLE' PARAGRAPH
+-------------------------------------------------------------------
+WHERE:
+In Experimental Protocol, replace the current paragraph beginning:
+"To evaluate model generalization to unseen proteins, an additional protein-disjoint cold-target experiment was conducted on the DAVIS dataset. The processed dataset contained 287 usable proteins..."
+
+REPLACE WITH:
+
+"To evaluate model generalization under a protein-disjoint setting, an additional cold-target experiment was conducted on a separately prepared DAVIS subset containing 287 target entries and 19,516 drug–target interactions. This subset was specific to the additional cold-target analysis and should not be interpreted as the population used in the main DAVIS benchmark experiments. Fifty-eight target entries and all 3,944 associated interactions were held out completely for testing, while the remaining 229 target entries and 15,572 interactions were used for training. No interaction associated with a held-out target identifier was included in the training set. DGraphDTA and FGgraphDTA were evaluated using the same cold-target cohort and the same partition."
+
+IMPORTANT:
+Do not use the phrase "287 usable proteins." It incorrectly suggests that the other 155 DAVIS targets lacked valid structural inputs.
+
+3. BENCHMARK DATASET DESCRIPTION — CLARIFY 442 VS 287
+------------------------------------------------------
+WHERE:
+Immediately after the DAVIS dataset description stating that DAVIS contains 68 drugs, 442 proteins/targets, and 30,056 interactions.
+
+ADD:
+
+"The complete 442-target DAVIS population was used for the main FGgraphDTA and PVgraphDTA benchmark experiments. The smaller 287-target population reported later was used only for the additional cold-target analysis performed during revision and does not reflect a loss of structural inputs from the main benchmark."
+
+PURPOSE:
+This resolves the apparent contradiction identified by the reviewer.
+
+4. MAIN DAVIS RESULTS TABLE — CLARIFY POPULATION
+-------------------------------------------------
+WHERE:
+Add to the caption of Table 8, or as the final sentence immediately before Table 8.
+
+ADD:
+
+"The FGgraphDTA and PVgraphDTA results reported in this table were obtained using the complete DAVIS benchmark population of 442 target entries and 30,056 interactions; the separate 287-target cohort applies only to the additional cold-target experiment."
+
+5. COLD-TARGET RESULTS — ADD A COHORT-SCOPE SENTENCE
+-----------------------------------------------------
+WHERE:
+Immediately before or after Table 9.
+
+ADD:
+
+"The cold-target results in Table 9 apply specifically to the separately prepared 287-target cohort. DGraphDTA and FGgraphDTA were evaluated on the identical cohort and held-out target partition, allowing a matched comparison within this analysis."
+
+6. DISCUSSION / LIMITATIONS — ADD A TRANSPARENCY LIMITATION
+-----------------------------------------------------------
+WHERE:
+In the Practical Implications, Limitations, and Future Directions subsection, near the existing statement about cold-target evaluation and external validation.
+
+ADD:
+
+"The additional cold-target analysis used a separately prepared 287-target DAVIS subset rather than the complete 442-target benchmark. A sequence-level audit showed that this subset contains 268 unique sequence strings and retains some modified target entries; therefore, it should not be interpreted as a strictly canonical wild-type cohort. Because the historical construction record for this intermediate subset does not preserve a complete first-failure rule for every omitted target entry, the cold-target findings are interpreted only for the evaluated cohort."
+
+7. OPTIONAL REPRODUCIBILITY NOTE / SUPPLEMENT
+---------------------------------------------
+If space permits, add a supplementary cohort note or repository file containing:
+- Main DAVIS population: 442 target entries / 30,056 interactions.
+- Main split: 24,044 train / 3,006 validation / 3,006 test.
+- Cold-target population: 287 target entries / 19,516 interactions.
+- Cold-target split: 229 train targets / 15,572 train interactions; 58 test targets / 3,944 test interactions.
+- Sequence audit of the 287-target table: 268 unique sequence strings.
+- Statement that the 287-target table retains modified target entries and therefore is not a canonical-wild-type-only subset.
+
+============================================================
+C. CLAIMS TO AVOID
+============================================================
+
+Do NOT state that:
+- the main FGgraphDTA or PVgraphDTA DAVIS experiments used only 287 targets;
+- the 155 omitted cold-target entries were removed because PconsC4 failed;
+- the 155 omitted entries were removed because their MSAs were shallow;
+- the 287-target cohort is a recognized "canonical wild-type" DAVIS standard;
+- the 287-target cohort contains only wild-type kinases;
+- the cold-target split guarantees zero sequence-level leakage unless the exact 58 test target IDs are additionally audited against training sequences.
+
+The verified point is narrower: the main benchmark used the complete 442-target population, while the 287-target table was a separate intermediate cohort used only for the added cold-target analysis.
+
+============================================================
+D. VERIFIED COHORT SUMMARY
+============================================================
+
+Main DAVIS benchmark:
+- Drugs: 68
+- Target entries: 442
+- Interactions: 30,056
+- Train: 24,044
+- Validation: 3,006
+- Test: 3,006
+- Models: FGgraphDTA and PVgraphDTA main benchmark results
+- Structural resources: PconsC4 contact maps and alignment files available for all 442 target entries
+
+Additional cold-target experiment:
+- Target entries: 287
+- Unique sequence strings in the 287-target table: 268
+- Interactions: 19,516
+- Training target entries: 229
+- Training interactions: 15,572
+- Test target entries: 58
+- Test interactions: 3,944
+- Compared models: DGraphDTA and FGgraphDTA
+- DGraphDTA: MSE 0.4460; CI 0.8020; Spearman 0.6884
+- FGgraphDTA: MSE 0.4252; CI 0.8106; Spearman 0.7020
+- Paired test: t(57) = 2.13; p = 0.038
+
+Interpretation:
+The 287-target table is a separate cold-target cohort. It is not evidence that 155 DAVIS targets lacked PconsC4 data, and it is not a canonical-wild-type-only cohort.
