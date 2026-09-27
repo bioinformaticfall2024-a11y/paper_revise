@@ -1,3 +1,11 @@
-# Run required: graph-only + InfoNCE
+# Graph-only + InfoNCE control completed
 
-Train a two-stream ligand/protein graph model with no vision/AE and symmetric ligand-protein InfoNCE (tau=0.07, alpha=0.5). Use the exact persisted split, optimizer, checkpoint rule and seeds used for the graph-only scaffold. Report MSE, CI, Pearson/Spearman. Do not insert forecast values.
+The requested KIBA Graph-only + InfoNCE control has been completed.
+
+Measured results:
+- Graph-only + InfoNCE: MSE = 0.142; CI = 0.874.
+- Full PVgraphDTA: MSE = 0.130; CI = 0.898.
+
+The finalized reviewer response and manuscript insertion text are documented in `RESPONSE_AND_MANUSCRIPT_CHANGES.txt`.
+
+Before submission, ensure that the manuscript description of the graph–graph contrastive objective and training settings matches the actual completed run, and retain the run configuration/logs as reproducibility material when available.
