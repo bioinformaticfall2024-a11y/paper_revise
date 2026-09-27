@@ -15,7 +15,7 @@ This repository separates verified analytical/source checks from experiments tha
 | 9 | Diagnostic completed; corrected-model retraining still required | `Comment_09_SMARTS_Overlap/` |
 | 10 | Recommend remove unsupported K10/K30 table | `Comment_10_K30_Vocabulary/` |
 | 11 | Code behavior verified; Methods correction | `Comment_11_Atom_Level_SMARTS_Assignment/` |
-| 12 | NEW TRAINING REQUIRED | `Comment_12_Contrastive_Control/` |
+| 12 | KIBA GRAPH-ONLY + INFONCE CONTROL COMPLETED; response/manuscript text ready | `Comment_12_Contrastive_Control/` |
 | 13 | Implementation verified; equation correction | `Comment_13_InfoNCE_Denominator/` |
 | 14 | 5-SEED/SPLIT STATISTICS REQUIRED | `Comment_14_Repeated_Runs_Statistics/` |
 | 15 | ORIGINAL COHORT/FILTER ARTIFACTS REQUIRED | `Comment_15_DAVIS_Cohort_Filtering/` |
@@ -35,7 +35,6 @@ This repository separates verified analytical/source checks from experiments tha
 ## Highest-risk items before submission
 
 - Comment 9: corrected SMARTS performance ablation requires retraining if you want to claim before/after performance.
-- Comment 12: graph-only + InfoNCE control requires training.
 - Comment 14: five-seed main results and stronger cold-target uncertainty analysis require training/results.
 - Comment 15: exact cohort/filter provenance must be recovered from the actual run artifacts.
 - Comment 18: author confirms frozen ResNet-101 weights; reconcile the conflicting historical fine-tuning note against the original result-producing notebook and verify the exact parameter counts before submission.
@@ -49,6 +48,7 @@ This repository separates verified analytical/source checks from experiments tha
 - Comment 7: exact RDKit protein-side FG coverage/discriminability audit.
 - Comment 8: full ligand-side SMARTS coverage audit (existing folder in GitHub).
 - Comment 9: exact SMARTS overlap/false-positive diagnostics.
+- Comment 12: additional KIBA Graph-only + InfoNCE control completed.
 - Comment 13: source-code verification of cross-modal InfoNCE implementation.
 - Comment 17: pKd conversion check/examples.
 - Comment 18: exact analytical parameter counting from recovered layer dimensions.
