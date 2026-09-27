@@ -18,7 +18,7 @@ This repository separates verified analytical/source checks from experiments tha
 | 12 | KIBA GRAPH-ONLY + INFONCE CONTROL COMPLETED; response/manuscript text ready | `Comment_12_Contrastive_Control/` |
 | 13 | Implementation verified; equation correction | `Comment_13_InfoNCE_Denominator/` |
 | 14 | 5-SEED/SPLIT STATISTICS REQUIRED | `Comment_14_Repeated_Runs_Statistics/` |
-| 15 | ORIGINAL COHORT/FILTER ARTIFACTS REQUIRED | `Comment_15_DAVIS_Cohort_Filtering/` |
+| 15 | COHORT AUDIT COMPLETED; 442-target main benchmark vs 287-target cold-target subset clarified | `Comment_15_DAVIS_Cohort_Filtering/` |
 | 16 | Threshold verified; provenance clarification | `Comment_16_Contact_Threshold_AE_Transductive/` |
 | 17 | Formula verified | `Comment_17_pKd_Conversion/` |
 | 18 | Parameter audit + replacement Table 7 and response drafted; author confirms ResNet frozen; original run documentation must be reconciled | `Comment_18_Parameter_Counts/` |
@@ -36,7 +36,7 @@ This repository separates verified analytical/source checks from experiments tha
 
 - Comment 9: corrected SMARTS performance ablation requires retraining if you want to claim before/after performance.
 - Comment 14: five-seed main results and stronger cold-target uncertainty analysis require training/results.
-- Comment 15: exact cohort/filter provenance must be recovered from the actual run artifacts.
+- Comment 15: cohort sizes and main-vs-cold-target populations are clarified; the historical first-failure rule for the separately prepared 287-target intermediate table is not fully recoverable and is disclosed rather than reconstructed post hoc.
 - Comment 18: author confirms frozen ResNet-101 weights; reconcile the conflicting historical fine-tuning note against the original result-producing notebook and verify the exact parameter counts before submission.
 - Comment 19: reviewer response and limitation paragraph drafted under stated computational constraints; PVgraphDTA cold-target remains untested and requires a real training run for direct unseen-target claims.
 - Comment 20: AlphaFold2 PVgraphDTA experiment is completed; manuscript edits and reviewer response still need to be transferred into the final revision files.
@@ -50,6 +50,7 @@ This repository separates verified analytical/source checks from experiments tha
 - Comment 9: exact SMARTS overlap/false-positive diagnostics.
 - Comment 12: additional KIBA Graph-only + InfoNCE control completed.
 - Comment 13: source-code verification of cross-modal InfoNCE implementation.
+- Comment 15: DAVIS main/cold-target cohort audit completed.
 - Comment 17: pKd conversion check/examples.
 - Comment 18: exact analytical parameter counting from recovered layer dimensions.
 - Comment 20: additional PVgraphDTA AlphaFold2 structural-input experiment completed and interpreted conservatively.
