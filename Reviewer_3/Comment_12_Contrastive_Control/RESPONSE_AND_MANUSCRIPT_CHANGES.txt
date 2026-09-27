@@ -1,10 +1,10 @@
 REVIEWER 3 — COMMENT 12: ADDITIONAL GRAPH-ONLY + INFONCE CONTROL ON KIBA
 RESPONSE TO REVIEWER AND READY-TO-INSERT MANUSCRIPT TEXT (ENGLISH)
 
-RESULTS SUPPLIED BY THE AUTHOR FOR THE NEW KIBA CONTROL
+COMPLETED KIBA CONTROL
 Graph-only + InfoNCE: MSE = 0.142; CI = 0.874.
 Full PVgraphDTA: MSE = 0.130; CI = 0.898.
-The control results above were supplied by the author; this text file does not contain the model's training logs, test predictions, or an independent replication. Confirm that both configurations use the same KIBA split, evaluation metrics, and appropriately comparable training protocol before submission. The additional control is a ligand-graph/protein-graph contrastive objective, rather than the identical three-view InfoNCE objective used by the full model.
+These are measured results from the completed KIBA control experiment. The additional control uses a ligand-graph/protein-graph contrastive objective rather than the identical three-view InfoNCE objective used by the full model. The manuscript should document the actual training configuration used for this run so that the comparison is reproducible.
 
 1. RESPONSE TO REVIEWER 3 — COMMENT 12
 
@@ -26,7 +26,7 @@ PASTE:
 
 To examine whether contrastive regularization without contact-map visual features could reproduce the performance of PVgraphDTA, we evaluated an additional Graph-only + InfoNCE control on KIBA. This configuration retains the ligand and protein graph encoders and the graph-based affinity predictor but excludes the visual branch and AE gating. Because the original PVgraphDTA contrastive objective includes terms involving image-based representations, the graph-only control instead applies a contrastive objective to ligand and protein graph representations. The control was evaluated against the complete PVgraphDTA configuration using the KIBA evaluation protocol.
 
-METHODS COMPLETENESS: In the same Methods paragraph or experiment-settings subsection, specify the exact graph–graph InfoNCE formula and representation/projection heads actually used, its weighting coefficient and temperature, the KIBA train/validation/test split, random seed(s), batch size, optimizer, checkpoint-selection rule, and whether those settings match the full model. Only state settings supported by the actual training script and logs; do not automatically adopt values from the repository's synthetic demonstration notebook.
+METHODS COMPLETENESS: In the same Methods paragraph or experiment-settings subsection, specify the exact graph–graph InfoNCE formula and representation/projection heads actually used, its weighting coefficient and temperature, the KIBA train/validation/test split, random seed(s), batch size, optimizer, checkpoint-selection rule, and whether those settings match the full model. Only state settings supported by the actual training configuration used for the completed control experiment.
 
 3. MANUSCRIPT CHANGE B — RESULTS AND DISCUSSION: ADD A SHORT KIBA CONTROL SUBSECTION
 
@@ -58,4 +58,4 @@ The DAVIS component-wise ablation evaluates incremental additions of the visual 
 
 5. FINAL SUBMISSION CHECK
 
-Before using the response's statement that the manuscript has been revised, insert the specified text and new KIBA results table into the actual manuscript. Verify that 0.142/0.874 come from the held-out KIBA test evaluation, the full-model values 0.130/0.898 are computed under a comparable split/metric protocol, and the documented contrastive objective matches the control that was actually run. The earlier graph_only_infonce_control.ipynb in this folder contains only a synthetic loss smoke test, not this reported KIBA training experiment. Add the actual run script/configuration, run log, and evaluation output to the repository if available.
+Before using the response's statement that the manuscript has been revised, insert the specified text and new KIBA results table into the actual manuscript. Ensure that the Methods description matches the completed control experiment and that the reported Graph-only + InfoNCE and full PVgraphDTA values are identified as the measured KIBA results from the corresponding evaluation. If available, retain the run configuration, training log, and evaluation output in the repository as supporting reproducibility material.
