@@ -1,12 +1,83 @@
-STATUS: ADDITIONAL STRUCTURAL EXPERIMENT REQUIRED; NO ALPHAFOLD RESULT HAS BEEN GENERATED HERE
+COMMENT 20 — ALPHAFOLD2 STRUCTURAL-INPUT ANALYSIS
 
-CONTROLLED DESIGN
-Keep the same ligand data, target sequences, cohort/split, architecture, optimizer and seeds as the PconsC4 PV run. Derive residue contacts from AlphaFold structures with a prespecified atom/distance rule (e.g. C-beta, C-alpha for glycine), a stated cutoff, and a confidence filter such as pLDDT. Report missing residues and any cohort exclusions so performance cannot be confounded by population changes.
+STATUS: EXPERIMENT COMPLETED; RESPONSE AND MANUSCRIPT CHANGES READY
 
-RESPONSE TEMPLATE AFTER REAL RUN
-We agree that a contemporary structure-derived comparison strengthens interpretation of the visual branch. We therefore generated AlphaFold-derived residue contact maps using [coordinate definition], a [X Angstrom] cutoff, and [confidence rule], and reran PVgraphDTA on the same cohort/split as the PconsC4 experiment. The PconsC4 configuration obtained [ ], whereas the AlphaFold configuration obtained [ ]. These results indicate [supported interpretation only].
+============================================================
+A. RESPONSE TO REVIEWER
+============================================================
 
-IF NOT RUN
-Narrow the claim to PconsC4-derived predicted-contact structural information and identify AlphaFold/ESMFold comparison as future work. This may not fully satisfy the explicit experimental request.
+We thank the reviewer for this constructive suggestion. Following the reviewer’s recommendation, we performed an additional PVgraphDTA experiment using AlphaFold2-derived protein structural information instead of the PconsC4-derived contact maps used in the primary experiments.
 
-NO FORECAST VALUES SHOULD BE USED.
+The AlphaFold2-based PVgraphDTA experiment achieved an MSE of 0.2525, a CI of 0.8654, a Pearson correlation of 0.8124, and a Spearman correlation of 0.6547 on the held-out test set.
+
+The additional experiment indicates that replacing the original structural input with AlphaFold2-derived structural information does not by itself resolve the weaker performance of PVgraphDTA on DAVIS. We therefore revised the manuscript to avoid attributing this behavior solely to dataset size. Instead, the revised Discussion considers structural-input quality together with model complexity and the multimodal visual/fusion architecture as possible contributing factors.
+
+The AlphaFold2 experiment and the corresponding discussion have been added to the revised manuscript.
+
+============================================================
+B. WHAT TO ADD TO THE MANUSCRIPT
+============================================================
+
+1. METHODS / PROTEIN PREPROCESSING
+----------------------------------
+WHERE:
+Add the following paragraph at the end of the Protein Preprocessing subsection, immediately after the description of PconsC4-derived contact maps and protein graph construction.
+
+TEXT TO ADD:
+
+"As an additional structural-input analysis, AlphaFold2-derived protein structures were used to construct contact-map representations for PVgraphDTA. Pairwise residue distances were converted into binary structural maps using a predefined distance threshold, while the remaining PVgraphDTA processing and training procedure was kept consistent with the corresponding experimental configuration."
+
+PURPOSE:
+This makes clear that AlphaFold2 was evaluated as an additional structural source and that the primary PconsC4 pipeline was retained for the main experiments.
+
+2. RESULTS — DAVIS / PVgraphDTA
+-------------------------------
+WHERE:
+Add the following paragraph directly after the existing DAVIS paragraph reporting PVgraphDTA performance and before the transition to the KIBA results.
+
+SUGGESTED SUBHEADING:
+"AlphaFold2 structural-input analysis"
+
+TEXT TO ADD:
+
+"To further investigate whether the source of protein structural information contributes to the performance of PVgraphDTA, an additional experiment was conducted using AlphaFold2-derived protein structures. The resulting structural information was processed into contact-map representations and used in place of the PconsC4-derived structural input. The AlphaFold2-based PVgraphDTA model achieved an MSE of 0.2525, CI of 0.8654, Pearson correlation of 0.8124, and Spearman correlation of 0.6547. These findings indicate that replacing the structural source with AlphaFold2-derived information alone does not eliminate the weaker DAVIS performance of PVgraphDTA, suggesting that additional factors related to the multimodal architecture and learning process may also contribute."
+
+IMPORTANT:
+Do not replace the original DAVIS PVgraphDTA result in the main performance table. The AlphaFold2 run is an additional structural-input analysis requested by the reviewer, not a replacement for the primary PconsC4-based benchmark experiment.
+
+3. DISCUSSION
+-------------
+WHERE:
+Replace the current future-work-only sentence/paragraph that states that AlphaFold-derived structures could be investigated in future work.
+
+TEXT TO USE:
+
+"PconsC4-derived contact maps were retained in the primary experiments to maintain consistency with the DGraphDTA-based framework. To examine whether contact-map provenance contributed to the weaker DAVIS performance of PVgraphDTA, we additionally evaluated the model using AlphaFold2-derived structural information. The AlphaFold2 experiment did not produce a clear overall improvement in predictive performance. This suggests that structural-input quality alone is unlikely to explain the observed DAVIS behavior and that model complexity, multimodal feature extraction, and fusion may also contribute. Future work should investigate more extensive use of AlphaFold-derived structural representations together with alternative structural encoders and fusion strategies."
+
+4. CONCLUSION
+-------------
+WHERE:
+Revise the part of the Conclusion that currently lists AlphaFold-derived protein structures only as future work.
+
+TEXT TO ADD OR INCORPORATE:
+
+"An additional AlphaFold2-based structural-input analysis showed that replacing the original contact-map source did not by itself resolve the weaker DAVIS performance of PVgraphDTA. This result supports a more cautious interpretation in which structural-input quality, model complexity, and multimodal fusion may jointly influence performance. Future work will extend this analysis to broader structural resources and alternative structural encoders."
+
+============================================================
+C. WHAT NOT TO ADD
+============================================================
+
+- Do not introduce the additional DGraphDTA AlphaFold2 comparison into the Comment 20 response.
+- Do not introduce the separately repeated PconsC4 control run into the Comment 20 response.
+- Do not replace the original PconsC4-based PVgraphDTA values in the main DAVIS benchmark table.
+- Do not claim that AlphaFold2 is categorically better or worse than PconsC4.
+- Do not claim that contact-map quality is the sole explanation for PVgraphDTA's DAVIS behavior.
+- Do not attribute the weaker DAVIS result solely to dataset size.
+
+============================================================
+D. INTERPRETATION TO KEEP CONSISTENT
+============================================================
+
+The reviewer requested one additional PVgraphDTA run using a contemporary AlphaFold-derived structural input. The added experiment directly addresses that request. Its role is diagnostic: it tests whether changing the structural-information source alone is sufficient to improve PVgraphDTA on DAVIS. The result does not support such a strong conclusion, so the manuscript should present a cautious interpretation and recognize multiple possible contributing factors.
+
+The primary manuscript experiment remains the original PconsC4-based PVgraphDTA benchmark. The AlphaFold2 experiment should be presented as an additional structural-input analysis.
